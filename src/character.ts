@@ -1,10 +1,10 @@
-const canvas: (HTMLCanvasElement) = document.getElementById("canvas1")
+const canvas = document.getElementById("canvas1")
 const ctx = canvas?.getContext("2d")
 
-// const dropDown = document.querySelector('.controls #anime')
-// console.log(dropDown?.value)
-const dropDown = document.getElementsByTagName("select")
-console.log(dropDown.length)
+const dropDown = document.getElementById("animations")
+dropDown?.addEventListener("change", (e: any): void => {
+    playerState = e.target.value
+})
 
 const CANVAS_WIDTH: number = canvas.width = 600;
 const CANVAS_HEIGHT: number = canvas.height = 600
@@ -15,7 +15,7 @@ playerImage.src = "../assets/shadow_dog.png"
 //single cartoon data
 const spriteWidth: number = 575
 const spriteHeight: number = 523
-const playerState: string = "idle"
+let playerState: string = "getHit"
 //frame rates
 let frameX: number = 0
 let frameY: number = 4

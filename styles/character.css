@@ -13,8 +13,11 @@
 .controls {
   /* background: red; */
   position: absolute;
-  top: 5%;
+  top: 50px;
   left: 50%;
   translate: -50% 0;
-  z-index: 2;
+  z-index: 10;
+}
+.controls, select, option{
+  font-size: 20px;
 }

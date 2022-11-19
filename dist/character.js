@@ -1,15 +1,17 @@
 "use strict";
 const canvas = document.getElementById("canvas1");
 const ctx = canvas === null || canvas === void 0 ? void 0 : canvas.getContext("2d");
-const dropDown = document.getElementsByTagName("select");
-console.log(dropDown.length);
+const dropDown = document.getElementById("animations");
+dropDown === null || dropDown === void 0 ? void 0 : dropDown.addEventListener("change", (e) => {
+    playerState = e.target.value;
+});
 const CANVAS_WIDTH = canvas.width = 600;
 const CANVAS_HEIGHT = canvas.height = 600;
 const playerImage = new Image();
 playerImage.src = "../assets/shadow_dog.png";
 const spriteWidth = 575;
 const spriteHeight = 523;
-const playerState = "idle";
+let playerState = "getHit";
 let frameX = 0;
 let frameY = 4;
 let gameFrame = 0;

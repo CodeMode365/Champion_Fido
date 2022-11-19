@@ -5,25 +5,35 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
+    <!-- <link rel="stylesheet" href="./styles/character.css" /> -->
+    <link rel="stylesheet" href="./styles/scene.css" />
   </head>
   <body>
-    <canvas id="canvas1"></canvas>
-    <script src="./dist/index.js"></script>
-    <div class="controls">
-      <label for="animations">Choose Actions </label>
-      <select name="animations" id="anime">
-        <option value="idle" >Idle</option>
-        <option value="jump">Jump</option>
-        <option value="fall">Fall</option>
-        <option value="run">Run</option>
-        <option value="dizzy">Dizzy</option>
-        <option value="sit" selected>Sit</option>
-        <option value="roll">Roll</option>
-        <option value="bite">Bite</option>
-        <option value="ko">Ko</option>
-        <option value="getHit">Get hit</option>
-      </select>
+    <!-- <div class="character">
+      <canvas id="canvas1"></canvas>
+      <div class="controls">
+        <label for="animations">Choose Actions </label>
+        <select name="animations" id="animations">
+          <option value="idle">Idle</option>
+          <option value="jump">Jump</option>
+          <option value="fall">Fall</option>
+          <option value="run">Run</option>
+          <option value="dizzy">Dizzy</option>
+          <option value="sit" selected>Sit</option>
+          <option value="roll">Roll</option>
+          <option value="bite">Bite</option>
+          <option value="ko">Ko</option>
+          <option value="getHit">Get hit</option>
+        </select>
+        <script src="./dist/index.js"></script>
+      </div>
+    </div> -->
+    <div class="scene">
+      <canvas id="sceneCanvas"></canvas>
     </div>
+
+    <!-- <script src="./dist/character.js"></script> -->
+
+    <script src="./dist/scene.js"></script>
   </body>
 </html>
