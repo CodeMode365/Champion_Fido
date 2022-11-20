@@ -30,5 +30,5 @@ body {
 }
 
 body {
-  cursor: url("../assets/raven.png");
+  cursor: url("../assets/crosshair.svg"), auto;
 }
