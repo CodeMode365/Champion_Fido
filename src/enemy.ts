@@ -19,7 +19,7 @@ class Enemy1 {
     protected spriteHeight: number
     protected frame: number
     protected flapSpeed: number
-    enemyImage: HTMLImageElement = new Image()
+    protected enemyImage: HTMLImageElement = new Image()
     constructor() {
         this.speed = Math.random() * 4 - 2
         this.spriteWidth = 293
