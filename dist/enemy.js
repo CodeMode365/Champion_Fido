@@ -3,7 +3,7 @@ const canvas3 = document.getElementById("canvas3");
 const ctx3 = canvas3.getContext("2d");
 const canvas_width = canvas3.width = 700;
 const canvas_height = canvas3.height = 1000;
-const numOfEnemy = 100;
+const numOfEnemy = 20;
 const enemyArray = [];
 let GameFrame = 0;
 class Enemy1 {
@@ -76,8 +76,35 @@ class Enemy3 extends Enemy2 {
         }
     }
 }
+class Enemy4 extends Enemy3 {
+    constructor() {
+        super();
+        this.enemyImage.src = "../assets/enemy4.png";
+        this.spriteHeight = 213;
+        this.spriteWidth = 213;
+        this.newX = Math.random() * (canvas3.width - this.width);
+        this.newY = Math.random() * (canvas3.width - this.width);
+        this.interval = Math.floor(Math.random() * 100 + 50);
+    }
+    update() {
+        if (GameFrame % this.interval === 0) {
+            this.newX = Math.random() * (canvas3.width - this.width);
+            this.newY = Math.random() * (canvas3.width - this.width);
+        }
+        let dx = this.x - this.newX;
+        let dy = this.y - this.newY;
+        this.x -= dx / 70;
+        this.y -= dy / 70;
+        if (this.x + this.width < 0) {
+            this.x = canvas3.width;
+        }
+        if (GameFrame % this.flapSpeed === 0) {
+            this.frame > 4 ? this.frame = 0 : this.frame++;
+        }
+    }
+}
 [...Array(numOfEnemy).keys()].forEach((el) => {
-    enemyArray.push(new Enemy3());
+    enemyArray.push(new Enemy4());
 });
 function animate() {
     ctx3 === null || ctx3 === void 0 ? void 0 : ctx3.clearRect(0, 0, canvas_width, canvas_height);
