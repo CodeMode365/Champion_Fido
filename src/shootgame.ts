@@ -15,7 +15,15 @@ const collisionCTX: CanvasRenderingContext2D = collisionCanvas.getContext("2d")
 collisionCanvas.width = window.innerWidth
 collisionCanvas.height = window.innerHeight
 
+const music = new Audio()
+music.src = "../assets/sounds/music.mp3"
 
+function playMusic(): void {
+    music.play()
+    music.onended = () => {
+        playMusic()
+    }
+}
 
 //reavens
 let timeToNextRaven: number = 0
@@ -23,9 +31,9 @@ const ravenIntarval: number = 500
 let lastTime: number = 0
 let score = 0
 let gameOver: boolean = false
+let overCount: number = 0
 //all explosives
-const explozers: Explosion[] = [
-]
+let explozers: Explosion[] = []
 let highScore: number;
 //setLocal storage value for hight score
 if (localStorage.getItem("highScore")) {
@@ -49,7 +57,7 @@ class Explosion {
     private frame = 0
     private timeSinceLastFrame = 0
     private frameInterval = 100
-    private markedForDeletion = false
+    public markedForDeletion = false
     constructor(x: number, y: number, size: number) {
         this.x = x
         this.y = y
@@ -94,6 +102,7 @@ class Raven {
     readonly randmColor: number[]
     private GenColor: string
     public markedForDeletion: boolean
+    private hasTrail: boolean
     constructor() {
         this.sizeModifier = Math.random() * 0.6 + 0.5
         this.spriteWidth = 271
@@ -110,6 +119,7 @@ class Raven {
         this.flapInterval = Math.random() * 50 + 50
         this.randmColor = [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255)]
         this.GenColor = `rgba(${this.randmColor[0]},${this.randmColor[1]},${this.randmColor[2]})`
+        this.hasTrail = Math.random() < .25
     }
     public update(deltaTime: number): void {
         this.x -= this.directionX
@@ -127,6 +137,11 @@ class Raven {
                 this.frame++
             }
             this.timeSinceFlap = 0
+            if (this.hasTrail) {
+                if (score > 40) {
+                    particles.push(new Particle(this.x, this.y, this.width, this.GenColor))
+                }
+            }
         }
         //to remove the raven that passed screen
         if (this.x < 0 - this.width) {
@@ -143,6 +158,48 @@ class Raven {
 
 }
 
+
+//particel class
+let particles: Particle[] = []
+
+
+class Particle {
+    private x: number
+    private y: number
+    private radius: number
+    private speedX: number
+    private maxRadius: number
+    private size: number
+    private color: string
+    public markedTodeletion: boolean
+    // private radius: number
+    constructor(x: number, y: number, size: number, color: string) {
+        this.size = size
+        this.x = x + this.size / 2 + Math.random() * 50 - 25
+        this.y = y + this.size / 3 + Math.random() * 50 - 25
+        this.radius = Math.random() * this.size / 10
+        this.maxRadius = Math.random() * 20 + 35
+        this.speedX = Math.random() * 1 + 0.5
+        this.color = color
+        this.markedTodeletion = false
+        // this.radius
+    }
+    public update(): void {
+        this.x += this.speedX
+        this.radius += Math.random() * 0.5
+        if (this.radius > this.maxRadius - 5) this.markedTodeletion = true
+    }
+    public draw(): void {
+        ctxS.save()
+        ctxS.globalAlpha = 1 - this.radius / this.maxRadius
+        ctxS.beginPath()
+        ctxS.fillStyle = this.color
+        ctxS.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
+        ctxS.fill()
+        ctxS.restore()
+    }
+}
+
 //scoring
 function drawScore(): void {
     // ctxS.font = "30px Arial"
@@ -156,8 +213,12 @@ function drawScore(): void {
     ctxS.fillText("Score: " + score, 54, 76)
     ctxS.fillStyle = "black"
     ctxS.font = "30px Impact"
+
     ctxS.fillText("Hight Score: " + highScore, 54, 136)
 }
+
+
+//gameOVer function
 function GAME_OVER(): void {
     ctxS.textAlign = "center"
     ctxS.font = "80px Impact"
@@ -175,14 +236,25 @@ function GAME_OVER(): void {
     ctxS.fillText("Your Score is: " + score, canvaS.width / 2, canvaS.height / 2 + 80)
     if (score >= highScore) {
         localStorage.setItem("highScore", score.toLocaleString())
+
+    }
+    overCount++
+    if (overCount <= 1) {
+        music.src = "../assets/sounds/end.mp3"
+        music.play()
+        music.onended = () => {
+            music.src = ""
+        }
     }
 }
 
 //clicking event
 window.addEventListener("click", (e: MouseEvent) => {
+    playMusic()
     const deltectPixelColor = collisionCTX.getImageData(e.x, e.y, 1, 1)
     //to hold pixels color
     const pc = deltectPixelColor.data
+
     ravens.forEach((raven: Raven): void => {
         if (raven.randmColor[0] == Math.floor(pc[0]) && raven.randmColor[1] == Math.floor(pc[1]) && raven.randmColor[2] == Math.floor(pc[2])) {
             raven.markedForDeletion = true
@@ -195,7 +267,6 @@ window.addEventListener("click", (e: MouseEvent) => {
 
 //to run the animation
 function animate(timestamep: number): void {
-
     ctxS.clearRect(0, 0, canvaS.width, canvaS.height)
     collisionCTX.clearRect(0, 0, canvaS.width, canvaS.height)
     const deltaTime = timestamep - lastTime
@@ -211,13 +282,17 @@ function animate(timestamep: number): void {
             return a.width - b.width;
         })
     }
-    [...ravens, ...explozers].forEach((object: (Raven | Explosion)): void => {
+
+    [...particles, ...ravens, ...explozers].forEach((object: (Raven | Explosion | Particle)): void => {
         object.update(deltaTime)
     });
-    [...ravens, ...explozers].forEach((object: (Raven | Explosion)): void => {
+    [...particles, ...ravens, ...explozers].forEach((object: (Raven | Explosion | Particle)): void => {
         object.draw()
     });
+
     ravens = ravens.filter((raven: Raven) => !raven.markedForDeletion)
+    explozers = explozers.filter((explozer: Explosion) => !explozer.markedForDeletion)
+    particles = particles.filter((particle: Particle) => !particle.markedTodeletion)
     if (!gameOver) requestAnimationFrame(animate)
     if (gameOver) GAME_OVER()
 }

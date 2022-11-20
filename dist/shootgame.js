@@ -7,12 +7,21 @@ const collisionCanvas = document.getElementById("collisionCanvas");
 const collisionCTX = collisionCanvas.getContext("2d");
 collisionCanvas.width = window.innerWidth;
 collisionCanvas.height = window.innerHeight;
+const music = new Audio();
+music.src = "../assets/sounds/music.mp3";
+function playMusic() {
+    music.play();
+    music.onended = () => {
+        playMusic();
+    };
+}
 let timeToNextRaven = 0;
 const ravenIntarval = 500;
 let lastTime = 0;
 let score = 0;
 let gameOver = false;
-const explozers = [];
+let overCount = 0;
+let explozers = [];
 let highScore;
 if (localStorage.getItem("highScore")) {
     highScore = parseInt(localStorage.getItem("highScore"));
@@ -74,6 +83,7 @@ class Raven {
         this.flapInterval = Math.random() * 50 + 50;
         this.randmColor = [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255)];
         this.GenColor = `rgba(${this.randmColor[0]},${this.randmColor[1]},${this.randmColor[2]})`;
+        this.hasTrail = Math.random() < .25;
     }
     update(deltaTime) {
         this.x -= this.directionX;
@@ -90,6 +100,11 @@ class Raven {
                 this.frame++;
             }
             this.timeSinceFlap = 0;
+            if (this.hasTrail) {
+                if (score > 40) {
+                    particles.push(new Particle(this.x, this.y, this.width, this.GenColor));
+                }
+            }
         }
         if (this.x < 0 - this.width) {
             this.markedForDeletion = true;
@@ -101,6 +116,34 @@ class Raven {
         collisionCTX.fillStyle = this.GenColor;
         collisionCTX.fillRect(this.x, this.y, this.width, this.height);
         ctxS.drawImage(this.creatureImage, this.frame * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
+    }
+}
+let particles = [];
+class Particle {
+    constructor(x, y, size, color) {
+        this.size = size;
+        this.x = x + this.size / 2 + Math.random() * 50 - 25;
+        this.y = y + this.size / 3 + Math.random() * 50 - 25;
+        this.radius = Math.random() * this.size / 10;
+        this.maxRadius = Math.random() * 20 + 35;
+        this.speedX = Math.random() * 1 + 0.5;
+        this.color = color;
+        this.markedTodeletion = false;
+    }
+    update() {
+        this.x += this.speedX;
+        this.radius += Math.random() * 0.5;
+        if (this.radius > this.maxRadius - 5)
+            this.markedTodeletion = true;
+    }
+    draw() {
+        ctxS.save();
+        ctxS.globalAlpha = 1 - this.radius / this.maxRadius;
+        ctxS.beginPath();
+        ctxS.fillStyle = this.color;
+        ctxS.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctxS.fill();
+        ctxS.restore();
     }
 }
 function drawScore() {
@@ -134,8 +177,17 @@ function GAME_OVER() {
     if (score >= highScore) {
         localStorage.setItem("highScore", score.toLocaleString());
     }
+    overCount++;
+    if (overCount <= 1) {
+        music.src = "../assets/sounds/end.mp3";
+        music.play();
+        music.onended = () => {
+            music.src = "";
+        };
+    }
 }
 window.addEventListener("click", (e) => {
+    playMusic();
     const deltectPixelColor = collisionCTX.getImageData(e.x, e.y, 1, 1);
     const pc = deltectPixelColor.data;
     ravens.forEach((raven) => {
@@ -163,13 +215,15 @@ function animate(timestamep) {
             return a.width - b.width;
         });
     }
-    [...ravens, ...explozers].forEach((object) => {
+    [...particles, ...ravens, ...explozers].forEach((object) => {
         object.update(deltaTime);
     });
-    [...ravens, ...explozers].forEach((object) => {
+    [...particles, ...ravens, ...explozers].forEach((object) => {
         object.draw();
     });
     ravens = ravens.filter((raven) => !raven.markedForDeletion);
+    explozers = explozers.filter((explozer) => !explozer.markedForDeletion);
+    particles = particles.filter((particle) => !particle.markedTodeletion);
     if (!gameOver)
         requestAnimationFrame(animate);
     if (gameOver)
