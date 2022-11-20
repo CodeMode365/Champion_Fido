@@ -3,7 +3,7 @@ const canvas3 = document.getElementById("canvas3");
 const ctx3 = canvas3.getContext("2d");
 const canvas_width = canvas3.width = 700;
 const canvas_height = canvas3.height = 1000;
-const numOfEnemy = 10;
+const numOfEnemy = 100;
 const enemyArray = [];
 let GameFrame = 0;
 class Enemy1 {
@@ -59,6 +59,21 @@ class Enemy2 extends Enemy1 {
 class Enemy3 extends Enemy2 {
     constructor() {
         super();
+        this.enemyImage.src = "../assets/enemy3.png";
+        this.spriteWidth = 218;
+        this.spriteHeight = 177;
+        this.angleSpeed = Math.random() * 0.5 + 0.5;
+    }
+    update() {
+        this.x = canvas3.width / 2 * Math.sin(this.angle * Math.PI / 90) + (canvas3.width / 2 - this.width / 2);
+        this.y = canvas3.height / 2 * Math.cos(this.angle * Math.PI / 270) + (canvas3.height / 2 - this.height / 2);
+        this.angle += this.angleSpeed;
+        if (this.x + this.width < 0) {
+            this.x = canvas3.width;
+        }
+        if (GameFrame % this.flapSpeed === 0) {
+            this.frame > 4 ? this.frame = 0 : this.frame++;
+        }
     }
 }
 [...Array(numOfEnemy).keys()].forEach((el) => {
@@ -71,5 +86,6 @@ function animate() {
         enemy.draw();
     });
     GameFrame++;
+    requestAnimationFrame(animate);
 }
 animate();

@@ -3,11 +3,11 @@ const canvas3: HTMLCanvasElement = document.getElementById("canvas3")
 const ctx3 = canvas3.getContext("2d")
 const canvas_width: number = canvas3.width = 700
 const canvas_height: number = canvas3.height = 1000
-const numOfEnemy: number = 10
+const numOfEnemy: number = 100
 const enemyArray: Enemy1[] = []
 let GameFrame: number = 0
 
-//enemy class
+//enemy property class
 
 class Enemy1 {
     protected x: number
@@ -45,9 +45,9 @@ class Enemy1 {
     }
 }
 class Enemy2 extends Enemy1 {
-    private angle: number = 0
-    private angleSpeed: number = 0
-    private curveMotion: number = 0
+    protected angle: number = 0
+    protected angleSpeed: number = 0
+    protected curveMotion: number = 0
     constructor() {
         super()
         this.enemyImage.src = "../assets/enemy2.png"
@@ -74,12 +74,39 @@ class Enemy2 extends Enemy1 {
 class Enemy3 extends Enemy2 {
     constructor() {
         super()
+        this.enemyImage.src = "../assets/enemy3.png"
+        this.spriteWidth = 218
+        this.spriteHeight = 177
+
+        /*Hard motion*/
+        // this.angleSpeed = Math.floor(Math.random() * 5 + 1)
+        // this.curveMotion = Math.random() * 200 + 50
+
+        /* antique motion */
+        // this.angleSpeed = Math.floor(Math.random() * 3 + 1)
+        // this.curveMotion = Math.random() * 200 + 50
+        this.angleSpeed = Math.random() * 0.5 + 0.5
+
+
+    }
+    public update(): void {
+        this.x = canvas3.width / 2 * Math.sin(this.angle * Math.PI / 90) + (canvas3.width / 2 - this.width / 2)
+        this.y = canvas3.height / 2 * Math.cos(this.angle * Math.PI / 270) + (canvas3.height / 2 - this.height / 2)
+
+        this.angle += this.angleSpeed
+        if (this.x + this.width < 0) {
+            this.x = canvas3.width
+        }
+        if (GameFrame % this.flapSpeed === 0) {
+            this.frame > 4 ? this.frame = 0 : this.frame++
+        }
     }
 }
 //Draw specified number of enemy object from class enemy
 [...Array(numOfEnemy).keys()].forEach((el: number): void => {
     enemyArray.push(new Enemy3())
 })
+//animate the game
 function animate() {
     ctx3?.clearRect(0, 0, canvas_width, canvas_height)
     enemyArray.forEach((enemy: Enemy1): void => {
@@ -87,6 +114,6 @@ function animate() {
         enemy.draw()
     })
     GameFrame++
-    // requestAnimationFrame(animate)
+    requestAnimationFrame(animate)
 }
 animate()
