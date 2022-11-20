@@ -1,11 +1,22 @@
 body {
-  background: linear-gradient(to bottom, red, green, blue);
+  /* background: linear-gradient(to bottom, red, green, blue); */
   width: 100vw;
   height: 100vh;
   overflow: hidden;
 }
 
 #shootGame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  border: 2px solid black;
+  z-index: 200;
+  /* background: yellow; */
+}
+
+#collisionCanvas{
+  /* background-color: red; */
   position: absolute;
   top: 50%;
   left: 50%;
