@@ -11,3 +11,19 @@ body {
   top: 50%;
   left: 50%;
 }
+
+.container {
+  z-index: 100;
+  position: absolute;
+}
+.container p {
+  color: red;
+  margin: 25px;
+  font-size: 1.5rem;
+}
+.container input {
+  margin-top: 0;
+  margin-left: 25px;
+  color: blue;
+  width: 25rem;
+}
