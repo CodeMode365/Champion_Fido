@@ -4,6 +4,17 @@ body {
   height: 100vh;
   overflow: hidden;
 }
+#collisionCanvas {
+  /* background-color: red; */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  border: 2px solid black;
+  z-index: 200;
+  /* background: red; */
+  opacity: 0;
+}
 
 #shootGame {
   position: absolute;
@@ -13,14 +24,11 @@ body {
   border: 2px solid black;
   z-index: 200;
   /* background: yellow; */
+  /* background: green; */
+  font-weight: bold;
+  /* font-size: 45px; */
 }
 
-#collisionCanvas{
-  /* background-color: red; */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  translate: -50% -50%;
-  border: 2px solid black;
-  z-index: 200;
+body {
+  cursor: url("../assets/raven.png");
 }
