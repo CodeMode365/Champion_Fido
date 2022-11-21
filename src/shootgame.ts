@@ -27,7 +27,7 @@ function playMusic(): void {
 
 //reavens
 let timeToNextRaven: number = 0
-const ravenIntarval: number = 500
+let ravenIntarval: number = 2000
 let lastTime: number = 0
 let score = 0
 let gameOver: boolean = false
@@ -138,7 +138,7 @@ class Raven {
             }
             this.timeSinceFlap = 0
             if (this.hasTrail) {
-                if (score > 40) {
+                if (score > 20) {
                     particles.push(new Particle(this.x, this.y, this.width, this.GenColor))
                 }
             }
@@ -178,7 +178,7 @@ class Particle {
         this.x = x + this.size / 2 + Math.random() * 50 - 25
         this.y = y + this.size / 3 + Math.random() * 50 - 25
         this.radius = Math.random() * this.size / 10
-        this.maxRadius = Math.random() * 20 + 35
+        this.maxRadius = Math.random() * 20 + 25
         this.speedX = Math.random() * 1 + 0.5
         this.color = color
         this.markedTodeletion = false
@@ -267,6 +267,26 @@ window.addEventListener("click", (e: MouseEvent) => {
 
 //to run the animation
 function animate(timestamep: number): void {
+    if (score <= 5) {
+        ravenIntarval = 2000
+    } else if (score <= 20) {
+        ravenIntarval = 1000
+    }
+    else if (score <= 30) {
+        ravenIntarval = 800
+    }
+    else if (score <= 40) {
+        ravenIntarval = 600
+    }
+    else if (score <= 50) {
+        ravenIntarval = 500
+    }
+    else if (score <= 50) {
+        ravenIntarval = 400
+    }
+    else if (score <= 30) {
+        ravenIntarval = 400
+    }
     ctxS.clearRect(0, 0, canvaS.width, canvaS.height)
     collisionCTX.clearRect(0, 0, canvaS.width, canvaS.height)
     const deltaTime = timestamep - lastTime
@@ -280,9 +300,9 @@ function animate(timestamep: number): void {
         const newRav = new Raven()
         ravens.sort(function (a, b) {
             return a.width - b.width;
-        })
-    }
+        });
 
+    }
     [...particles, ...ravens, ...explozers].forEach((object: (Raven | Explosion | Particle)): void => {
         object.update(deltaTime)
     });

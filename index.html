@@ -9,9 +9,10 @@
     <!-- <link rel="stylesheet" href="./styles/scene.css" /> -->
     <!-- <link rel="stylesheet" href="./styles/enemy.css" /> -->
     <!-- <link rel="stylesheet" href="./styles/collision.css" /> -->
-    <link rel="stylesheet" href="./styles/shootgame.css" />
+    <!-- <link rel="stylesheet" href="./styles/shootgame.css" /> -->
+    <link rel="stylesheet" href="./styles/enemy2.css" />
   </head>
-  <body onload="playMusic">
+  <body>
     <!-- <div class="character">
       <canvas id="canvas1"></canvas>
       <div class="controls">
@@ -31,6 +32,7 @@
         <script src="./dist/index.js"></script>
       </div>
     </div> -->
+
     <!-- <div class="scene">
       <canvas id="sceneCanvas"></canvas>
       <div class="container">
@@ -51,11 +53,19 @@
       <canvas id="canvas4"></canvas>
     </div>
   -->
-    <div class="shooter">
+
+    <!-- <div class="shooter">
       <canvas id="collisionCanvas"></canvas>
       <canvas id="shootGame"></canvas>
-    </div>
+    </div> -->
 
-    <script src="./dist//shootgame.js"></script>
+    <div class="enemy2">
+      <canvas id="canvasEnemy"> </canvas>
+
+      <img src="./assets/enemy_worm.png" id="wormImg" alt="worm" />
+      <img src="./assets/enemy_ghost.png" id="ghostImg" alt="worm" />
+      <img src="./assets/enemy_spider.png" id="spiderImg" alt="worm" />
+    </div>
+    <script src="./dist/enemy2.js"></script>
   </body>
 </html>
