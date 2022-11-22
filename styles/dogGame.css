@@ -1,0 +1,11 @@
+body {
+  background-color: aqua;
+}
+#dogge {
+  position: absolute;
+  background-color: greenyellow;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  border: 2px solid black;
+}
