@@ -7,5 +7,7 @@ body {
   top: 50%;
   left: 50%;
   translate: -50% -50%;
-  border: 2px solid black;
+  /* border: 2px solid black; */
+  border-radius: 1.5rem;
+  box-sizing: 0 0 40px 40px black;
 }
