@@ -7,7 +7,7 @@ window.addEventListener("load", function () {
 
     let enemies: Enemy[] = []
     let score = 0
-    let gameOver = true
+    let gameOver = false
 
     //user interaction class
     class InputHandler {
@@ -68,8 +68,9 @@ window.addEventListener("load", function () {
 
             /**Collision detection between enemy and player circle */
             enemies.forEach((enemy: Enemy) => {
-                const dx = enemy.x - this.x;
-                const dy = enemy.y - this.y;
+                const dx = (enemy.x + enemy.width / 2) - (this.x + this.width / 2);
+                const dy = (enemy.y + enemy.height / 2) - (this.y + this.height / 2);
+
                 //calculate the Hypotenuse (distance between enemy center and player center points)
                 const distance = Math.sqrt(dx * dx + dy * dy)//pythogorus theorem
 
@@ -171,7 +172,7 @@ window.addEventListener("load", function () {
         private spriteWidth = 229
         private spriteHeight = 171
         public width = 0
-        private height = 0
+        public height = 0
         public x = 0
         public y = 0
         private image = new Image()
@@ -211,12 +212,12 @@ window.addEventListener("load", function () {
             }
         }
         draw(ctx: CanvasRenderingContext2D) {
+            ctx.drawImage(this.image, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height)
             ctx.strokeStyle = "blue"
-            ctx.strokeRect(this.x, this.y, this.width, this.height)
+            // ctx.strokeRect(this.x, this.y, this.width, this.height)
             ctx.beginPath()
             ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2)
             ctx.stroke()
-            ctx.drawImage(this.image, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height)
         }
     }
 
@@ -258,9 +259,13 @@ window.addEventListener("load", function () {
         //gameOver message
         if (gameOver) {
             context.textAlign = "center"
-            context.font="35px Impact"
-            context.fillStyle = "yellow"
+            context.font = "35px Impact"
+            context.fillStyle = "green"
             context.fillText("Game Over try again!", canvas.width / 2, canvas.height / 2)
+            context.fillStyle = "white"
+            context.fillText("Game Over try again!", canvas.width / 2 + 1, canvas.height / 2 + 1)
+            context.fillStyle = "green"
+            context.fillText("Game Over try again!", canvas.width / 2 + 3, canvas.height / 2 + 3)
 
         }
     }

@@ -6,7 +6,7 @@ window.addEventListener("load", function () {
     canvas.height = 700;
     let enemies = [];
     let score = 0;
-    let gameOver = true;
+    let gameOver = false;
     class InputHandler {
         constructor() {
             this.keys = new Array;
@@ -51,8 +51,8 @@ window.addEventListener("load", function () {
         }
         update(input, deltaTime, enemies) {
             enemies.forEach((enemy) => {
-                const dx = enemy.x - this.x;
-                const dy = enemy.y - this.y;
+                const dx = (enemy.x + enemy.width / 2) - (this.x + this.width / 2);
+                const dy = (enemy.y + enemy.height / 2) - (this.y + this.height / 2);
                 const distance = Math.sqrt(dx * dx + dy * dy);
                 if (distance < (enemy.width / 2 + player.width / 2)) {
                     gameOver = true;
@@ -172,12 +172,11 @@ window.addEventListener("load", function () {
             }
         }
         draw(ctx) {
+            ctx.drawImage(this.image, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
             ctx.strokeStyle = "blue";
-            ctx.strokeRect(this.x, this.y, this.width, this.height);
             ctx.beginPath();
             ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
             ctx.stroke();
-            ctx.drawImage(this.image, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
         }
     }
     function handleEnemies(deltaTime) {
@@ -209,8 +208,12 @@ window.addEventListener("load", function () {
         if (gameOver) {
             context.textAlign = "center";
             context.font = "35px Impact";
-            context.fillStyle = "yellow";
+            context.fillStyle = "green";
             context.fillText("Game Over try again!", canvas.width / 2, canvas.height / 2);
+            context.fillStyle = "white";
+            context.fillText("Game Over try again!", canvas.width / 2 + 1, canvas.height / 2 + 1);
+            context.fillStyle = "green";
+            context.fillText("Game Over try again!", canvas.width / 2 + 3, canvas.height / 2 + 3);
         }
     }
     const input = new InputHandler();
