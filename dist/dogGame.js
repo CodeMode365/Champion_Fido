@@ -10,10 +10,16 @@ window.addEventListener("load", function () {
     class InputHandler {
         constructor() {
             this.keys = new Array;
+            this.touchY = 0;
+            this.touchX = 0;
+            this.touchThreshold = 30;
             window.onkeydown = (e) => {
                 if ((e.key ==
                     "ArrowDown" || e.key == "ArrowUp" || e.key == "ArrowLeft" || e.key == "ArrowRight") && this.keys.indexOf(e.key)) {
                     this.keys.push(e.key);
+                }
+                else if (e.key == "Enter" && gameOver) {
+                    restart();
                 }
                 if (this.keys.length > 2) {
                     this.keys.splice(this.keys.length - 1, 1);
@@ -25,6 +31,29 @@ window.addEventListener("load", function () {
                     this.keys.splice(this.keys.indexOf(e.key), 1);
                 }
             };
+            window.ontouchstart = ((e) => {
+                this.touchY = e.changedTouches[0].pageY;
+                this.touchX = e.changedTouches[0].pageX;
+            });
+            window.ontouchmove = ((e) => {
+                const swipeVert_distance = e.changedTouches[0].pageY - this.touchY;
+                const swipeHori_distance = e.changedTouches[0].pageX - this.touchX;
+                if (swipeVert_distance < -this.touchThreshold && this.keys.indexOf("ArrowUp") === -1) {
+                    this.keys.push('ArrowUp');
+                }
+                else if (swipeVert_distance > this.touchThreshold && this.keys.indexOf("ArrowDown") === -1) {
+                    this.keys.push("ArrowDown");
+                    if (gameOver) {
+                        restart();
+                    }
+                }
+            });
+            window.ontouchend = ((e) => {
+                this.keys.splice(this.keys.indexOf("ArrowUp", 1));
+                this.keys.splice(this.keys.indexOf("ArrowDown", 1));
+                this.keys.splice(this.keys.indexOf("ArrowRight", 1));
+                this.keys.splice(this.keys.indexOf("ArrowLeft", 1));
+            });
         }
     }
     class Player {
@@ -107,6 +136,12 @@ window.addEventListener("load", function () {
         onGround() {
             return this.y >= this.gameHeight - this.height;
         }
+        restart() {
+            this.x = 100;
+            this.gameHeight - this.height;
+            this.frameY = 0;
+            this.frameX = 0;
+        }
     }
     class Background {
         constructor(gameWeidth, gameHeight) {
@@ -128,6 +163,9 @@ window.addEventListener("load", function () {
         draw(context) {
             context.drawImage(this.image, this.x, this.y, this.width, this.height);
             context.drawImage(this.image, this.x + this.width - this.speed / 2, this.y, this.width, this.height);
+        }
+        restart() {
+            this.x = 0;
         }
     }
     class Enemy {
@@ -214,7 +252,22 @@ window.addEventListener("load", function () {
             context.fillText("Game Over try again!", canvas.width / 2 + 1, canvas.height / 2 + 1);
             context.fillStyle = "green";
             context.fillText("Game Over try again!", canvas.width / 2 + 3, canvas.height / 2 + 3);
+            context.font = "30px Impact";
+            context.fillStyle = "red";
+            context.fillText("Press enter to try", canvas.width / 2, canvas.height / 2 + 35);
+            context.fillStyle = "white";
+            context.fillText("Press enter to try", canvas.width / 2 + 1, canvas.height / 2 + 1 + 35);
+            context.fillStyle = "red";
+            context.fillText("Press enter to try", canvas.width / 2 + 3, canvas.height / 2 + 3 + 35);
         }
+    }
+    function restart() {
+        player.restart();
+        background.restart();
+        enemies = [];
+        score = 0;
+        gameOver = false;
+        animate(0);
     }
     const input = new InputHandler();
     const player = new Player(canvas.width, canvas.height);
@@ -228,6 +281,7 @@ window.addEventListener("load", function () {
         const deltaTime = timeStamp - lastTime;
         lastTime = timeStamp;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        background.update();
         background.draw(ctx);
         player.draw();
         player.update(input, deltaTime, enemies);

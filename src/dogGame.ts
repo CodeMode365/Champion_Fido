@@ -12,12 +12,18 @@ window.addEventListener("load", function () {
     //user interaction class
     class InputHandler {
         readonly keys = new Array<string>
+        private touchY = 0
+        private touchX = 0
+        private touchThreshold = 30 //minimum touch slide to react 
 
         constructor() {
             window.onkeydown = (e: KeyboardEvent) => {
                 if ((e.key ==
                     "ArrowDown" || e.key == "ArrowUp" || e.key == "ArrowLeft" || e.key == "ArrowRight") && this.keys.indexOf(e.key)) {
                     this.keys.push(e.key)
+                }
+                else if (e.key == "Enter" && gameOver) {
+                    restart()
                 }
                 if (this.keys.length > 2) {
                     this.keys.splice(this.keys.length - 1, 1)
@@ -29,6 +35,33 @@ window.addEventListener("load", function () {
                     this.keys.splice(this.keys.indexOf(e.key), 1)
                 }
             }
+
+            //touch response
+            window.ontouchstart = ((e: TouchEvent) => {
+                this.touchY = e.changedTouches[0].pageY
+                this.touchX = e.changedTouches[0].pageX
+            })
+            window.ontouchmove = ((e: TouchEvent) => {
+                const swipeVert_distance = e.changedTouches[0].pageY - this.touchY
+                const swipeHori_distance = e.changedTouches[0].pageX - this.touchX
+                if (swipeVert_distance < -this.touchThreshold && this.keys.indexOf("ArrowUp") === -1) { this.keys.push('ArrowUp') }
+                // else if (swipeVert_distance > this.touchThreshold && this.keys.indexOf("ArrowRight") === -1) { this.keys.push('ArrowRight') }
+                // else if (swipeVert_distance < -this.touchThreshold && this.keys.indexOf("ArrowLeft") === -1) { this.keys.push('ArrowLeft') }
+                else if (swipeVert_distance > this.touchThreshold && this.keys.indexOf("ArrowDown") === -1) {
+                    this.keys.push("ArrowDown")
+                    if (gameOver) {
+                        restart()
+                    }
+                }
+            })
+            window.ontouchend = ((e: TouchEvent) => {
+                // console.log(this.keys)
+                this.keys.splice(this.keys.indexOf("ArrowUp", 1))
+                this.keys.splice(this.keys.indexOf("ArrowDown", 1))
+                this.keys.splice(this.keys.indexOf("ArrowRight", 1))
+                this.keys.splice(this.keys.indexOf("ArrowLeft", 1))
+                // console.log(this.keys)
+            })
         }
     }
 
@@ -129,6 +162,13 @@ window.addEventListener("load", function () {
         private onGround() {
             return this.y >= this.gameHeight - this.height
         }
+        //restart the player 
+        restart() {
+            this.x = 100
+            this.gameHeight - this.height;
+            this.frameY = 0
+            this.frameX = 0
+        }
     }
 
 
@@ -158,6 +198,9 @@ window.addEventListener("load", function () {
         draw(context: CanvasRenderingContext2D) {
             context.drawImage(this.image, this.x, this.y, this.width, this.height)
             context.drawImage(this.image, this.x + this.width - this.speed / 2, this.y, this.width, this.height)
+        }
+        restart() {
+            this.x = 0
         }
     }
 
@@ -266,8 +309,25 @@ window.addEventListener("load", function () {
             context.fillText("Game Over try again!", canvas.width / 2 + 1, canvas.height / 2 + 1)
             context.fillStyle = "green"
             context.fillText("Game Over try again!", canvas.width / 2 + 3, canvas.height / 2 + 3)
+            context.font = "30px Impact"
+            context.fillStyle = "red"
+            context.fillText("Press enter to try", canvas.width / 2, canvas.height / 2 + 35)
+            context.fillStyle = "white"
+            context.fillText("Press enter to try", canvas.width / 2 + 1, canvas.height / 2 + 1 + 35)
+            context.fillStyle = "red"
+            context.fillText("Press enter to try", canvas.width / 2 + 3, canvas.height / 2 + 3 + 35)
 
         }
+    }
+
+    //function to restart game 
+    function restart() {
+        player.restart()
+        background.restart()
+        enemies = []
+        score = 0
+        gameOver = false
+        animate(0)
     }
 
     const input = new InputHandler()
@@ -285,13 +345,14 @@ window.addEventListener("load", function () {
         const deltaTime = timeStamp - lastTime
         lastTime = timeStamp
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        // background.update()
+        background.update()
         background.draw(ctx)
         player.draw()
         player.update(input, deltaTime, enemies)
         handleEnemies(deltaTime)
         displayStatusText(ctx)
         if (!gameOver) requestAnimationFrame(animate)
+        //  requestAnimationFrame(animate)
     }
     animate(0)
 
