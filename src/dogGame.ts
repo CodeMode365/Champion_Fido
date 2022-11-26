@@ -7,6 +7,7 @@ window.addEventListener("load", function () {
 
     let enemies: Enemy[] = []
     let score = 0
+    let gameOver = true
 
     //user interaction class
     class InputHandler {
@@ -63,7 +64,21 @@ window.addEventListener("load", function () {
             this.y = this.gameHeight - this.height
 
         }
-        update(input: InputHandler, deltaTime: number) {
+        update(input: InputHandler, deltaTime: number, enemies: Enemy[]) {
+
+            /**Collision detection between enemy and player circle */
+            enemies.forEach((enemy: Enemy) => {
+                const dx = enemy.x - this.x;
+                const dy = enemy.y - this.y;
+                //calculate the Hypotenuse (distance between enemy center and player center points)
+                const distance = Math.sqrt(dx * dx + dy * dy)//pythogorus theorem
+
+                if (distance < (enemy.width / 2 + player.width / 2)) {
+                    gameOver = true
+                }
+            });
+
+
             /** Movement handling starts **/
             //player movement handling
             if (input.keys.indexOf("ArrowRight") > -1) this.speed = 5
@@ -102,6 +117,11 @@ window.addEventListener("load", function () {
             /**framing logic ends */
         }
         draw() {
+            ctx.strokeStyle = "red"
+            ctx.strokeRect(this.x, this.y, this.width, this.height)
+            ctx.beginPath()
+            ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2)
+            ctx.stroke()
             ctx.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height)
         }
         //provides  if player is in air or not
@@ -130,6 +150,7 @@ window.addEventListener("load", function () {
             this.image.src = "../assets/background.png"
         }
         update() {
+
             this.x -= this.speed
             if (this.x < 0 - this.width) this.x = 0
         }
@@ -149,10 +170,10 @@ window.addEventListener("load", function () {
         private gameHeight: number
         private spriteWidth = 229
         private spriteHeight = 171
-        private width = 0
+        public width = 0
         private height = 0
-        private x = 0
-        private y = 0
+        public x = 0
+        public y = 0
         private image = new Image()
         private frameX = 0
         private speed = Math.random() * 2.5 + 2.5
@@ -190,6 +211,11 @@ window.addEventListener("load", function () {
             }
         }
         draw(ctx: CanvasRenderingContext2D) {
+            ctx.strokeStyle = "blue"
+            ctx.strokeRect(this.x, this.y, this.width, this.height)
+            ctx.beginPath()
+            ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2)
+            ctx.stroke()
             ctx.drawImage(this.image, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height)
         }
     }
@@ -228,6 +254,15 @@ window.addEventListener("load", function () {
         context.fillText("Hight Score: " + score, 50, 80)
         context.fillStyle = "white"
         context.fillText("Hight Score: " + score, 52, 82)
+
+        //gameOver message
+        if (gameOver) {
+            context.textAlign = "center"
+            context.font="35px Impact"
+            context.fillStyle = "yellow"
+            context.fillText("Game Over try again!", canvas.width / 2, canvas.height / 2)
+
+        }
     }
 
     const input = new InputHandler()
@@ -248,10 +283,10 @@ window.addEventListener("load", function () {
         // background.update()
         background.draw(ctx)
         player.draw()
-        player.update(input, deltaTime)
+        player.update(input, deltaTime, enemies)
         handleEnemies(deltaTime)
         displayStatusText(ctx)
-        requestAnimationFrame(animate)
+        if (!gameOver) requestAnimationFrame(animate)
     }
     animate(0)
 

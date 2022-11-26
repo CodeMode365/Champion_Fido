@@ -6,6 +6,7 @@ window.addEventListener("load", function () {
     canvas.height = 700;
     let enemies = [];
     let score = 0;
+    let gameOver = true;
     class InputHandler {
         constructor() {
             this.keys = new Array;
@@ -48,7 +49,15 @@ window.addEventListener("load", function () {
             this.image.src = "../assets/player.png";
             this.y = this.gameHeight - this.height;
         }
-        update(input, deltaTime) {
+        update(input, deltaTime, enemies) {
+            enemies.forEach((enemy) => {
+                const dx = enemy.x - this.x;
+                const dy = enemy.y - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < (enemy.width / 2 + player.width / 2)) {
+                    gameOver = true;
+                }
+            });
             if (input.keys.indexOf("ArrowRight") > -1)
                 this.speed = 5;
             else if (input.keys.indexOf("ArrowLeft") > -1)
@@ -88,6 +97,11 @@ window.addEventListener("load", function () {
             }
         }
         draw() {
+            ctx.strokeStyle = "red";
+            ctx.strokeRect(this.x, this.y, this.width, this.height);
+            ctx.beginPath();
+            ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
+            ctx.stroke();
             ctx.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height);
         }
         onGround() {
@@ -158,6 +172,11 @@ window.addEventListener("load", function () {
             }
         }
         draw(ctx) {
+            ctx.strokeStyle = "blue";
+            ctx.strokeRect(this.x, this.y, this.width, this.height);
+            ctx.beginPath();
+            ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
+            ctx.stroke();
             ctx.drawImage(this.image, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
         }
     }
@@ -187,6 +206,12 @@ window.addEventListener("load", function () {
         context.fillText("Hight Score: " + score, 50, 80);
         context.fillStyle = "white";
         context.fillText("Hight Score: " + score, 52, 82);
+        if (gameOver) {
+            context.textAlign = "center";
+            context.font = "35px Impact";
+            context.fillStyle = "yellow";
+            context.fillText("Game Over try again!", canvas.width / 2, canvas.height / 2);
+        }
     }
     const input = new InputHandler();
     const player = new Player(canvas.width, canvas.height);
@@ -202,10 +227,11 @@ window.addEventListener("load", function () {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         background.draw(ctx);
         player.draw();
-        player.update(input, deltaTime);
+        player.update(input, deltaTime, enemies);
         handleEnemies(deltaTime);
         displayStatusText(ctx);
-        requestAnimationFrame(animate);
+        if (!gameOver)
+            requestAnimationFrame(animate);
     }
     animate(0);
 });
