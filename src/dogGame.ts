@@ -1,10 +1,26 @@
 window.addEventListener("load", function () {
+    const container = document.getElementById("container")
     const canvas: HTMLCanvasElement = document.getElementById("dogge")
     const ctx: CanvasRenderingContext2D = canvas.getContext("2d")
     canvas.width = 800
     canvas.height = 700
+    //fullscreen button
+    const fullScreenBtn: HTMLButtonElement = document.getElementById("fullScreen")
 
+    function toggleFullScreen() {
+        console.log(document.fullscreenElement)
+        if (!document.fullscreenElement) {
+            container.requestFullscreen().catch((err: Error) => {
+                alert(err)
+            })
+        } else {
+            document.exitFullscreen();
+            console.log("exit")
+        }
+    }
+    fullScreenBtn.addEventListener("click", toggleFullScreen)
 
+    /*game variables*/
     let enemies: Enemy[] = []
     let score = 0
     let gameOver = false
@@ -101,13 +117,13 @@ window.addEventListener("load", function () {
 
             /**Collision detection between enemy and player circle */
             enemies.forEach((enemy: Enemy) => {
-                const dx = (enemy.x + enemy.width / 2) - (this.x + this.width / 2);
-                const dy = (enemy.y + enemy.height / 2) - (this.y + this.height / 2);
+                const dx = (enemy.x + enemy.width / 2 - 10) - (this.x + this.width / 2);
+                const dy = (enemy.y + enemy.height / 2) - (this.y + this.height / 2 + 20);
 
                 //calculate the Hypotenuse (distance between enemy center and player center points)
                 const distance = Math.sqrt(dx * dx + dy * dy)//pythogorus theorem
 
-                if (distance < (enemy.width / 2 + player.width / 2)) {
+                if (distance < (enemy.width / 3 + player.width / 3)) {
                     gameOver = true
                 }
             });
@@ -151,11 +167,10 @@ window.addEventListener("load", function () {
             /**framing logic ends */
         }
         draw() {
-            ctx.strokeStyle = "red"
-            ctx.strokeRect(this.x, this.y, this.width, this.height)
-            ctx.beginPath()
-            ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2)
-            ctx.stroke()
+            // ctx.strokeStyle = "red"
+            // ctx.beginPath()
+            // ctx.arc(this.x + this.width / 2, this.y + this.height / 2 + 20, this.width / 3, 0, Math.PI * 2)
+            // ctx.stroke()
             ctx.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height)
         }
         //provides  if player is in air or not
@@ -256,11 +271,10 @@ window.addEventListener("load", function () {
         }
         draw(ctx: CanvasRenderingContext2D) {
             ctx.drawImage(this.image, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height)
-            ctx.strokeStyle = "blue"
-            // ctx.strokeRect(this.x, this.y, this.width, this.height)
-            ctx.beginPath()
-            ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2)
-            ctx.stroke()
+            // ctx.strokeStyle = "blue"
+            // ctx.beginPath()
+            // ctx.arc(this.x + this.width / 2 - 10, this.y + this.height / 2, this.width / 3, 0, Math.PI * 2)
+            // ctx.stroke()
         }
     }
 

@@ -1,9 +1,24 @@
 "use strict";
 window.addEventListener("load", function () {
+    const container = document.getElementById("container");
     const canvas = document.getElementById("dogge");
     const ctx = canvas.getContext("2d");
     canvas.width = 800;
     canvas.height = 700;
+    const fullScreenBtn = document.getElementById("fullScreen");
+    function toggleFullScreen() {
+        console.log(document.fullscreenElement);
+        if (!document.fullscreenElement) {
+            container.requestFullscreen().catch((err) => {
+                alert(err);
+            });
+        }
+        else {
+            document.exitFullscreen();
+            console.log("exit");
+        }
+    }
+    fullScreenBtn.addEventListener("click", toggleFullScreen);
     let enemies = [];
     let score = 0;
     let gameOver = false;
@@ -80,10 +95,10 @@ window.addEventListener("load", function () {
         }
         update(input, deltaTime, enemies) {
             enemies.forEach((enemy) => {
-                const dx = (enemy.x + enemy.width / 2) - (this.x + this.width / 2);
-                const dy = (enemy.y + enemy.height / 2) - (this.y + this.height / 2);
+                const dx = (enemy.x + enemy.width / 2 - 10) - (this.x + this.width / 2);
+                const dy = (enemy.y + enemy.height / 2) - (this.y + this.height / 2 + 20);
                 const distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance < (enemy.width / 2 + player.width / 2)) {
+                if (distance < (enemy.width / 3 + player.width / 3)) {
                     gameOver = true;
                 }
             });
@@ -126,11 +141,6 @@ window.addEventListener("load", function () {
             }
         }
         draw() {
-            ctx.strokeStyle = "red";
-            ctx.strokeRect(this.x, this.y, this.width, this.height);
-            ctx.beginPath();
-            ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
-            ctx.stroke();
             ctx.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height);
         }
         onGround() {
@@ -211,10 +221,6 @@ window.addEventListener("load", function () {
         }
         draw(ctx) {
             ctx.drawImage(this.image, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
-            ctx.strokeStyle = "blue";
-            ctx.beginPath();
-            ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
-            ctx.stroke();
         }
     }
     function handleEnemies(deltaTime) {
