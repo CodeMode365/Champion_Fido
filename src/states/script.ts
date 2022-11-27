@@ -1,6 +1,7 @@
-import Player from "./player"
+import Player from "./Player.js"
 
 window.addEventListener('load', () => {
+
     const loading: HTMLHeadElement = document.getElementById("loading")
     loading.style.display = "none"
     const canvas: HTMLCanvasElement = document.getElementById("canvas1")
@@ -10,7 +11,4 @@ window.addEventListener('load', () => {
     canvas.height = window.innerHeight
 
     const player = new Player(canvas.width, canvas.height)
-    // player.draw(ctx)
-    console.log(player)
-    // console.log("hello")
 })

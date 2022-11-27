@@ -1,9 +1,4 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const player_1 = __importDefault(require("./player"));
+import Player from "./Player.js";
 window.addEventListener('load', () => {
     const loading = document.getElementById("loading");
     loading.style.display = "none";
@@ -11,6 +6,5 @@ window.addEventListener('load', () => {
     const ctx = canvas.getContext("2d");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    const player = new player_1.default(canvas.width, canvas.height);
-    console.log(player);
+    const player = new Player(canvas.width, canvas.height);
 });

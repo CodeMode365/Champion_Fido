@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class Player {
+export default class Player {
     constructor(gameWidth, gameHeight) {
         this.height = 181.83;
         this.width = 200;
@@ -15,4 +13,3 @@ class Player {
         ctx.drawImage(this.image, this.x, this.y);
     }
 }
-exports.default = Player;
