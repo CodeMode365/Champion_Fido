@@ -5,77 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <!-- <link rel="stylesheet" href="./styles/character.css" /> -->
-    <!-- <link rel="stylesheet" href="./styles/scene.css" /> -->
-    <!-- <link rel="stylesheet" href="./styles/enemy.css" /> -->
-    <!-- <link rel="stylesheet" href="./styles/collision.css" /> -->
-    <!-- <link rel="stylesheet" href="./styles/shootgame.css" /> -->
-    <!-- <link rel="stylesheet" href="./styles/enemy2.css" /> -->
-    <link rel="stylesheet" href="./styles/dogGame.css">
+    <link rel="stylesheet" href="./styles/state.css" />
   </head>
   <body>
-    <!-- <div class="character">
-      <canvas id="canvas1"></canvas>
-      <div class="controls">
-        <label for="animations">Choose Actions </label>
-        <select name="animations" id="animations">
-          <option value="idle">Idle</option>
-          <option value="jump">Jump</option>
-          <option value="fall">Fall</option>
-          <option value="run">Run</option>
-          <option value="dizzy">Dizzy</option>
-          <option value="sit" selected>Sit</option>
-          <option value="roll">Roll</option>
-          <option value="bite">Bite</option>
-          <option value="ko">Ko</option>
-          <option value="getHit">Get hit</option>
-        </select>
-        <script src="./dist/index.js"></script>
-      </div>
-    </div> -->
+    <canvas id="canvas1"></canvas>
+    <img src="./assets/white_dog.png" alt="" />
+    <h1 id="loading">Loading...</h1>
 
-
-
-    <!-- <div class="scene">
-      <canvas id="sceneCanvas"></canvas>
-      <div class="container">
-        <p>Game Speed:<span id="showGameSpeed">5</span></p>
-        <input type="range" name="" min="0" max="20" value="5" id="slider" />
-      </div>
-    </div> -->
-
-    <!-- 
-    <div class="enemy">
-      <canvas id="canvas3">
-
-      </canvas>
-
-
-    </div> -->
-    <!-- <div class="collision">
-      <canvas id="canvas4"></canvas>
-    </div>
-  -->
-
-
-
-    <!-- <div class="shooter">
-      <canvas id="collisionCanvas"></canvas>
-      <canvas id="shootGame"></canvas>
-    </div> -->
-
-
-
-    <!-- <div class="enemy2">
-      <canvas id="canvasEnemy"> </canvas>
-    </div> -->
-
-
-    <div class="dogGame" id="container">
-      <canvas id="dogge"></canvas>
-      <button id="fullScreen">Toggle fullScreen</button>
-    </div>
-
-    <script src="./dist/dogGame.js"></script>
+    <script type="module" src="./dist/states/script.js"></script>
   </body>
 </html>
