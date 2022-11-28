@@ -14,4 +14,8 @@ export default class Player {
     draw(ctx) {
         ctx.drawImage(this.image, this.width * this.frameX, this.height * this.frameY, this.width, this.height, this.x, this.y, this.width, this.height);
     }
+    setState(state) {
+        this.currentState = this.states[state];
+        this.currentState.enter();
+    }
 }

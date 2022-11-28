@@ -1,8 +1,9 @@
+// import { states } from "./state"
 export default class Player {
     private gameWidth: number
     private gameHeight: number
-    private states: string[]
-    private currentState: string
+    private states !: string[]
+    private currentState !: string
     private width = 200
     private height = 181.83
     private image: HTMLImageElement = new Image()
@@ -22,6 +23,10 @@ export default class Player {
     }
     draw(ctx: CanvasRenderingContext2D) {
         ctx.drawImage(this.image, this.width * this.frameX, this.height * this.frameY, this.width, this.height, this.x, this.y, this.width, this.height)
+    }
+    setState(state: number) {
+        this.currentState = this.states[state]
+        this.currentState.enter()
     }
 }
 

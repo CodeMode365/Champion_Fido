@@ -1,9 +1,9 @@
 import Player from "./Player.js"
 import InputHandler from "./input"
 
-export enum states {
-    STANDING_LEFT,
-    STANDING_RIGHT
+export const enum states {
+    STANDING_LEFT = 0,
+    STANDING_RIGHT = 1
 }
 
 class State {
@@ -22,9 +22,13 @@ class StandingLeft extends State {
 
     }
     enter() {
-        this.player.frameY=1
+        this.player.frameY = 1
     }
-    handleInput(input: InputHandler) {
+    handleInput(input: string) {
+        if (input == "PRESS right")//set state to StandingRight
+        {
+            this.player.setState(1)
+        }
 
     }
 }
@@ -36,9 +40,13 @@ class StandingRight extends State {
 
     }
     enter() {
+        this.player.frameY = 0
 
     }
-    handleInput(input: InputHandler) {
-
+    handleInput(input: string) {
+        if (input == "PRESS left")//set state to standing left
+        {
+            this.player.setState()
+        }
     }
 }

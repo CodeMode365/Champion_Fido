@@ -1,10 +1,5 @@
 import Player from "./Player.js";
 import InputHandler from "./input";
-export var states;
-(function (states) {
-    states[states["STANDING_LEFT"] = 0] = "STANDING_LEFT";
-    states[states["STANDING_RIGHT"] = 1] = "STANDING_RIGHT";
-})(states || (states = {}));
 class State {
     constructor(state) {
         this.state = state;
@@ -19,6 +14,9 @@ class StandingLeft extends State {
         this.player.frameY = 1;
     }
     handleInput(input) {
+        if (input == "PRESS right") {
+            this.player.setState(1);
+        }
     }
 }
 class StandingRight extends State {
@@ -27,7 +25,10 @@ class StandingRight extends State {
         this.player = player;
     }
     enter() {
+        this.player.frameY = 0;
     }
     handleInput(input) {
+        if (input == "PRESS left") {
+        }
     }
 }
