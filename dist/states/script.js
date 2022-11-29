@@ -13,7 +13,8 @@ window.addEventListener('load', () => {
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         player.draw(ctx);
-        drawStatusText(ctx, input);
+        player.update(input.lastKey);
+        drawStatusText(ctx, input, player);
         requestAnimationFrame(animate);
     }
     animate();
