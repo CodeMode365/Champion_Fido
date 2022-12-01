@@ -33,10 +33,10 @@ export class StandingRight extends State {
     constructor(player) {
         super("STANDING RIGHT");
         this.player = player;
-        this.player.maxFrame = 6;
     }
     enter() {
         this.player.frameY = 0;
+        this.player.maxFrame = 6;
         this.player.speed = 0;
     }
     handleInput(input) {
@@ -58,10 +58,10 @@ export class SittingRight extends State {
     constructor(player) {
         super("SITTING RIGHT");
         this.player = player;
-        this.player.maxFrame = 4;
     }
     enter() {
         this.player.frameY = 8;
+        this.player.maxFrame = 4;
         this.player.speed = 0;
     }
     handleInput(input) {
@@ -77,9 +77,9 @@ export class SittingLeft extends State {
     constructor(player) {
         super("SITTING LEFT");
         this.player = player;
-        this.player.maxFrame = 4;
     }
     enter() {
+        this.player.maxFrame = 4;
         this.player.frameY = 9;
         this.player.speed = 0;
     }
