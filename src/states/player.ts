@@ -18,6 +18,11 @@ export default class Player {
     public weight = 0.5
     public maxFrame = 5
 
+    //draw image framing variable
+    private fps = 20
+    private frameTimer = 0
+    private frameInterval = 0
+
     constructor(gameWidth: number, gameHeight: number) {
         this.gameWidth = gameWidth
         this.gameHeight = gameHeight
@@ -25,6 +30,7 @@ export default class Player {
         this.y = gameHeight - this.height
         // this.currentState = this.states[0]
         this.image.src = "../assets/white_dog.png"
+        this.frameInterval = 1000 / this.fps
 
     }
     update(input: string) {
@@ -47,11 +53,18 @@ export default class Player {
         if (this.y > this.gameHeight - this.height) this.y = this.gameHeight - this.height
     }
 
-    draw(ctx: CanvasRenderingContext2D) {
-        if (this.frameX < this.maxFrame) this.frameX++
-        else this.frameX = 0
+    draw(ctx: CanvasRenderingContext2D, deltaTime: number) {
+        if (this.frameTimer > this.frameInterval) {
+            if (this.frameX < this.maxFrame) this.frameX++
+            else this.frameX = 0
+            this.frameTimer = 0
+        } else {
+            this.frameTimer += deltaTime
+        }
         ctx.drawImage(this.image, this.width * this.frameX, this.height * this.frameY, this.width, this.height, this.x, this.y, this.width, this.height)
     }
+
+
     setState(state: number) {
         //managing current state of player
         this.currentState = this.states[state]

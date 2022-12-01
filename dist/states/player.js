@@ -14,11 +14,15 @@ export default class Player {
         this.vY = 0;
         this.weight = 0.5;
         this.maxFrame = 5;
+        this.fps = 20;
+        this.frameTimer = 0;
+        this.frameInterval = 0;
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
         this.x = this.gameWidth / 2 - this.width / 2;
         this.y = gameHeight - this.height;
         this.image.src = "../assets/white_dog.png";
+        this.frameInterval = 1000 / this.fps;
     }
     update(input) {
         var _a;
@@ -38,11 +42,17 @@ export default class Player {
         if (this.y > this.gameHeight - this.height)
             this.y = this.gameHeight - this.height;
     }
-    draw(ctx) {
-        if (this.frameX < this.maxFrame)
-            this.frameX++;
-        else
-            this.frameX = 0;
+    draw(ctx, deltaTime) {
+        if (this.frameTimer > this.frameInterval) {
+            if (this.frameX < this.maxFrame)
+                this.frameX++;
+            else
+                this.frameX = 0;
+            this.frameTimer = 0;
+        }
+        else {
+            this.frameTimer += deltaTime;
+        }
         ctx.drawImage(this.image, this.width * this.frameX, this.height * this.frameY, this.width, this.height, this.x, this.y, this.width, this.height);
     }
     setState(state) {
