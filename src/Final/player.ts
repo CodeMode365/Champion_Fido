@@ -8,6 +8,7 @@ export default class Player {
     private x = 0
     private y: number
     private speed = 0
+    private maxSpeed = 3
     private maxSpeed = 10
     private weight = 1
     public vY = 0
@@ -28,7 +29,7 @@ export default class Player {
     constructor(game: Game,) {
         this.game = game
         this.image.src = "../../assets/finalGame/playerDog.png"
-        this.y = this.game.height - this.height
+        this.y = this.game.height - this.height - this.game.groundMarin
         this.currentState?.enter()
 
     }
@@ -37,15 +38,15 @@ export default class Player {
         this.currentState?.handleInput(input)
 
         //player movement
+        this.x += this.speed
         if (input.indexOf('ArrowRight') !== -1) this.speed = this.maxSpeed
         else if (input.indexOf('ArrowLeft') != -1) this.speed = -this.maxSpeed
         else this.speed = 0
-        this.x += this.speed
 
         //max horizontal movement area
         this.y += this.vY;
-        if (this.y > this.game.height - this.height) {
-            this.y = this.game.height - this.height
+        if (this.y > this.game.height - this.height - this.game.groundMarin) {
+            this.y = this.game.height - this.height - this.game.groundMarin
         }
         if (this.x <= 0) this.x = 0
         else if (this.x >= this.game.width - this.width) this.x = this.game.width - this.width
@@ -72,10 +73,11 @@ export default class Player {
         ctx.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height)
     }
     onGround() {
-        return this.y >= this.game.height - this.height
+        return this.y >= this.game.height - this.height - this.game.groundMarin
     }
-    setState(state: number) {
+    setState(state: number, speed: number) {
         this.currentState = this.states[state]
+        this.game.speed = this.game.maxSpeed * speed
         this.currentState?.enter()
     }
 }
