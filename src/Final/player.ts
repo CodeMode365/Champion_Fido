@@ -27,7 +27,7 @@ export default class Player {
 
     constructor(game: Game,) {
         this.game = game
-        this.image.src = "../../assets/playerDog.png"
+        this.image.src = "../../assets/finalGame/playerDog.png"
         this.y = this.game.height - this.height - this.game.groundMarin
         this.currentState?.enter()
 

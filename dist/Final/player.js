@@ -20,7 +20,7 @@ export default class Player {
         this.states = [new Sitting(this), new Running(this), new Jumping(this), new Falling(this)];
         this.currentState = this.states[0];
         this.game = game;
-        this.image.src = "../../assets/playerDog.png";
+        this.image.src = "../../assets/finalGame/playerDog.png";
         this.y = this.game.height - this.height - this.game.groundMarin;
         (_a = this.currentState) === null || _a === void 0 ? void 0 : _a.enter();
     }
