@@ -1,5 +1,5 @@
 export default class InputHandler {
-    private keys: string[] = []
+    readonly keys: string[] = []
 
     constructor() {
 

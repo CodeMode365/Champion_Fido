@@ -1,26 +1,79 @@
 import Game from "./game.js";
-
+import { Sitting, Running, Jumping, Falling } from "./playerState.js";
 
 export default class Player {
     private game: Game
-    // private width = 100;
-    private width = 572;
-    // private height = 91.3;
-    private height = 523;
+    private width = 100
+    private height = 91.3
     private x = 0
     private y: number
+    private speed = 0
+    private maxSpeed = 10
+    private weight = 1
+    public vY = 0
     private image: HTMLImageElement = new Image()
-    constructor(game: Game) {
+    //framing variables
+    public frameX = 0
+    public frameY = 0
+    public maxFrame = 5
+    private fps = 20
+    private frameInterval = 1000 / this.fps
+    private frameTimer = 0
+
+    //state helpers
+    private states = [new Sitting(this), new Running(this), new Jumping(this), new Falling(this)]
+    public currentState = this.states[0]
+
+
+    constructor(game: Game,) {
         this.game = game
-        this.image.src = "../../assets/shadow_dog.png"
-        this.y = this.game.height - this.height / 4
+        this.image.src = "../../assets/playerDog.png"
+        this.y = this.game.height - this.height - this.game.groundMarin
+        this.currentState?.enter()
+
     }
-    update() {
-        this.x++
-        // this.y--
+    update(input: string[], deltaTime: number) {
+        //update current state 
+        this.currentState?.handleInput(input)
+
+        //player movement
+        this.x += this.speed
+        if (input.indexOf('ArrowRight') !== -1) this.speed = this.maxSpeed
+        else if (input.indexOf('ArrowLeft') != -1) this.speed = -this.maxSpeed
+        else this.speed = 0
+
+        //max horizontal movement area
+        if (this.x < 0) this.x = 0
+        else if (this.x > this.game.width - this.width) this.x = this.game.width - this.width
+
+        //max vertical movement area
+        if (this.y > this.game.height - this.height-this.game.groundMarin) this.y = this.game.height - this.height-this.game.groundMarin
+        //vertical movement(jump)
+        this.y += this.vY;
+        if (!this.onGround()) this.vY += this.weight
+
+
+        //framing
+        if (this.frameTimer > this.frameInterval) {
+            if (this.frameX <= this.maxFrame) {
+                this.frameX++
+            } else {
+                this.frameX = 0
+            }
+            this.frameTimer = 0
+        } else {
+            this.frameTimer += deltaTime
+        }
     }
     draw(ctx: CanvasRenderingContext2D) {
         // ctx.fillRect(this.x,this.y, this.width, this.height)
-        ctx.drawImage(this.image, 0, 0, this.width, this.height, this.x, this.y, this.width / 4, this.height / 4)
+        ctx.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height)
+    }
+    onGround() {
+        return this.y >= this.game.height - this.height - this.game.groundMarin
+    }
+    setState(state: number) {
+        this.currentState = this.states[state]
+        this.currentState?.enter()
     }
 }

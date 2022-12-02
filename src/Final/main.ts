@@ -11,11 +11,14 @@ window.onload = () => {
 
     const game = new Game(canvas.width, canvas.height)
 
-    function animate() {
+    let lastTime = 0
+    function animate(timeStamp: number) {
+        const deltaTime = timeStamp - lastTime
+        lastTime = timeStamp
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         game.draw(ctx)
-        game.update()
+        game.update(deltaTime)
         requestAnimationFrame(animate)
     }
-    animate()
+    animate(0)
 }
