@@ -26,7 +26,6 @@ export default class Player {
     }
     update(input, deltaTime) {
         var _a;
-        console.log(input);
         (_a = this.currentState) === null || _a === void 0 ? void 0 : _a.handleInput(input);
         this.x += this.speed;
         if (input.indexOf('ArrowRight') !== -1)

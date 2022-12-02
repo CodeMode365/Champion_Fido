@@ -33,7 +33,6 @@ export default class Player {
 
     }
     update(input: string[], deltaTime: number) {
-        console.log(input)
         //update current state 
         this.currentState?.handleInput(input)
 
