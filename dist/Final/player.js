@@ -7,6 +7,7 @@ export default class Player {
         this.height = 91.3;
         this.x = 0;
         this.speed = 0;
+        this.maxSpeed = 3;
         this.maxSpeed = 10;
         this.weight = 1;
         this.vY = 0;
@@ -21,22 +22,22 @@ export default class Player {
         this.currentState = this.states[0];
         this.game = game;
         this.image.src = "../../assets/finalGame/playerDog.png";
-        this.y = this.game.height - this.height;
+        this.y = this.game.height - this.height - this.game.groundMarin;
         (_a = this.currentState) === null || _a === void 0 ? void 0 : _a.enter();
     }
     update(input, deltaTime) {
         var _a;
         (_a = this.currentState) === null || _a === void 0 ? void 0 : _a.handleInput(input);
+        this.x += this.speed;
         if (input.indexOf('ArrowRight') !== -1)
             this.speed = this.maxSpeed;
         else if (input.indexOf('ArrowLeft') != -1)
             this.speed = -this.maxSpeed;
         else
             this.speed = 0;
-        this.x += this.speed;
         this.y += this.vY;
-        if (this.y > this.game.height - this.height) {
-            this.y = this.game.height - this.height;
+        if (this.y > this.game.height - this.height - this.game.groundMarin) {
+            this.y = this.game.height - this.height - this.game.groundMarin;
         }
         if (this.x <= 0)
             this.x = 0;
@@ -61,11 +62,12 @@ export default class Player {
         ctx.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height);
     }
     onGround() {
-        return this.y >= this.game.height - this.height;
+        return this.y >= this.game.height - this.height - this.game.groundMarin;
     }
-    setState(state) {
+    setState(state, speed) {
         var _a;
         this.currentState = this.states[state];
+        this.game.speed = this.game.maxSpeed * speed;
         (_a = this.currentState) === null || _a === void 0 ? void 0 : _a.enter();
     }
 }

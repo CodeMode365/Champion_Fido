@@ -8,11 +8,12 @@ export default class Game {
     readonly height: number
     private input: InputHandler
     public groundMarin: number
-    readonly speed = 3
+    readonly speed = 0
     private background: Background
+    public maxSpeed = 6
 
     constructor(width: number, height: number) {
-        this.groundMarin = 50
+        this.groundMarin = 80
         this.width = width
         this.height = height
         this.input = new InputHandler()
@@ -24,7 +25,7 @@ export default class Game {
         this.player.update(this.input.keys, deltaTime)
     }
     draw(ctx: CanvasRenderingContext2D) {
+        this.background.draw(ctx)
         this.player.draw(ctx)
-        // this.background.draw(ctx)
     }
 }
