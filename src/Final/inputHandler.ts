@@ -5,15 +5,16 @@ export default class InputHandler {
 
         window.onkeydown = (e: KeyboardEvent) => {
             if ((e.key ==
-                "ArrowDown" || e.key == "ArrowUp" || e.key == "ArrowLeft" || e.key == "ArrowRight") && this.keys.indexOf(e.key)) {
+                "ArrowDown" || e.key == "ArrowUp" || e.key == "ArrowLeft" || e.key == "ArrowRight") && this.keys.indexOf(e.key) === -1) {
                 this.keys.push(e.key)
             }
         }
         window.onkeyup = (e: KeyboardEvent) => {
-            if (e.key ==
-                "ArrowDown" || e.key == "ArrowUp" || e.key == "ArrowLeft" || e.key == "ArrowRight") {
+            if ((e.key ==
+                "ArrowDown" || e.key == "ArrowUp" || e.key == "ArrowLeft" || e.key == "ArrowRight" && this.keys.indexOf(e.key) !== -1)) {
                 this.keys.splice(this.keys.indexOf(e.key), 1)
             }
+
         }
     }
 

@@ -8,7 +8,6 @@ export default class Player {
         this.x = 0;
         this.speed = 0;
         this.maxSpeed = 3;
-        this.maxSpeed = 10;
         this.weight = 1;
         this.vY = 0;
         this.image = new Image();
@@ -27,6 +26,7 @@ export default class Player {
     }
     update(input, deltaTime) {
         var _a;
+        console.log(input);
         (_a = this.currentState) === null || _a === void 0 ? void 0 : _a.handleInput(input);
         this.x += this.speed;
         if (input.indexOf('ArrowRight') !== -1)

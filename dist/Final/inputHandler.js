@@ -3,13 +3,13 @@ export default class InputHandler {
         this.keys = [];
         window.onkeydown = (e) => {
             if ((e.key ==
-                "ArrowDown" || e.key == "ArrowUp" || e.key == "ArrowLeft" || e.key == "ArrowRight") && this.keys.indexOf(e.key)) {
+                "ArrowDown" || e.key == "ArrowUp" || e.key == "ArrowLeft" || e.key == "ArrowRight") && this.keys.indexOf(e.key) === -1) {
                 this.keys.push(e.key);
             }
         };
         window.onkeyup = (e) => {
-            if (e.key ==
-                "ArrowDown" || e.key == "ArrowUp" || e.key == "ArrowLeft" || e.key == "ArrowRight") {
+            if ((e.key ==
+                "ArrowDown" || e.key == "ArrowUp" || e.key == "ArrowLeft" || e.key == "ArrowRight" && this.keys.indexOf(e.key) !== -1)) {
                 this.keys.splice(this.keys.indexOf(e.key), 1);
             }
         };

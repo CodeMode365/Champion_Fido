@@ -8,7 +8,7 @@ export default class Game {
     readonly height: number
     private input: InputHandler
     public groundMarin: number
-    readonly speed = 0
+    public speed = 0
     private background: Background
     public maxSpeed = 6
 

@@ -9,7 +9,6 @@ export default class Player {
     private y: number
     private speed = 0
     private maxSpeed = 3
-    private maxSpeed = 10
     private weight = 1
     public vY = 0
     private image: HTMLImageElement = new Image()
@@ -34,6 +33,7 @@ export default class Player {
 
     }
     update(input: string[], deltaTime: number) {
+        console.log(input)
         //update current state 
         this.currentState?.handleInput(input)
 
