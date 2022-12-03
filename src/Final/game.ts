@@ -13,7 +13,7 @@ export default class Game {
     private background: Background
     public maxSpeed = 6
     //enemy control
-    private enemies: Enemy[]=[]
+    private enemies: Enemy[] = []
     private enemyTimer = 0
     private enemyInterval = 1000
 
@@ -38,7 +38,9 @@ export default class Game {
 
         this.enemies?.forEach((enemy: Enemy) => {
             enemy.update(deltaTime)
+            if (enemy.markedFordDeletion) this.enemies.splice(this.enemies.indexOf(enemy), 1)
         })
+        // console.log(this.enemies)
     }
     draw(ctx: CanvasRenderingContext2D) {
 
@@ -47,9 +49,15 @@ export default class Game {
         this.enemies?.forEach((enemy: Enemy) => {
             enemy.draw(ctx)
         })
+
     }
     addEnemy() {
+        if (
+            (this.speed > 0) && (Math.random() > 0.5)
+        ) this.enemies.push(new GroundEnemy(this))
+        else if (
+            this.speed > 0
+        ) this.enemies.push(new ClimbingEnemy(this))
         this.enemies.push(new FlyEnemy(this))
-        console.log(this.enemies)
     }
 }

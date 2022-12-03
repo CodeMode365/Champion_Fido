@@ -7,18 +7,23 @@ export class Enemy {
         this.frameInterval = 1000 / this.fps;
         this.frameTimer = 0;
         this.image = new Image();
+        this.markedFordDeletion = false;
     }
     update(deltaTime) {
         this.x -= this.speedX;
-        if (this.frameInterval > this.frameInterval) {
-            if (this.frameX < this.frameInterval)
+        this.y += this.speedY;
+        if (this.frameTimer > this.frameInterval) {
+            if (this.frameX < this.maxFrame)
                 this.frameX++;
             else
                 this.frameX = 0;
             this.frameTimer = 0;
         }
         else {
-            this.frameInterval += deltaTime;
+            this.frameTimer += deltaTime;
+        }
+        if (this.x < 0 - this.width) {
+            this.markedFordDeletion = true;
         }
     }
     draw(ctx) {
@@ -31,24 +36,66 @@ export class FlyEnemy extends Enemy {
         this.game = game;
         this.width = 60;
         this.height = 44;
-        this.x = this.game.width + this.width;
-        this.y = 50;
-        this.speedX = 2;
-        this.speedY = Math.random() * this.game.height * 0.5;
+        this.x = this.game.width;
+        this.y = Math.random() * this.game.height * 0.5;
+        this.speedX = Math.random() + 1;
+        this.speedY = 0;
         this.maxFrame = 5;
-        this.image.src = "../../assets/finalGame/enemy_ghost_3.png";
+        this.image.src = "../../assets/finalGame/enemy_fly.png";
+        this.angle = 0;
+        this.verticalAngle = Math.random() * 0.1 + 0.1;
     }
     update(deltaTime) {
         super.update(deltaTime);
+        this.angle += this.verticalAngle;
+        this.y += Math.sin(this.angle);
     }
 }
 export class GroundEnemy extends Enemy {
-    constructor() {
+    constructor(game) {
         super();
+        this.game = game;
+        this.width = 60;
+        this.height = 87;
+        this.x = this.game.width;
+        this.y = this.game.height - this.height - this.game.groundMarin;
+        this.image.src = "../../assets/finalGame/enemy_plant.png";
+        this.speedX = 0;
+        this.speedY = 0;
+        this.maxFrame = 1;
+    }
+    update(deltaTime) {
+        super.update(deltaTime);
+        this.speedX = this.game.speed ? this.game.speed : 0;
     }
 }
 export class ClimbingEnemy extends Enemy {
-    constructor() {
+    constructor(game) {
         super();
+        this.game = game;
+        this.width = 120;
+        this.height = 144;
+        this.x = this.game.width;
+        this.y = Math.random() * this.game.height * 0.5;
+        this.image.src = "../../assets/finalGame/enemy_spider_big.png";
+        this.speedX = 0;
+        this.speedY = Math.random() > 0.5 ? 1 : -1;
+        this.maxFrame = 5;
+        this.speedX = 0;
+    }
+    update(deltaTime) {
+        super.update(deltaTime);
+        this.speedX = this.game.speed ? this.game.speed : 0;
+        if (this.y > this.game.height - this.height - this.game.groundMarin)
+            this.speedY *= -1;
+        if (this.y < -this.height)
+            this.markedFordDeletion = true;
+    }
+    draw(ctx) {
+        ctx.beginPath();
+        ctx.moveTo(this.x + this.width / 2, 0);
+        ctx.lineTo(this.x + this.width / 2, this.y + this.height / 2);
+        ctx.stroke();
+        super.draw(ctx);
     }
 }

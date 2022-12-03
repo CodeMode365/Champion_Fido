@@ -29,6 +29,8 @@ export default class Game {
         }
         (_a = this.enemies) === null || _a === void 0 ? void 0 : _a.forEach((enemy) => {
             enemy.update(deltaTime);
+            if (enemy.markedFordDeletion)
+                this.enemies.splice(this.enemies.indexOf(enemy), 1);
         });
     }
     draw(ctx) {
@@ -40,7 +42,10 @@ export default class Game {
         });
     }
     addEnemy() {
+        if ((this.speed > 0) && (Math.random() > 0.5))
+            this.enemies.push(new GroundEnemy(this));
+        else if (this.speed > 0)
+            this.enemies.push(new ClimbingEnemy(this));
         this.enemies.push(new FlyEnemy(this));
-        console.log(this.enemies);
     }
 }
