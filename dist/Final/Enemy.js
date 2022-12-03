@@ -27,6 +27,9 @@ export class Enemy {
         }
     }
     draw(ctx) {
+        ctx.fillStyle = "red";
+        if (this.game.debug)
+            ctx.strokeRect(this.x, this.y, this.width, this.height);
         ctx.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height);
     }
 }

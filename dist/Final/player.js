@@ -1,9 +1,8 @@
 import { Enemy } from "./Enemy.js";
 import Game from "./game.js";
-import { Sitting, Running, Jumping, Falling } from "./playerState.js";
+import { Sitting, Running, Jumping, Falling, Rolling, State } from "./playerState.js";
 export default class Player {
     constructor(game) {
-        var _a;
         this.width = 100;
         this.height = 91.3;
         this.x = 0;
@@ -18,12 +17,10 @@ export default class Player {
         this.fps = 20;
         this.frameInterval = 1000 / this.fps;
         this.frameTimer = 0;
-        this.states = [new Sitting(this), new Running(this), new Jumping(this), new Falling(this)];
-        this.currentState = this.states[0];
         this.game = game;
+        this.states = [new Sitting(this.game), new Running(this.game), new Jumping(this.game), new Falling(this.game), new Rolling(this.game)];
         this.image.src = "../../assets/finalGame/playerDog.png";
         this.y = this.game.height - this.height - this.game.groundMarin;
-        (_a = this.currentState) === null || _a === void 0 ? void 0 : _a.enter();
     }
     update(input, deltaTime) {
         var _a;
@@ -46,7 +43,7 @@ export default class Player {
         if (!this.onGround())
             this.vY += this.weight;
         if (this.frameTimer > this.frameInterval) {
-            if (this.frameX <= this.maxFrame) {
+            if (this.frameX < this.maxFrame) {
                 this.frameX++;
             }
             else {
@@ -82,7 +79,6 @@ export default class Player {
                 enemy.y + enemy.height > this.y) {
                 enemy.markedFordDeletion = true;
                 this.game.score++;
-                console.log("colide");
             }
             else {
             }
