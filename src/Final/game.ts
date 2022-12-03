@@ -12,17 +12,18 @@ export default class Game {
     public speed = 0
     private background: Background
     public maxSpeed = 6
+    public score = 0
     //enemy control
-    private enemies: Enemy[] = []
+    readonly enemies: Enemy[] = []
     private enemyTimer = 0
     private enemyInterval = 1000
-
+    public debug = true
 
     constructor(width: number, height: number) {
         this.groundMarin = 80
         this.width = width
         this.height = height
-        this.input = new InputHandler()
+        this.input = new InputHandler(this)
         this.player = new Player(this)
         this.background = new Background(this)
     }

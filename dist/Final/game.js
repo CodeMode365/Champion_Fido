@@ -6,13 +6,15 @@ export default class Game {
     constructor(width, height) {
         this.speed = 0;
         this.maxSpeed = 6;
+        this.score = 0;
         this.enemies = [];
         this.enemyTimer = 0;
         this.enemyInterval = 1000;
+        this.debug = true;
         this.groundMarin = 80;
         this.width = width;
         this.height = height;
-        this.input = new InputHandler();
+        this.input = new InputHandler(this);
         this.player = new Player(this);
         this.background = new Background(this);
     }

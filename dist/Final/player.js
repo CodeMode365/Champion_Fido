@@ -1,3 +1,4 @@
+import { Enemy } from "./Enemy.js";
 import Game from "./game.js";
 import { Sitting, Running, Jumping, Falling } from "./playerState.js";
 export default class Player {
@@ -56,8 +57,12 @@ export default class Player {
         else {
             this.frameTimer += deltaTime;
         }
+        this.checkCollision();
     }
     draw(ctx) {
+        ctx.fillStyle = "red";
+        if (this.game.debug)
+            ctx.strokeRect(this.x, this.y, this.width, this.height);
         ctx.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height);
     }
     onGround() {
@@ -68,5 +73,19 @@ export default class Player {
         this.currentState = this.states[state];
         this.game.speed = this.game.maxSpeed * speed;
         (_a = this.currentState) === null || _a === void 0 ? void 0 : _a.enter();
+    }
+    checkCollision() {
+        this.game.enemies.forEach((enemy) => {
+            if (enemy.x < this.x + this.width &&
+                enemy.x + enemy.width > this.x &&
+                enemy.y < this.y + this.height &&
+                enemy.y + enemy.height > this.y) {
+                enemy.markedFordDeletion = true;
+                this.game.score++;
+                console.log("colide");
+            }
+            else {
+            }
+        });
     }
 }

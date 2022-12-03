@@ -7,10 +7,10 @@ export class Enemy {
     private frameInterval = 1000 / this.fps
     private frameTimer = 0
     protected game!: Game
-    protected width !: number
-    protected height !: number
-    protected x !: number
-    protected y !: number
+    public width !: number
+    public height !: number
+    public x !: number
+    public y !: number
     protected speedX !: number
     protected speedY !: number
     protected maxFrame !: number
