@@ -1,5 +1,6 @@
-import { Dust, Particle } from "./Particles.js";
+import { Dust, Particle, Fire } from "./Particles.js";
 import Game from "./game.js";
+import Player from "./player.js";
 export class State {
     handleInput(input) {
         throw new Error("Method not implemented.");
@@ -37,7 +38,7 @@ export class Running extends State {
         this.game.player.frameY = 3;
     }
     handleInput(input) {
-        this.game.particles.push(new Dust(this.game, this.game.player.x, this.game.player.y));
+        this.game.particles.push(new Dust(this.game, this.game.player.x + this.game.player.width / 2, this.game.player.y + this.game.player.height / 2));
         if (input.indexOf("ArrowDown") !== -1) {
             this.game.player.setState(0, 0);
         }
@@ -46,7 +47,6 @@ export class Running extends State {
         }
         else if (input.indexOf("Enter") !== -1) {
             this.game.player.setState(4, 2);
-            console.log();
         }
         else if (input.indexOf("Enter") !== -1) {
             this.game.player.setState(4, 2);
@@ -77,9 +77,6 @@ export class Jumping extends State {
         else if (input.indexOf("Enter") !== -1) {
             this.game.player.setState(4, 2);
         }
-        else if (input.indexOf("Enter") !== -1 && input.indexOf("ArrowUp")) {
-            this.game.player.setState(4, 2);
-        }
     }
 }
 export class Falling extends State {
@@ -107,6 +104,7 @@ export class Rolling extends State {
         this.game.player.frameY = 6;
     }
     handleInput(input) {
+        this.game.particles.unshift(new Fire(this.game, this.game.player.x + this.game.player.width * 0.5, this.game.player.y + this.game.player.height * 0.5));
         if (input.indexOf("Enter") === -1 && this.game.player.onGround()) {
             this.game.player.setState(1, 1);
         }

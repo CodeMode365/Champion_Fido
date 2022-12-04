@@ -1,5 +1,6 @@
-import { Dust, Particle } from "./Particles.js";
+import { Dust, Particle, Fire } from "./Particles.js";
 import Game from "./game.js";
+import Player from "./player.js";
 
 const enum states {
     SITTING,
@@ -56,7 +57,8 @@ export class Running extends State {
 
     }
     handleInput(input: string[]) {
-        this.game.particles.push(new Dust(this.game, this.game.player.x, this.game.player.y))
+        //adding new particles when running
+        this.game.particles.push(new Dust(this.game, this.game.player.x + this.game.player.width / 2, this.game.player.y + this.game.player.height / 2))
         if (input.indexOf("ArrowDown") !== -1) {
             this.game.player.setState(states.SITTING, 0)
         } else if (input.indexOf("ArrowUp") !== -1) {
@@ -64,7 +66,6 @@ export class Running extends State {
         }
         else if (input.indexOf("Enter") !== -1) {
             this.game.player.setState(states.ROLLING, 2)
-            console.log()
         }
         else if (input.indexOf("Enter") !== -1) {
             this.game.player.setState(states.ROLLING, 2)
@@ -98,9 +99,6 @@ export class Jumping extends State {
         else if (input.indexOf("Enter") !== -1) {
             this.game.player.setState(states.ROLLING, 2)
         }
-        else if (input.indexOf("Enter") !== -1 && input.indexOf("ArrowUp")) {
-            this.game.player.setState(states.ROLLING, 2)
-        }
     }
 
 }
@@ -131,6 +129,9 @@ export class Rolling extends State {
         this.game.player.frameY = 6
     }
     handleInput(input: string[]) {
+        //adding firing particles
+        this.game.particles.unshift(new Fire(this.game, this.game.player.x + this.game.player.width * 0.5, this.game.player.y + this.game.player.height *0.5))
+        //handling user input
         if (input.indexOf("Enter") === -1 && this.game.player.onGround()) {
             this.game.player.setState(states.RUNNING, 1)
         }

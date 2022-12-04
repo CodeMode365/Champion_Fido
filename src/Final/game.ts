@@ -4,7 +4,7 @@ import { Background } from "./background.js"
 import { FlyEnemy, GroundEnemy, ClimbingEnemy, Enemy } from "./Enemy.js"
 import { UI } from "./UI.js"
 import { Sitting, Running, Jumping, Falling, Rolling, State } from "./playerState.js";
-import { Dust, Particle } from "./Particles.js"
+import { Dust, Particle, Fire } from "./Particles.js"
 
 
 export default class Game {
@@ -17,6 +17,7 @@ export default class Game {
     private background: Background
     public maxSpeed = 6
     public score = 0
+    public particles: (Dust | Fire)[] = []
 
     //enemy control
     readonly enemies: Enemy[] = []
@@ -52,14 +53,34 @@ export default class Game {
             enemy.update(deltaTime)
             if (enemy.markedFordDeletion) this.enemies.splice(this.enemies.indexOf(enemy), 1)
         })
+
+        //handle particles
+        this.particles.forEach((particle: Particle, index: number) => {
+            particle.update()
+            if (particle.markedForDeletion) this.particles.splice(index, 1)
+        })
+
+        if (this.particles.length > 70) {
+            this.particles = this.particles.slice(0, 70)
+        }
     }
     draw(ctx: CanvasRenderingContext2D) {
-
+        //draw background
         this.background.draw(ctx)
+        //draw particles
+        this.particles.forEach((particle: Particle, index: number) => {
+            particle.draw(ctx)
+        })
+        //draw palyer
         this.player.draw(ctx)
+
+        //draw enemies
         this.enemies?.forEach((enemy: Enemy) => {
             enemy.draw(ctx)
         })
+
+
+        
         this.UI.draw(ctx)
 
     }
