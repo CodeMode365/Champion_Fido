@@ -1,13 +1,13 @@
 import { Enemy } from "./Enemy.js";
 import Game from "./game.js";
-import { Sitting, Running, Jumping, Falling } from "./playerState.js";
+import { Sitting, Running, Jumping, Falling, Rolling, State } from "./playerState.js";
 
 export default class Player {
     private game: Game
     private width = 100
     private height = 91.3
-    private x = 0
-    private y: number
+    public x = 0
+    public y: number
     private speed = 0
     private maxSpeed = 3
     private weight = 1
@@ -22,16 +22,15 @@ export default class Player {
     private frameTimer = 0
 
     //state helpers
-    private states = [new Sitting(this), new Running(this), new Jumping(this), new Falling(this)]
-    public currentState = this.states[0]
+    public states !: (Sitting | Running | Jumping | Falling | Rolling)[]
+    public currentState ?: (Sitting | Running | Jumping | Falling | Rolling)
 
 
     constructor(game: Game,) {
         this.game = game
+        this.states = [new Sitting(this.game), new Running(this.game), new Jumping(this.game), new Falling(this.game), new Rolling(this.game)]
         this.image.src = "../../assets/finalGame/playerDog.png"
         this.y = this.game.height - this.height - this.game.groundMarin
-        this.currentState?.enter()
-
     }
     update(input: string[], deltaTime: number) {
         //update current state 
@@ -58,7 +57,7 @@ export default class Player {
 
         //framing
         if (this.frameTimer > this.frameInterval) {
-            if (this.frameX <= this.maxFrame) {
+            if (this.frameX < this.maxFrame) {
                 this.frameX++
             } else {
                 this.frameX = 0
@@ -93,7 +92,6 @@ export default class Player {
                 //colide
                 enemy.markedFordDeletion = true
                 this.game.score++
-                console.log("colide")
             } else {
 
             }
