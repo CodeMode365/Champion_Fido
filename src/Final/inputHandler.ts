@@ -18,7 +18,6 @@ export default class InputHandler {
                 "ArrowDown" || e.key == "ArrowUp" || e.key == "ArrowLeft" || e.key == "ArrowRight"|| e.key == "Enter" ) && this.keys.indexOf(e.key) !== -1) {
                 this.keys.splice(this.keys.indexOf(e.key), 1)
             }
-
         }
     }
 

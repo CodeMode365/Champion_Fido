@@ -1,11 +1,11 @@
 import { Enemy } from "./Enemy.js";
 import Game from "./game.js";
-import { Sitting, Running, Jumping, Falling, Rolling, State } from "./playerState.js";
+import { Sitting, Running, Jumping, Falling, Rolling, Diving, Hit, State } from "./playerState.js";
 
 export default class Player {
     private game: Game
-    private width = 100
-    private height = 91.3
+    readonly width = 100
+    readonly height = 91.3
     public x = 0
     public y: number
     private speed = 0
@@ -23,12 +23,12 @@ export default class Player {
 
     //state helpers
     public states !: (Sitting | Running | Jumping | Falling | Rolling)[]
-    public currentState ?: (Sitting | Running | Jumping | Falling | Rolling)
+    public currentState?: (Sitting | Running | Jumping | Falling | Rolling)
 
 
     constructor(game: Game,) {
         this.game = game
-        this.states = [new Sitting(this.game), new Running(this.game), new Jumping(this.game), new Falling(this.game), new Rolling(this.game)]
+        this.states = [new Sitting(this.game), new Running(this.game), new Jumping(this.game), new Falling(this.game), new Rolling(this.game), new Diving(this.game), new Hit(this.game)]
         this.image.src = "../../assets/finalGame/playerDog.png"
         this.y = this.game.height - this.height - this.game.groundMarin
     }
@@ -53,6 +53,7 @@ export default class Player {
         //max vertical movement area
         //vertical movement(jump)
         if (!this.onGround()) this.vY += this.weight
+        else this.vY = 0
 
 
         //framing
@@ -91,9 +92,11 @@ export default class Player {
                 enemy.y + enemy.height > this.y) {
                 //colide
                 enemy.markedFordDeletion = true
-                this.game.score++
-            } else {
-
+                if (this.currentState == this.states[4] || this.currentState === this.states[5]) {
+                    this.game.score++
+                } else {
+                    this.setState(6, 0)
+                }
             }
         })
     }
