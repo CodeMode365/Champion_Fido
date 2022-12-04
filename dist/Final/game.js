@@ -5,6 +5,7 @@ import { FlyEnemy, GroundEnemy, ClimbingEnemy, Enemy } from "./Enemy.js";
 import { UI } from "./UI.js";
 import { Sitting, Running, Jumping, Falling, Rolling, State } from "./playerState.js";
 import { Dust, Particle } from "./Particles.js";
+import { collisionAnimation } from "./collisionAnimation.js";
 export default class Game {
     constructor(width, height) {
         var _a;
@@ -12,11 +13,15 @@ export default class Game {
         this.maxSpeed = 6;
         this.score = 0;
         this.particles = [];
+        this.collisions = [];
         this.enemies = [];
         this.enemyTimer = 0;
         this.enemyInterval = 1000;
         this.debug = true;
         this.fontColor = "black";
+        this.maxTime = 15000;
+        this.time = 0;
+        this.gameOver = false;
         this.groundMarin = 80;
         this.width = width;
         this.height = height;
@@ -29,6 +34,9 @@ export default class Game {
     }
     update(deltaTime) {
         var _a;
+        this.time += deltaTime;
+        if (this.time > this.maxTime)
+            this.gameOver = true;
         this.background.update();
         this.player.update(this.input.keys, deltaTime);
         if (this.enemyTimer > this.enemyInterval) {
@@ -51,6 +59,11 @@ export default class Game {
         if (this.particles.length > 70) {
             this.particles = this.particles.slice(0, 70);
         }
+        this.collisions.forEach((collision, index) => {
+            collision.update(deltaTime);
+            if (collision.markedForDeletion)
+                this.collisions.splice(index, 1);
+        });
     }
     draw(ctx) {
         var _a;
@@ -61,6 +74,9 @@ export default class Game {
         this.player.draw(ctx);
         (_a = this.enemies) === null || _a === void 0 ? void 0 : _a.forEach((enemy) => {
             enemy.draw(ctx);
+        });
+        this.collisions.forEach((collision, index) => {
+            collision.draw(ctx);
         });
         this.UI.draw(ctx);
         this.UI.draw(ctx);

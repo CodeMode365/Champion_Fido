@@ -1,5 +1,6 @@
 import { Enemy } from "./Enemy.js";
 import Game from "./game.js";
+import { collisionAnimation } from "./collisionAnimation.js";
 import { Sitting, Running, Jumping, Falling, Rolling, Diving, Hit, State } from "./playerState.js";
 export default class Player {
     constructor(game) {
@@ -26,9 +27,9 @@ export default class Player {
         var _a;
         (_a = this.currentState) === null || _a === void 0 ? void 0 : _a.handleInput(input);
         this.x += this.speed;
-        if (input.indexOf('ArrowRight') !== -1)
+        if (input.indexOf('ArrowRight') !== -1 && this.currentState !== this.states[6])
             this.speed = this.maxSpeed;
-        else if (input.indexOf('ArrowLeft') != -1)
+        else if (input.indexOf('ArrowLeft') != -1 && this.currentState !== this.states[6])
             this.speed = -this.maxSpeed;
         else
             this.speed = 0;
@@ -80,6 +81,7 @@ export default class Player {
                 enemy.y < this.y + this.height &&
                 enemy.y + enemy.height > this.y) {
                 enemy.markedFordDeletion = true;
+                this.game.collisions.push(new collisionAnimation(this.game, enemy.x + enemy.width / 2, enemy.y + enemy.height / 2));
                 if (this.currentState == this.states[4] || this.currentState === this.states[5]) {
                     this.game.score++;
                 }

@@ -1,5 +1,6 @@
 import { Enemy } from "./Enemy.js";
 import Game from "./game.js";
+import { collisionAnimation } from "./collisionAnimation.js";
 import { Sitting, Running, Jumping, Falling, Rolling, Diving, Hit, State } from "./playerState.js";
 
 export default class Player {
@@ -21,6 +22,7 @@ export default class Player {
     private frameInterval = 1000 / this.fps
     private frameTimer = 0
 
+
     //state helpers
     public states !: (Sitting | Running | Jumping | Falling | Rolling)[]
     public currentState?: (Sitting | Running | Jumping | Falling | Rolling)
@@ -38,8 +40,9 @@ export default class Player {
 
         //player movement
         this.x += this.speed
-        if (input.indexOf('ArrowRight') !== -1) this.speed = this.maxSpeed
-        else if (input.indexOf('ArrowLeft') != -1) this.speed = -this.maxSpeed
+        if (input.indexOf('ArrowRight') !== -1 && this.currentState !== this.states[6]) this.speed = this.maxSpeed
+        else if (input.indexOf('ArrowLeft') != -1 && this.currentState !== this.states[6]) this.speed = -this.maxSpeed
+        //stop player movent when get hit
         else this.speed = 0
 
         //max horizontal movement area
@@ -86,12 +89,15 @@ export default class Player {
     }
     checkCollision() {
         this.game.enemies.forEach((enemy: Enemy) => {
+
             if (enemy.x < this.x + this.width &&
                 enemy.x + enemy.width > this.x &&
                 enemy.y < this.y + this.height &&
                 enemy.y + enemy.height > this.y) {
                 //colide
                 enemy.markedFordDeletion = true
+                this.game.collisions.push(new collisionAnimation(this.game, enemy.x + enemy.width / 2, enemy.y + enemy.height / 2)
+                )
                 if (this.currentState == this.states[4] || this.currentState === this.states[5]) {
                     this.game.score++
                 } else {

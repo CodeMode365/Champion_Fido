@@ -194,13 +194,9 @@ export class Hit extends State {
     handleInput(input: string[]) {
 
         //handling user input
-        if (this.game.player.frameX >= 10 && this.game.player.onGround()) {
-            console.log('ground mo')
-
+        if ((this.game.player.frameX >= 10) && (this.game.player.onGround())) {
             this.game.player.setState(states.RUNNING, 1)
-
         } else if (this.game.player.frameX >= 10 && !this.game.player.onGround()) {
-            console.log('fall mo')
             this.game.player.setState(states.FALLING, 1)
         }
 

@@ -16,9 +16,9 @@ window.onload = () => {
         const deltaTime = timeStamp - lastTime
         lastTime = timeStamp
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        game.draw(ctx)
         game.update(deltaTime)
-        requestAnimationFrame(animate)
+        if (!game.gameOver) requestAnimationFrame(animate)
+        game.draw(ctx)
     }
     animate(0)
 }

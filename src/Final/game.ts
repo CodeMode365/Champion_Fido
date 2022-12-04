@@ -5,7 +5,7 @@ import { FlyEnemy, GroundEnemy, ClimbingEnemy, Enemy } from "./Enemy.js"
 import { UI } from "./UI.js"
 import { Sitting, Running, Jumping, Falling, Rolling, State } from "./playerState.js";
 import { Dust, Particle } from "./Particles.js"
-
+import { collisionAnimation } from "./collisionAnimation.js"
 
 export default class Game {
     public player: Player
@@ -18,6 +18,7 @@ export default class Game {
     public maxSpeed = 6
     public score = 0
     public particles: Particle[] = []
+    public collisions: collisionAnimation[] = []
 
     //enemy control
     readonly enemies: Enemy[] = []
@@ -26,6 +27,11 @@ export default class Game {
     public debug = true
     public fontColor = "black"
     private UI: UI
+
+    //gaming variables
+    public maxTime = 15000
+    public time = 0
+    public gameOver = false
 
     constructor(width: number, height: number) {
         this.groundMarin = 80
@@ -39,6 +45,11 @@ export default class Game {
         this.player.currentState?.enter()
     }
     update(deltaTime: number) {
+        this.time += deltaTime
+        //gameOVer count
+        if (this.time > this.maxTime) this.gameOver = true
+
+
         this.background.update()
         this.player.update(this.input.keys, deltaTime)
         //handle enemies
@@ -63,6 +74,11 @@ export default class Game {
         if (this.particles.length > 70) {
             this.particles = this.particles.slice(0, 70)
         }
+        //handle collision animation
+        this.collisions.forEach((collision: collisionAnimation, index: number) => {
+            collision.update(deltaTime);
+            if (collision.markedForDeletion) this.collisions.splice(index, 1)
+        })
     }
     draw(ctx: CanvasRenderingContext2D) {
         //draw background
@@ -78,10 +94,12 @@ export default class Game {
         this.enemies?.forEach((enemy: Enemy) => {
             enemy.draw(ctx)
         })
+        //draw the collision animation
+        this.collisions.forEach((collision: collisionAnimation, index: number) => {
+            collision.draw(ctx)
+        })
+
         this.UI.draw(ctx)
-
-
-
         this.UI.draw(ctx)
 
     }
