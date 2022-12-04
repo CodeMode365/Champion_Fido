@@ -16,7 +16,7 @@ export class collisionAnimation {
         this.width = this.spriteWidth + this.sizeModifier;
         this.height = this.spriteHeight + this.sizeModifier;
         this.x = x - this.width + 0.5;
-        this.y = y - this.width * 0.5;
+        this.y = y - this.height * 0.5;
     }
     draw(ctx) {
         ctx.drawImage(this.image, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);

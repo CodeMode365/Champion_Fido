@@ -19,6 +19,7 @@ export default class Game {
     public score = 0
     public particles: Particle[] = []
     public collisions: collisionAnimation[] = []
+    private maxParticles = 70
 
     //enemy control
     readonly enemies: Enemy[] = []
@@ -32,6 +33,7 @@ export default class Game {
     public maxTime = 15000
     public time = 0
     public gameOver = false
+
 
     constructor(width: number, height: number) {
         this.groundMarin = 80
@@ -71,8 +73,8 @@ export default class Game {
             if (particle.markedForDeletion) this.particles.splice(index, 1)
         })
 
-        if (this.particles.length > 70) {
-            this.particles = this.particles.slice(0, 70)
+        if (this.particles.length > this.maxParticles) {
+            this.particles.length = this.maxParticles
         }
         //handle collision animation
         this.collisions.forEach((collision: collisionAnimation, index: number) => {

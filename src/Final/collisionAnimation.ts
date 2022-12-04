@@ -25,7 +25,7 @@ export class collisionAnimation {
         this.width = this.spriteWidth + this.sizeModifier
         this.height = this.spriteHeight + this.sizeModifier
         this.x = x - this.width + 0.5
-        this.y = y - this.width * 0.5
+        this.y = y - this.height * 0.5
     }
     draw(ctx: CanvasRenderingContext2D) {
         //draw the animation

@@ -146,7 +146,7 @@ export class Rolling extends State {
         }
         else if (input.indexOf("Enter") !== -1 && input.indexOf("ArrowUp") !== -1 && this.game.player.onGround()) {
             this.game.player.vY -= 27
-        } else if (input.indexOf("ArrowDown") !== -1) {
+        } else if (input.indexOf("ArrowDown") !== -1 && !this.game.player.onGround()) {
             this.game.player.setState(states.DIVING, 0)
         }
 
@@ -160,7 +160,7 @@ export class Diving extends State {
     }
     enter() {
         this.game.player.frameX = 0
-        this.game.player.maxFrame = 6
+        this.game.player.maxFrame = 8
         this.game.player.frameY = 6
         this.game.player.vY = 15
     }

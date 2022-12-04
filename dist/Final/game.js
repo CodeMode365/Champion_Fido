@@ -14,6 +14,7 @@ export default class Game {
         this.score = 0;
         this.particles = [];
         this.collisions = [];
+        this.maxParticles = 70;
         this.enemies = [];
         this.enemyTimer = 0;
         this.enemyInterval = 1000;
@@ -56,8 +57,8 @@ export default class Game {
             if (particle.markedForDeletion)
                 this.particles.splice(index, 1);
         });
-        if (this.particles.length > 70) {
-            this.particles = this.particles.slice(0, 70);
+        if (this.particles.length > this.maxParticles) {
+            this.particles.length = this.maxParticles;
         }
         this.collisions.forEach((collision, index) => {
             collision.update(deltaTime);
