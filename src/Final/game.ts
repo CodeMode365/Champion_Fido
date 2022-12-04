@@ -4,7 +4,7 @@ import { Background } from "./background.js"
 import { FlyEnemy, GroundEnemy, ClimbingEnemy, Enemy } from "./Enemy.js"
 import { UI } from "./UI.js"
 import { Sitting, Running, Jumping, Falling, Rolling, State } from "./playerState.js";
-import { Dust, Particle, Fire } from "./Particles.js"
+import { Dust, Particle } from "./Particles.js"
 
 
 export default class Game {
@@ -17,7 +17,7 @@ export default class Game {
     private background: Background
     public maxSpeed = 6
     public score = 0
-    public particles: (Dust | Fire)[] = []
+    public particles: Particle[] = []
 
     //enemy control
     readonly enemies: Enemy[] = []
@@ -78,9 +78,10 @@ export default class Game {
         this.enemies?.forEach((enemy: Enemy) => {
             enemy.draw(ctx)
         })
+        this.UI.draw(ctx)
 
 
-        
+
         this.UI.draw(ctx)
 
     }

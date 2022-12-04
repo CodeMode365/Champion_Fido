@@ -4,8 +4,8 @@ import { Sitting, Running, Jumping, Falling, Rolling, State } from "./playerStat
 
 export default class Player {
     private game: Game
-    readonly width = 100
-    readonly height = 91.3
+    private width = 100
+    private height = 91.3
     public x = 0
     public y: number
     private speed = 0

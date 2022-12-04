@@ -4,7 +4,7 @@ import { Background } from "./background.js";
 import { FlyEnemy, GroundEnemy, ClimbingEnemy, Enemy } from "./Enemy.js";
 import { UI } from "./UI.js";
 import { Sitting, Running, Jumping, Falling, Rolling, State } from "./playerState.js";
-import { Dust, Particle, Fire } from "./Particles.js";
+import { Dust, Particle } from "./Particles.js";
 export default class Game {
     constructor(width, height) {
         var _a;
@@ -62,6 +62,7 @@ export default class Game {
         (_a = this.enemies) === null || _a === void 0 ? void 0 : _a.forEach((enemy) => {
             enemy.draw(ctx);
         });
+        this.UI.draw(ctx);
         this.UI.draw(ctx);
     }
     addEnemy() {
