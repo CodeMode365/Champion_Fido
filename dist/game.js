@@ -6,6 +6,7 @@ import { UI } from "./UI.js";
 import { Sitting, Running, Jumping, Falling, Rolling, State } from "./playerState.js";
 import { Dust, Particle } from "./Particles.js";
 import { collisionAnimation } from "./collisionAnimation.js";
+import { FloatingMsg } from "./floatingMsg.js";
 export default class Game {
     constructor(width, height) {
         var _a;
@@ -16,6 +17,8 @@ export default class Game {
         this.collisions = [];
         this.maxParticles = 70;
         this.playerLives = new Image();
+        this.lives = 5;
+        this.floatingMessage = [];
         this.enemies = [];
         this.enemyTimer = 0;
         this.enemyInterval = 1000;
@@ -50,9 +53,8 @@ export default class Game {
         }
         (_a = this.enemies) === null || _a === void 0 ? void 0 : _a.forEach((enemy) => {
             enemy.update(deltaTime);
-            if (enemy.markedFordDeletion)
-                this.enemies.splice(this.enemies.indexOf(enemy), 1);
         });
+        this.enemies = this.enemies.filter((enemy) => !enemy.markedFordDeletion);
         this.particles.forEach((particle, index) => {
             particle.update();
             if (particle.markedForDeletion)
@@ -66,6 +68,14 @@ export default class Game {
             if (collision.markedForDeletion)
                 this.collisions.splice(index, 1);
         });
+        this.floatingMessage.forEach((message, index) => {
+            message.update();
+        });
+        this.floatingMessage = this.floatingMessage.filter((message) => !message.markedForDeletion);
+        console.log(this.particles);
+        console.log(this.enemies);
+        console.log(this.collisions);
+        console.log(this.floatingMessage);
     }
     draw(ctx) {
         var _a;
@@ -79,6 +89,9 @@ export default class Game {
         });
         this.collisions.forEach((collision, index) => {
             collision.draw(ctx);
+        });
+        this.floatingMessage.forEach((message) => {
+            message.draw(ctx);
         });
         this.UI.draw(ctx);
         this.UI.draw(ctx);

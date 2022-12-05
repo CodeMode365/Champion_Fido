@@ -44,11 +44,16 @@ export class Background {
     private backgroundLayers: Layer[]
     constructor(game: Game) {
         this.game = game
-        this.layer1image.src = "../../assets/finalGame/clayer-1.png"
-        this.layer2image.src = "../../assets/finalGame/clayer-2.png"
-        this.layer3image.src = "../../assets/finalGame/clayer-3.png"
-        this.layer4image.src = "../../assets/finalGame/clayer-4.png"
-        this.layer5image.src = "../../assets/finalGame/clayer-5.png"
+        this.layer1image.src = "../../assets/finalGame/flayer-1.png"
+        this.layer2image.src = "../../assets/finalGame/flayer-2.png"
+        this.layer3image.src = "../../assets/finalGame/flayer-3.png"
+        this.layer4image.src = "../../assets/finalGame/flayer-4.png"
+        this.layer5image.src = "../../assets/finalGame/flayer-5.png"
+        // this.layer1image.src = "../../assets/finalGame/clayer-1.png"
+        // this.layer2image.src = "../../assets/finalGame/clayer-2.png"
+        // this.layer3image.src = "../../assets/finalGame/clayer-3.png"
+        // this.layer4image.src = "../../assets/finalGame/clayer-4.png"
+        // this.layer5image.src = "../../assets/finalGame/clayer-5.png"
         this.layer1 = new Layer(this.game, this.width, this.height, 0.1, this.layer1image)
         this.layer2 = new Layer(this.game, this.width, this.height, 0.2, this.layer2image)
         this.layer3 = new Layer(this.game, this.width, this.height, 0.4, this.layer3image)

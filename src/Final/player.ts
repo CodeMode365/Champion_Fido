@@ -2,6 +2,7 @@ import { Enemy } from "./Enemy.js";
 import Game from "./game.js";
 import { collisionAnimation } from "./collisionAnimation.js";
 import { Sitting, Running, Jumping, Falling, Rolling, Diving, Hit, State } from "./playerState.js";
+import { FloatingMsg } from "./floatingMsg.js";
 
 export default class Player {
     private game: Game
@@ -100,8 +101,11 @@ export default class Player {
                 )
                 if (this.currentState == this.states[4] || this.currentState === this.states[5]) {
                     this.game.score++
+                    this.game.floatingMessage.push(new FloatingMsg('+1', enemy.x, enemy.y, 150, 50))
                 } else {
                     this.setState(6, 0)
+                    this.game.lives--
+                    if (this.game.lives <= 0) this.game.gameOver = true
                 }
             }
         })

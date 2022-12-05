@@ -6,6 +6,7 @@ import { UI } from "./UI.js"
 import { Sitting, Running, Jumping, Falling, Rolling, State } from "./playerState.js";
 import { Dust, Particle } from "./Particles.js"
 import { collisionAnimation } from "./collisionAnimation.js"
+import { FloatingMsg } from "./floatingMsg.js"
 
 export default class Game {
     public player: Player
@@ -20,10 +21,12 @@ export default class Game {
     public particles: Particle[] = []
     public collisions: collisionAnimation[] = []
     private maxParticles = 70
-    public playerLives= new Image()
+    public playerLives = new Image()
+    public lives = 5
+    public floatingMessage: FloatingMsg[] = []
 
     //enemy control
-    readonly enemies: Enemy[] = []
+    public enemies: Enemy[] = []
     private enemyTimer = 0
     private enemyInterval = 1000
     public debug = true
@@ -65,8 +68,8 @@ export default class Game {
 
         this.enemies?.forEach((enemy: Enemy) => {
             enemy.update(deltaTime)
-            if (enemy.markedFordDeletion) this.enemies.splice(this.enemies.indexOf(enemy), 1)
         })
+        this.enemies = this.enemies.filter((enemy: Enemy) => !enemy.markedFordDeletion)
 
         //handle particles
         this.particles.forEach((particle: Particle, index: number) => {
@@ -82,6 +85,18 @@ export default class Game {
             collision.update(deltaTime);
             if (collision.markedForDeletion) this.collisions.splice(index, 1)
         })
+
+        //update increasing score
+        this.floatingMessage.forEach((message: FloatingMsg, index: number) => {
+            message.update();
+        })
+        this.floatingMessage = this.floatingMessage.filter((message: FloatingMsg) =>
+            !message.markedForDeletion)
+
+              console.log(this.particles)
+            console.log(this.enemies)
+            console.log(this.collisions)
+            console.log(this.floatingMessage)
     }
     draw(ctx: CanvasRenderingContext2D) {
         //draw background
@@ -100,6 +115,11 @@ export default class Game {
         //draw the collision animation
         this.collisions.forEach((collision: collisionAnimation, index: number) => {
             collision.draw(ctx)
+        })
+
+        //draw increains score
+        this.floatingMessage.forEach((message: FloatingMsg) => {
+            message.draw(ctx);
         })
 
         this.UI.draw(ctx)
