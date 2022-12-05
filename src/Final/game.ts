@@ -24,6 +24,7 @@ export default class Game {
     public playerLives = new Image()
     public lives = 5
     public floatingMessage: FloatingMsg[] = []
+    public targetScore=40
 
     //enemy control
     public enemies: Enemy[] = []
@@ -34,7 +35,7 @@ export default class Game {
     private UI: UI
 
     //gaming variables
-    public maxTime = 15000
+    public maxTime = 30000
     public time = 0
     public gameOver = false
 

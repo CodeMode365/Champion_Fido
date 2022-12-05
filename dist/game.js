@@ -19,12 +19,13 @@ export default class Game {
         this.playerLives = new Image();
         this.lives = 5;
         this.floatingMessage = [];
+        this.targetScore = 40;
         this.enemies = [];
         this.enemyTimer = 0;
         this.enemyInterval = 1000;
         this.debug = true;
         this.fontColor = "black";
-        this.maxTime = 15000;
+        this.maxTime = 30000;
         this.time = 0;
         this.gameOver = false;
         this.groundMarin = 80;

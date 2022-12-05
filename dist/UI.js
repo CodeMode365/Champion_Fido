@@ -26,7 +26,7 @@ export class UI {
         if (this.game.gameOver) {
             ctx.save();
             ctx.textAlign = "center";
-            if (this.game.score > 5) {
+            if (this.game.score > this.game.targetScore) {
                 ctx.fillStyle = "Green";
                 ctx.font = this.fontSize * 2 + "px " + this.fontFamily1;
                 ctx.fillText('Boo-yah', this.game.width * 0.5 - this.fontSize / 2, this.game.height * 0.5 - this.fontSize / 2);
