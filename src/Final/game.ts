@@ -20,6 +20,7 @@ export default class Game {
     public particles: Particle[] = []
     public collisions: collisionAnimation[] = []
     private maxParticles = 70
+    public playerLives= new Image()
 
     //enemy control
     readonly enemies: Enemy[] = []
