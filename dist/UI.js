@@ -6,14 +6,10 @@ export class UI {
         this.fontFamily2 = "Bangers";
         this.lives = new Image();
         this.game = game;
-        this.lives.src = "../../assets/finalGame/lives.png";
+        this.lives.src = "../assets/others/lives.png";
     }
     draw(ctx) {
         ctx.save();
-        ctx.shadowOffsetX = 2;
-        ctx.shadowOffsetY = 2;
-        ctx.shadowColor = 'white';
-        ctx.shadowBlur = 0;
         ctx.font = this.fontSize + "px" + this.fontFamily1;
         ctx.textAlign = "left";
         ctx.fillStyle = this.game.fontColor;
@@ -27,7 +23,7 @@ export class UI {
             ctx.save();
             ctx.textAlign = "center";
             if (this.game.score > this.game.targetScore) {
-                ctx.fillStyle = "Green";
+                ctx.fillStyle = "Black";
                 ctx.font = this.fontSize * 2 + "px " + this.fontFamily1;
                 ctx.fillText('Boo-yah', this.game.width * 0.5 - this.fontSize / 2, this.game.height * 0.5 - this.fontSize / 2);
                 ctx.font = this.fontSize * .5 + "px " + this.fontFamily1;

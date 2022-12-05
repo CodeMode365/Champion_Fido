@@ -21,7 +21,7 @@ export default class Player {
         this.frameTimer = 0;
         this.game = game;
         this.states = [new Sitting(this.game), new Running(this.game), new Jumping(this.game), new Falling(this.game), new Rolling(this.game), new Diving(this.game), new Hit(this.game)];
-        this.image.src = "../../assets/finalGame/playerDog.png";
+        this.image.src = "../assets/others/playerDog.png";
         this.y = this.game.height - this.height - this.game.groundMarin;
     }
     update(input, deltaTime) {

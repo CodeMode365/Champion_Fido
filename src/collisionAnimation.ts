@@ -20,7 +20,7 @@ export class collisionAnimation {
     private frameTimer = 0
     constructor(game: Game, x: number, y: number) {
         this.game = game
-        this.image.src = "../../assets/finalGame/boom.png"
+        this.image.src = "../assets/others/boom.png"
         this.sizeModifier = Math.random() + 0.5
         this.width = this.spriteWidth + this.sizeModifier
         this.height = this.spriteHeight + this.sizeModifier

@@ -23,7 +23,7 @@ export default class Game {
         this.enemies = [];
         this.enemyTimer = 0;
         this.enemyInterval = 1000;
-        this.debug = true;
+        this.debug = false;
         this.fontColor = "black";
         this.maxTime = 30000;
         this.time = 0;
@@ -73,10 +73,6 @@ export default class Game {
             message.update();
         });
         this.floatingMessage = this.floatingMessage.filter((message) => !message.markedForDeletion);
-        console.log(this.particles);
-        console.log(this.enemies);
-        console.log(this.collisions);
-        console.log(this.floatingMessage);
     }
     draw(ctx) {
         var _a;

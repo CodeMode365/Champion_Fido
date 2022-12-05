@@ -53,7 +53,7 @@ export class Splash extends Particle {
         this.y = y - this.size * 0.5
         this.speedX = Math.random() * 6 - 3
         this.speedY = Math.random() * 2 + 2
-        this.image.src = "../../assets/finalGame/fire.png"
+        this.image.src = "../assets/others/fire.png"
         this.gravity = 0
 
     }
@@ -79,7 +79,7 @@ export class Fire extends Particle {
         this.speedY = 1
         this.angle = 0
         this.size = Math.random() * 100 + 50
-        this.image.src = "../../assets/finalGame/fire.png"
+        this.image.src = "../assets/others/fire.png"
         this.verticalAngle = Math.random() * 0.2 - 0.1
 
     }

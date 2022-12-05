@@ -30,7 +30,7 @@ export default class Game {
     public enemies: Enemy[] = []
     private enemyTimer = 0
     private enemyInterval = 1000
-    public debug = true
+    public debug = false
     public fontColor = "black"
     private UI: UI
 
@@ -94,10 +94,6 @@ export default class Game {
         this.floatingMessage = this.floatingMessage.filter((message: FloatingMsg) =>
             !message.markedForDeletion)
 
-              console.log(this.particles)
-            console.log(this.enemies)
-            console.log(this.collisions)
-            console.log(this.floatingMessage)
     }
     draw(ctx: CanvasRenderingContext2D) {
         //draw background

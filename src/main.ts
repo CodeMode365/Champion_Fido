@@ -4,7 +4,7 @@ window.onload = () => {
     const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
 
     canvas.height = 500;
-    canvas.width = 500;
+    canvas.width = 900;
 
     const game = new Game(canvas.width, canvas.height)
     let lastTime = 0

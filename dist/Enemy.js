@@ -44,7 +44,7 @@ export class FlyEnemy extends Enemy {
         this.speedX = Math.random() + 1;
         this.speedY = 0;
         this.maxFrame = 5;
-        this.image.src = "../../assets/finalGame/enemy_fly.png";
+        this.image.src = "../assets/enemies/enemy_fly.png";
         this.angle = 0;
         this.verticalAngle = Math.random() * 0.1 + 0.1;
     }
@@ -62,7 +62,7 @@ export class GroundEnemy extends Enemy {
         this.height = 87;
         this.x = this.game.width;
         this.y = this.game.height - this.height - this.game.groundMarin;
-        this.image.src = "../../assets/finalGame/enemy_plant.png";
+        this.image.src = "../assets/enemies/enemy_plant.png";
         this.speedX = 0;
         this.speedY = 0;
         this.maxFrame = 1;
@@ -80,7 +80,7 @@ export class ClimbingEnemy extends Enemy {
         this.height = 144;
         this.x = this.game.width;
         this.y = Math.random() * this.game.height * 0.5;
-        this.image.src = "../../assets/finalGame/enemy_spider_big.png";
+        this.image.src = "../assets/enemies/enemy_spider_big.png";
         this.speedX = 0;
         this.speedY = Math.random() > 0.5 ? 1 : -1;
         this.maxFrame = 5;
