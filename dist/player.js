@@ -19,6 +19,7 @@ export default class Player {
         this.fps = 20;
         this.frameInterval = 1000 / this.fps;
         this.frameTimer = 0;
+        this.Music = new Audio();
         this.game = game;
         this.states = [new Sitting(this.game), new Running(this.game), new Jumping(this.game), new Falling(this.game), new Rolling(this.game), new Diving(this.game), new Hit(this.game)];
         this.image.src = "../assets/others/playerDog.png";
@@ -84,8 +85,10 @@ export default class Player {
                 enemy.markedFordDeletion = true;
                 this.game.collisions.push(new collisionAnimation(this.game, enemy.x + enemy.width / 2, enemy.y + enemy.height / 2));
                 if (this.currentState == this.states[4] || this.currentState === this.states[5]) {
+                    this.Music.src = "../assets/musics/attackFly.mp3";
                     this.game.score++;
                     this.game.floatingMessage.push(new FloatingMsg('+1', enemy.x, enemy.y, 150, 50));
+                    this.Music.play();
                 }
                 else {
                     this.setState(6, 0);

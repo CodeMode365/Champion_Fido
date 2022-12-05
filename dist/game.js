@@ -20,6 +20,7 @@ export default class Game {
         this.lives = 5;
         this.floatingMessage = [];
         this.targetScore = 40;
+        this.Music = new Audio();
         this.enemies = [];
         this.enemyTimer = 0;
         this.enemyInterval = 1000;

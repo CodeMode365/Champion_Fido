@@ -25,7 +25,6 @@ export default class Game {
     public lives = 5
     public floatingMessage: FloatingMsg[] = []
     public targetScore=40
-
     //enemy control
     public enemies: Enemy[] = []
     private enemyTimer = 0
