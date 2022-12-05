@@ -23,7 +23,7 @@ export class Sitting extends State {
         if (input.indexOf("ArrowLeft") !== -1 || input.indexOf("ArrowRight") !== -1) {
             this.game.player.setState(1, 1);
         }
-        else if (input.indexOf("Enter") !== -1) {
+        else if (input.indexOf(" ") !== -1) {
             this.game.player.setState(4, 2);
         }
     }
@@ -45,10 +45,10 @@ export class Running extends State {
         else if (input.indexOf("ArrowUp") !== -1) {
             this.game.player.setState(2, 1);
         }
-        else if (input.indexOf("Enter") !== -1) {
+        else if (input.indexOf(" ") !== -1) {
             this.game.player.setState(4, 2);
         }
-        else if (input.indexOf("Enter") !== -1) {
+        else if (input.indexOf(" ") !== -1) {
             this.game.player.setState(4, 2);
         }
     }
@@ -71,10 +71,10 @@ export class Jumping extends State {
         if (input.indexOf("ArrowUp") !== -1) {
             this.game.player.setState(2, 1);
         }
-        else if (input.indexOf("Enter") !== -1) {
+        else if (input.indexOf(" ") !== -1) {
             this.game.player.setState(4, 2);
         }
-        else if (input.indexOf("Enter") !== -1) {
+        else if (input.indexOf(" ") !== -1) {
             this.game.player.setState(4, 2);
         }
         else if (input.indexOf("ArrowDown") !== -1) {
@@ -111,13 +111,13 @@ export class Rolling extends State {
     }
     handleInput(input) {
         this.game.particles.unshift(new Fire(this.game, this.game.player.x + this.game.player.width * 0.5, this.game.player.y + this.game.player.height * 0.5));
-        if (input.indexOf("Enter") === -1 && this.game.player.onGround()) {
+        if (input.indexOf(" ") === -1 && this.game.player.onGround()) {
             this.game.player.setState(1, 1);
         }
-        else if (input.indexOf("Enter") === -1 && !this.game.player.onGround()) {
+        else if (input.indexOf(" ") === -1 && !this.game.player.onGround()) {
             this.game.player.setState(3, 1);
         }
-        else if (input.indexOf("Enter") !== -1 && input.indexOf("ArrowUp") !== -1 && this.game.player.onGround()) {
+        else if (input.indexOf(" ") !== -1 && input.indexOf("ArrowUp") !== -1 && this.game.player.onGround()) {
             this.game.player.vY -= 27;
         }
         else if (input.indexOf("ArrowDown") !== -1 && !this.game.player.onGround()) {
