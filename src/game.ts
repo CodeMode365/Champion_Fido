@@ -3,10 +3,10 @@ import InputHandler from "./inputHandler.js"
 import { Background } from "./background.js"
 import { FlyEnemy, GroundEnemy, ClimbingEnemy, Enemy } from "./Enemy.js"
 import { UI } from "./UI.js"
-import { Sitting, Running, Jumping, Falling, Rolling, State } from "./playerState.js";
 import { Dust, Particle } from "./Particles.js"
 import { collisionAnimation } from "./collisionAnimation.js"
 import { FloatingMsg } from "./floatingMsg.js"
+import { Items, Boost, Life } from "./Items.js"
 
 export default class Game {
     public player: Player
@@ -25,10 +25,11 @@ export default class Game {
     public lives = 5
     public floatingMessage: FloatingMsg[] = []
     public targetScore = 40
+    public items !: Items
     //enemy control
     public enemies: Enemy[] = []
     private enemyTimer = 0
-    private enemyInterval =3000
+    private enemyInterval = 3000
     public debug = false
     public fontColor = "black"
     private UI: UI
@@ -75,11 +76,17 @@ export default class Game {
         } else {
             this.enemyTimer += deltaTime
         }
+        this.addItems()
 
         this.enemies?.forEach((enemy: Enemy) => {
             enemy.update(deltaTime)
         })
         this.enemies = this.enemies.filter((enemy: Enemy) => !enemy.markedFordDeletion)
+
+        if (this.items) {
+
+            this.items.update()
+        }
 
         //handle particles
         this.particles.forEach((particle: Particle, index: number) => {
@@ -102,7 +109,6 @@ export default class Game {
         })
         this.floatingMessage = this.floatingMessage.filter((message: FloatingMsg) =>
             !message.markedForDeletion)
-
     }
     draw(ctx: CanvasRenderingContext2D) {
         //draw background
@@ -137,6 +143,10 @@ export default class Game {
             message.draw(ctx);
         })
 
+        if (this.items) {
+            this.items.draw(ctx)
+        }
+
         this.UI.draw(ctx)
         this.UI.draw(ctx)
 
@@ -149,5 +159,10 @@ export default class Game {
             this.speed > 0
         ) this.enemies.push(new ClimbingEnemy(this))
         this.enemies.push(new FlyEnemy(this))
+    }
+    addItems() {
+        if (this.score === 1) {
+            this.items = new Life(this)
+        }
     }
 }

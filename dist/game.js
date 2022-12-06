@@ -3,10 +3,10 @@ import InputHandler from "./inputHandler.js";
 import { Background } from "./background.js";
 import { FlyEnemy, GroundEnemy, ClimbingEnemy, Enemy } from "./Enemy.js";
 import { UI } from "./UI.js";
-import { Sitting, Running, Jumping, Falling, Rolling, State } from "./playerState.js";
 import { Dust, Particle } from "./Particles.js";
 import { collisionAnimation } from "./collisionAnimation.js";
 import { FloatingMsg } from "./floatingMsg.js";
+import { Items, Boost, Life } from "./Items.js";
 export default class Game {
     constructor(width, height) {
         var _a;
@@ -59,10 +59,14 @@ export default class Game {
         else {
             this.enemyTimer += deltaTime;
         }
+        this.addItems();
         (_a = this.enemies) === null || _a === void 0 ? void 0 : _a.forEach((enemy) => {
             enemy.update(deltaTime);
         });
         this.enemies = this.enemies.filter((enemy) => !enemy.markedFordDeletion);
+        if (this.items) {
+            this.items.update();
+        }
         this.particles.forEach((particle, index) => {
             particle.update();
             if (particle.markedForDeletion)
@@ -103,6 +107,9 @@ export default class Game {
         this.floatingMessage.forEach((message) => {
             message.draw(ctx);
         });
+        if (this.items) {
+            this.items.draw(ctx);
+        }
         this.UI.draw(ctx);
         this.UI.draw(ctx);
     }
@@ -112,5 +119,10 @@ export default class Game {
         else if (this.speed > 0)
             this.enemies.push(new ClimbingEnemy(this));
         this.enemies.push(new FlyEnemy(this));
+    }
+    addItems() {
+        if (this.score === 1) {
+            this.items = new Life(this);
+        }
     }
 }

@@ -99,3 +99,4 @@ export class Fire extends Particle {
     }
 
 }
+
