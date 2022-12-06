@@ -155,8 +155,10 @@ export class Rolling extends State {
 
 }
 export class Diving extends State {
+    private music = new Audio()
     constructor(game: Game) {
         super("DIVING", game)
+        this.music.src = "../assets/musics//bang.wav"
     }
     enter() {
         this.game.player.frameX = 0
@@ -171,6 +173,7 @@ export class Diving extends State {
         //handling user input
         if (this.game.player.onGround()) {
 
+            this.music.play()
             this.game.player.setState(states.RUNNING, 1)
             for (let i = 0; i < 40; i++) {
                 this.game.particles.unshift(new Splash(this.game, this.game.player.x + this.game.player.width / 2, this.game.player.y + this.game.player.height))

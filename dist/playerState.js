@@ -128,6 +128,8 @@ export class Rolling extends State {
 export class Diving extends State {
     constructor(game) {
         super("DIVING", game);
+        this.music = new Audio();
+        this.music.src = "../assets/musics//bang.wav";
     }
     enter() {
         this.game.player.frameX = 0;
@@ -138,6 +140,7 @@ export class Diving extends State {
     handleInput(input) {
         this.game.particles.unshift(new Fire(this.game, this.game.player.x + this.game.player.width * 0.5, this.game.player.y + this.game.player.height * 0.5));
         if (this.game.player.onGround()) {
+            this.music.play();
             this.game.player.setState(1, 1);
             for (let i = 0; i < 40; i++) {
                 this.game.particles.unshift(new Splash(this.game, this.game.player.x + this.game.player.width / 2, this.game.player.y + this.game.player.height));

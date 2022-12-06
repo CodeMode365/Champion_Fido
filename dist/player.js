@@ -91,6 +91,8 @@ export default class Player {
                     this.Music.play();
                 }
                 else {
+                    this.Music.src = "../assets/musics/getHit.wav";
+                    this.Music.play();
                     this.setState(6, 0);
                     this.game.lives--;
                     if (this.game.lives <= 0)

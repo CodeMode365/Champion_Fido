@@ -9,7 +9,7 @@ export class UI {
 
     constructor(game: Game) {
         this.game = game
-        this.lives.src = "../assets/others/lives.png"
+        this.lives.src = "../assets/others/heart1.png"
     }
     draw(ctx: CanvasRenderingContext2D) {
         ctx.save()

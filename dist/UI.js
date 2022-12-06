@@ -6,7 +6,7 @@ export class UI {
         this.fontFamily2 = "Bangers";
         this.lives = new Image();
         this.game = game;
-        this.lives.src = "../assets/others/lives.png";
+        this.lives.src = "../assets/others/heart1.png";
     }
     draw(ctx) {
         ctx.save();
