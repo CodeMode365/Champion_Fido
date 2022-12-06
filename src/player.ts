@@ -3,6 +3,7 @@ import Game from "./game.js";
 import { collisionAnimation } from "./collisionAnimation.js";
 import { Sitting, Running, Jumping, Falling, Rolling, Diving, Hit, State } from "./playerState.js";
 import { FloatingMsg } from "./floatingMsg.js";
+import { Items } from "./Items.js";
 
 export default class Player {
     private game: Game
@@ -76,6 +77,8 @@ export default class Player {
         }
         //check for collision
         this.checkCollision()
+        //check if player equiped an item
+        this.checkItemEquip()
     }
     draw(ctx: CanvasRenderingContext2D) {
         // ctx.fillRect(this.x,this.y, this.width, this.height)
@@ -116,5 +119,23 @@ export default class Player {
                 }
             }
         })
+    }
+    checkItemEquip() {
+        if (this.game.items?.x < this.x + this.width &&
+            this.game.items?.x + this.game.items?.width > this.x &&
+            this.game.items?.y < this.y + this.height &&
+            this.game.items?.y + this.game.items?.height > this.y) {
+            let currentLife = this.game.lives
+            switch (this.game.items.speciality) {
+                case "IncreaseBoost":
+                    this.game.boostLength = this.game.maxBooster
+                    break;
+                case "IncreaseLife":
+                    this.game.lives = currentLife + 1 
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

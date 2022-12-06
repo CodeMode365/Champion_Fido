@@ -11,6 +11,7 @@ export class Items {
     }
     draw(ctx) {
         ctx.fillStyle = "red";
+        ctx.strokeRect(this.x, this.y, this.width * 0.5, this.height * 0.5);
         if (this.game.debug)
             ctx.strokeRect(this.x, this.y, this.width, this.height);
         ctx.drawImage(this.image, 0, 0, this.width, this.height, this.x, this.y, this.width * 0.5, this.height * 0.5);
@@ -27,6 +28,7 @@ export class Boost extends Items {
         this.image.src = "../assets/others/booster.png";
         this.speedX = 0;
         this.speedY = 0;
+        this.speciality = "IncreaseBoost";
     }
     update() {
         super.update();
@@ -47,6 +49,7 @@ export class Life extends Items {
         this.image.src = "../assets/others/heart1.png";
         this.speedX = 0;
         this.speedY = 0;
+        this.speciality = "IncreaseLife";
     }
     update() {
         super.update();

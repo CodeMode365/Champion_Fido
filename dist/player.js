@@ -3,6 +3,7 @@ import Game from "./game.js";
 import { collisionAnimation } from "./collisionAnimation.js";
 import { Sitting, Running, Jumping, Falling, Rolling, Diving, Hit, State } from "./playerState.js";
 import { FloatingMsg } from "./floatingMsg.js";
+import { Items } from "./Items.js";
 export default class Player {
     constructor(game) {
         this.width = 100;
@@ -60,6 +61,7 @@ export default class Player {
             this.frameTimer += deltaTime;
         }
         this.checkCollision();
+        this.checkItemEquip();
     }
     draw(ctx) {
         ctx.fillStyle = "red";
@@ -100,5 +102,24 @@ export default class Player {
                 }
             }
         });
+    }
+    checkItemEquip() {
+        var _a, _b, _c, _d, _e, _f;
+        if (((_a = this.game.items) === null || _a === void 0 ? void 0 : _a.x) < this.x + this.width &&
+            ((_b = this.game.items) === null || _b === void 0 ? void 0 : _b.x) + ((_c = this.game.items) === null || _c === void 0 ? void 0 : _c.width) > this.x &&
+            ((_d = this.game.items) === null || _d === void 0 ? void 0 : _d.y) < this.y + this.height &&
+            ((_e = this.game.items) === null || _e === void 0 ? void 0 : _e.y) + ((_f = this.game.items) === null || _f === void 0 ? void 0 : _f.height) > this.y) {
+            let currentLife = this.game.lives;
+            switch (this.game.items.speciality) {
+                case "IncreaseBoost":
+                    this.game.boostLength = this.game.maxBooster;
+                    break;
+                case "IncreaseLife":
+                    this.game.lives = currentLife + 1;
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
