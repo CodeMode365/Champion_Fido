@@ -23,7 +23,7 @@ export default class Player {
     private frameInterval = 1000 / this.fps
     private frameTimer = 0
 
-    public Music:HTMLAudioElement=new Audio()
+    public Music: HTMLAudioElement = new Audio()
 
 
 
@@ -103,12 +103,12 @@ export default class Player {
                 this.game.collisions.push(new collisionAnimation(this.game, enemy.x + enemy.width / 2, enemy.y + enemy.height / 2)
                 )
                 if (this.currentState == this.states[4] || this.currentState === this.states[5]) {
-                    this.Music.src="../assets/musics/attackFly.mp3"
+                    this.Music.src = "../assets/musics/attackFly.mp3"
                     this.game.score++
                     this.game.floatingMessage.push(new FloatingMsg('+1', enemy.x, enemy.y, 150, 50))
                     this.Music.play()
                 } else {
-                    this.Music.src="../assets/musics/getHit.wav"
+                    this.Music.src = "../assets/musics/getHit.wav"
                     this.Music.play()
                     this.setState(6, 0)
                     this.game.lives--

@@ -22,12 +22,16 @@ export default class Game {
         this.targetScore = 40;
         this.enemies = [];
         this.enemyTimer = 0;
-        this.enemyInterval = 1000;
+        this.enemyInterval = 2000;
         this.debug = false;
         this.fontColor = "black";
         this.maxTime = 30000;
         this.time = 0;
         this.gameOver = false;
+        this.boostLength = 200;
+        this.boostHeight = 25;
+        this.boostImg = new Image();
+        this.maxBooster = 200;
         this.groundMarin = 80;
         this.width = width;
         this.height = height;
@@ -37,6 +41,9 @@ export default class Game {
         this.UI = new UI(this);
         this.player.currentState = this.player.states[0];
         (_a = this.player.currentState) === null || _a === void 0 ? void 0 : _a.enter();
+        this.boostX = this.width - this.boostLength * 1.4;
+        this.boostY = 30;
+        this.boostImg.src = "../assets/others/flame.png";
     }
     update(deltaTime) {
         var _a;
@@ -80,6 +87,12 @@ export default class Game {
         this.particles.forEach((particle, index) => {
             particle.draw(ctx);
         });
+        ctx.drawImage(this.boostImg, this.boostX - 30, this.boostY, 30, 25);
+        ctx.save();
+        ctx.fillStyle = "rgba(255,50,50,0.9)";
+        ctx.fillRect(this.boostX, this.boostY, this.boostLength, this.boostHeight);
+        ctx.strokeRect(this.boostX, this.boostY, this.boostLength, this.boostHeight);
+        ctx.restore();
         this.player.draw(ctx);
         (_a = this.enemies) === null || _a === void 0 ? void 0 : _a.forEach((enemy) => {
             enemy.draw(ctx);

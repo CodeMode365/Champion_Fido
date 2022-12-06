@@ -24,11 +24,11 @@ export default class Game {
     public playerLives = new Image()
     public lives = 5
     public floatingMessage: FloatingMsg[] = []
-    public targetScore=40
+    public targetScore = 40
     //enemy control
     public enemies: Enemy[] = []
     private enemyTimer = 0
-    private enemyInterval = 1000
+    private enemyInterval = 2000
     public debug = false
     public fontColor = "black"
     private UI: UI
@@ -37,6 +37,14 @@ export default class Game {
     public maxTime = 30000
     public time = 0
     public gameOver = false
+
+    //booster rectangle variable
+    private boostX: number
+    private boostY: number
+    public boostLength: number = 200
+    private boostHeight: number = 25
+    private boostImg = new Image()
+    public maxBooster = 200
 
 
     constructor(width: number, height: number) {
@@ -49,12 +57,14 @@ export default class Game {
         this.UI = new UI(this)
         this.player.currentState = this.player.states[0]
         this.player.currentState?.enter()
+        this.boostX = this.width - this.boostLength * 1.4
+        this.boostY = 30
+        this.boostImg.src = "../assets/others/flame.png"
     }
     update(deltaTime: number) {
         this.time += deltaTime
         //gameOVer count
         if (this.time > this.maxTime) this.gameOver = true
-
 
         this.background.update()
         this.player.update(this.input.keys, deltaTime)
@@ -101,6 +111,15 @@ export default class Game {
         this.particles.forEach((particle: Particle, index: number) => {
             particle.draw(ctx)
         })
+        //drawing the booster info layer
+        ctx.drawImage(this.boostImg, this.boostX - 30, this.boostY, 30, 25)
+        ctx.save()
+        ctx.fillStyle = "rgba(255,50,50,0.9)"
+        ctx.fillRect(this.boostX, this.boostY, this.boostLength, this.boostHeight)
+        ctx.strokeRect(this.boostX, this.boostY, this.boostLength, this.boostHeight)
+        ctx.restore()
+
+
         //draw palyer
         this.player.draw(ctx)
 

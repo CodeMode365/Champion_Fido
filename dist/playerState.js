@@ -45,10 +45,7 @@ export class Running extends State {
         else if (input.indexOf("ArrowUp") !== -1) {
             this.game.player.setState(2, 1);
         }
-        else if (input.indexOf(" ") !== -1) {
-            this.game.player.setState(4, 2);
-        }
-        else if (input.indexOf(" ") !== -1) {
+        else if (input.indexOf(" ") !== -1 && this.game.boostLength !== 0) {
             this.game.player.setState(4, 2);
         }
     }
@@ -71,10 +68,7 @@ export class Jumping extends State {
         if (input.indexOf("ArrowUp") !== -1) {
             this.game.player.setState(2, 1);
         }
-        else if (input.indexOf(" ") !== -1) {
-            this.game.player.setState(4, 2);
-        }
-        else if (input.indexOf(" ") !== -1) {
+        else if (input.indexOf(" ") !== -1 && this.game.boostLength !== 0) {
             this.game.player.setState(4, 2);
         }
         else if (input.indexOf("ArrowDown") !== -1) {
@@ -110,6 +104,12 @@ export class Rolling extends State {
         this.game.player.frameY = 6;
     }
     handleInput(input) {
+        if (this.game.boostLength !== 0) {
+            this.game.boostLength -= 0.5;
+        }
+        else {
+            this.game.player.setState(1, 1);
+        }
         this.game.particles.unshift(new Fire(this.game, this.game.player.x + this.game.player.width * 0.5, this.game.player.y + this.game.player.height * 0.5));
         if (input.indexOf(" ") === -1 && this.game.player.onGround()) {
             this.game.player.setState(1, 1);
@@ -136,17 +136,17 @@ export class Diving extends State {
         this.game.player.maxFrame = 8;
         this.game.player.frameY = 6;
         this.game.player.vY = 15;
+        this.music.play();
     }
     handleInput(input) {
         this.game.particles.unshift(new Fire(this.game, this.game.player.x + this.game.player.width * 0.5, this.game.player.y + this.game.player.height * 0.5));
         if (this.game.player.onGround()) {
-            this.music.play();
             this.game.player.setState(1, 1);
             for (let i = 0; i < 40; i++) {
                 this.game.particles.unshift(new Splash(this.game, this.game.player.x + this.game.player.width / 2, this.game.player.y + this.game.player.height));
             }
         }
-        else if (input.indexOf("Enter") === -1 && this.game.player.onGround()) {
+        else if (input.indexOf("Enter") === -1 && this.game.player.onGround() && this.game.boostLength !== 0) {
             this.game.player.setState(4, 2);
         }
     }

@@ -10,8 +10,8 @@ window.onload = () => {
     let lastTime = 0
     let audio: HTMLAudioElement = new Audio()
     audio.src = "../assets/musics/90sLove.mp3"
-    console.log(audio)
 
+    //animatig function
     function animate(timeStamp: number) {
         const deltaTime = timeStamp - lastTime
         lastTime = timeStamp

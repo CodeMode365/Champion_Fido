@@ -9,7 +9,7 @@ const enum states {
     FALLING,
     ROLLING,
     DIVING,
-    HIT
+    HIT,
 }
 
 export class State {
@@ -40,11 +40,9 @@ export class Sitting extends State {
         } else if (input.indexOf(" ") !== -1) {
             this.game.player.setState(states.ROLLING, 2)
         }
-
     }
 
 }
-
 
 export class Running extends State {
     constructor(game: Game) {
@@ -64,12 +62,10 @@ export class Running extends State {
         } else if (input.indexOf("ArrowUp") !== -1) {
             this.game.player.setState(states.JUMPING, 1)
         }
-        else if (input.indexOf(" ") !== -1) {
+        else if (input.indexOf(" ") !== -1 && this.game.boostLength !== 0) {
             this.game.player.setState(states.ROLLING, 2)
         }
-        else if (input.indexOf(" ") !== -1) {
-            this.game.player.setState(states.ROLLING, 2)
-        }
+
 
 
     }
@@ -93,12 +89,12 @@ export class Jumping extends State {
         if (input.indexOf("ArrowUp") !== -1) {
             this.game.player.setState(states.JUMPING, 1)
         }
-        else if (input.indexOf(" ") !== -1) {
+        else if (input.indexOf(" ") !== -1 && this.game.boostLength !== 0) {
             this.game.player.setState(states.ROLLING, 2)
         }
-        else if (input.indexOf(" ") !== -1) {
-            this.game.player.setState(states.ROLLING, 2)
-        }
+        // else if (input.indexOf(" ") !== -1 && this.game.boostLength !== 0) {
+        //     this.game.player.setState(states.ROLLING, 2)
+        // }
         else if (input.indexOf("ArrowDown") !== -1) {
             this.game.player.setState(states.DIVING, 0)
         }
@@ -134,6 +130,13 @@ export class Rolling extends State {
         this.game.player.frameY = 6
     }
     handleInput(input: string[]) {
+
+        //decrease the booste
+        if (this.game.boostLength !== 0) {
+            this.game.boostLength -= 0.5
+        } else {
+            this.game.player.setState(states.RUNNING, 1)
+        }
         //adding firing particles
         this.game.particles.unshift(new Fire(this.game, this.game.player.x + this.game.player.width * 0.5, this.game.player.y + this.game.player.height * 0.5))
         //handling user input
@@ -165,6 +168,7 @@ export class Diving extends State {
         this.game.player.maxFrame = 8
         this.game.player.frameY = 6
         this.game.player.vY = 15
+        this.music.play()
     }
     handleInput(input: string[]) {
 
@@ -173,12 +177,11 @@ export class Diving extends State {
         //handling user input
         if (this.game.player.onGround()) {
 
-            this.music.play()
             this.game.player.setState(states.RUNNING, 1)
             for (let i = 0; i < 40; i++) {
                 this.game.particles.unshift(new Splash(this.game, this.game.player.x + this.game.player.width / 2, this.game.player.y + this.game.player.height))
             }
-        } else if (input.indexOf("Enter") === -1 && this.game.player.onGround()) {
+        } else if (input.indexOf("Enter") === -1 && this.game.player.onGround() && this.game.boostLength !== 0) {
             this.game.player.setState(states.ROLLING, 2)
         }
 
