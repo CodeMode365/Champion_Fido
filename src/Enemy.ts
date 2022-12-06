@@ -61,6 +61,7 @@ export class FlyEnemy extends Enemy {
         this.speedX = Math.random() + 1
         this.speedY = 0
         this.maxFrame = 5
+        // this.maxFrame = 10
         this.image.src = "../assets/enemies/enemy_fly.png"
         this.angle = 0
         this.verticalAngle = Math.random() * 0.1 + 0.1
@@ -72,6 +73,32 @@ export class FlyEnemy extends Enemy {
 
     }
 }
+export class MonsterBat extends Enemy {
+    protected angle: number
+    protected verticalAngle: number
+    constructor(game: Game) {
+        super()
+        this.game = game
+        this.width = 87
+        this.height = 77
+        this.x = this.game.width
+        this.y = Math.random() * this.game.height * 0.5
+        this.speedX = Math.random() + 3
+        this.speedY = 0
+        this.maxFrame = 10
+        this.image.src = "../assets/enemies/blueBat.png"
+        this.angle = 0
+        this.verticalAngle = Math.random() * 0.011 + 0.01
+    }
+    update(deltaTime: number): void {
+        super.update(deltaTime)
+        this.angle += this.verticalAngle
+        this.y += Math.sin(this.angle)
+
+    }
+}
+
+
 export class GroundEnemy extends Enemy {
     constructor(game: Game) {
         super()

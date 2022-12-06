@@ -1,7 +1,7 @@
 import Player from "./player.js";
 import InputHandler from "./inputHandler.js";
 import { Background } from "./background.js";
-import { FlyEnemy, GroundEnemy, ClimbingEnemy, Enemy } from "./Enemy.js";
+import { FlyEnemy, GroundEnemy, ClimbingEnemy, MonsterBat, Enemy } from "./Enemy.js";
 import { UI } from "./UI.js";
 import { Dust, Particle } from "./Particles.js";
 import { collisionAnimation } from "./collisionAnimation.js";
@@ -17,6 +17,7 @@ export default class Game {
         this.collisions = [];
         this.maxParticles = 70;
         this.playerLives = new Image();
+        this.maxLives = 10;
         this.lives = 5;
         this.floatingMessage = [];
         this.targetScore = 40;
@@ -25,7 +26,7 @@ export default class Game {
         this.enemyInterval = 3000;
         this.debug = false;
         this.fontColor = "black";
-        this.maxTime = 30000;
+        this.maxTime = Infinity;
         this.time = 0;
         this.gameOver = false;
         this.boostLength = 200;
@@ -114,8 +115,12 @@ export default class Game {
         this.UI.draw(ctx);
     }
     addEnemy() {
-        if ((this.speed > 0) && (Math.random() > 0.5))
+        if ((this.speed > 0) && (Math.random() > 0.5)) {
             this.enemies.push(new GroundEnemy(this));
+            if (Math.random() > 0.5) {
+                this.enemies.push(new MonsterBat(this));
+            }
+        }
         else if (this.speed > 0)
             this.enemies.push(new ClimbingEnemy(this));
         this.enemies.push(new FlyEnemy(this));

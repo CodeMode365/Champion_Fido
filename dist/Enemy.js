@@ -54,6 +54,27 @@ export class FlyEnemy extends Enemy {
         this.y += Math.sin(this.angle);
     }
 }
+export class MonsterBat extends Enemy {
+    constructor(game) {
+        super();
+        this.game = game;
+        this.width = 87;
+        this.height = 77;
+        this.x = this.game.width;
+        this.y = Math.random() * this.game.height * 0.5;
+        this.speedX = Math.random() + 3;
+        this.speedY = 0;
+        this.maxFrame = 10;
+        this.image.src = "../assets/enemies/blueBat.png";
+        this.angle = 0;
+        this.verticalAngle = Math.random() * 0.011 + 0.01;
+    }
+    update(deltaTime) {
+        super.update(deltaTime);
+        this.angle += this.verticalAngle;
+        this.y += Math.sin(this.angle);
+    }
+}
 export class GroundEnemy extends Enemy {
     constructor(game) {
         super();

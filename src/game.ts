@@ -1,7 +1,7 @@
 import Player from "./player.js"
 import InputHandler from "./inputHandler.js"
 import { Background } from "./background.js"
-import { FlyEnemy, GroundEnemy, ClimbingEnemy, Enemy } from "./Enemy.js"
+import { FlyEnemy, GroundEnemy, ClimbingEnemy, MonsterBat, Enemy } from "./Enemy.js"
 import { UI } from "./UI.js"
 import { Dust, Particle } from "./Particles.js"
 import { collisionAnimation } from "./collisionAnimation.js"
@@ -21,7 +21,9 @@ export default class Game {
     public particles: Particle[] = []
     public collisions: collisionAnimation[] = []
     private maxParticles = 70
+    //lives
     public playerLives = new Image()
+    readonly maxLives = 10
     public lives = 5
     public floatingMessage: FloatingMsg[] = []
     public targetScore = 40
@@ -35,7 +37,7 @@ export default class Game {
     private UI: UI
 
     //gaming variables
-    public maxTime = 30000
+    public maxTime = Infinity
     public time = 0
     public gameOver = false
 
@@ -154,11 +156,17 @@ export default class Game {
     addEnemy() {
         if (
             (this.speed > 0) && (Math.random() > 0.5)
-        ) this.enemies.push(new GroundEnemy(this))
+        ) {
+            this.enemies.push(new GroundEnemy(this))
+            if (Math.random() > 0.5) {
+                this.enemies.push(new MonsterBat(this))
+            }
+        }
         else if (
             this.speed > 0
         ) this.enemies.push(new ClimbingEnemy(this))
         this.enemies.push(new FlyEnemy(this))
+
     }
     addItems() {
         if (this.score === 1) {
