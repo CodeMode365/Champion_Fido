@@ -22,7 +22,7 @@ export default class Game {
         this.targetScore = 40;
         this.enemies = [];
         this.enemyTimer = 0;
-        this.enemyInterval = 2000;
+        this.enemyInterval = 3000;
         this.debug = false;
         this.fontColor = "black";
         this.maxTime = 30000;

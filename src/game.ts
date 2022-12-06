@@ -28,7 +28,7 @@ export default class Game {
     //enemy control
     public enemies: Enemy[] = []
     private enemyTimer = 0
-    private enemyInterval = 2000
+    private enemyInterval =3000
     public debug = false
     public fontColor = "black"
     private UI: UI

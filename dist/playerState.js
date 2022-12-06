@@ -104,11 +104,15 @@ export class Rolling extends State {
         this.game.player.frameY = 6;
     }
     handleInput(input) {
-        if (this.game.boostLength !== 0) {
-            this.game.boostLength -= 0.5;
+        if (this.game.boostLength > 0) {
+            this.game.boostLength -= 0.3;
+            if (this.game.boostLength < 0) {
+                this.game.boostLength = 0;
+            }
         }
         else {
             this.game.player.setState(1, 1);
+            console.log(this.game.boostLength);
         }
         this.game.particles.unshift(new Fire(this.game, this.game.player.x + this.game.player.width * 0.5, this.game.player.y + this.game.player.height * 0.5));
         if (input.indexOf(" ") === -1 && this.game.player.onGround()) {

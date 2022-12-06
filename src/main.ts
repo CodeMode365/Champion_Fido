@@ -1,5 +1,5 @@
 import Game from "./game.js";
-window.onload = () => {
+window.onload = (e: Event) => {
     const canvas: HTMLCanvasElement = document.getElementById("canvas1")
     const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
 
@@ -10,6 +10,10 @@ window.onload = () => {
     let lastTime = 0
     let audio: HTMLAudioElement = new Audio()
     audio.src = "../assets/musics/90sLove.mp3"
+    audio.muted = true
+    if (e) {
+        audio.muted = false
+    }
 
     //animatig function
     function animate(timeStamp: number) {
@@ -20,8 +24,8 @@ window.onload = () => {
         if (!game.gameOver) {
             requestAnimationFrame(animate)
             audio.play()
-        }else{
-            audio.src="../assets/musics/Over.mp3"
+        } else {
+            audio.src = "../assets/musics/Over.mp3"
             audio.play()
         }
 

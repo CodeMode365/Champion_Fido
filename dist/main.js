@@ -1,5 +1,5 @@
 import Game from "./game.js";
-window.onload = () => {
+window.onload = (e) => {
     const canvas = document.getElementById("canvas1");
     const ctx = canvas.getContext("2d");
     canvas.height = 500;
@@ -8,6 +8,10 @@ window.onload = () => {
     let lastTime = 0;
     let audio = new Audio();
     audio.src = "../assets/musics/90sLove.mp3";
+    audio.muted = true;
+    if (e) {
+        audio.muted = false;
+    }
     function animate(timeStamp) {
         const deltaTime = timeStamp - lastTime;
         lastTime = timeStamp;
