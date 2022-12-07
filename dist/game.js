@@ -6,7 +6,7 @@ import { UI } from "./UI.js";
 import { Dust, Particle } from "./Particles.js";
 import { collisionAnimation } from "./collisionAnimation.js";
 import { FloatingMsg } from "./floatingMsg.js";
-import { Items, Boost, Life } from "./Items.js";
+import { Items, Boost, Heart } from "./Items.js";
 import { TeamDog } from "./HelperDog.js";
 export default class Game {
     constructor(width, height) {
@@ -21,13 +21,12 @@ export default class Game {
         this.maxLives = 10;
         this.lives = 5;
         this.floatingMessage = [];
+        this.items = [];
         this.enemies = [];
         this.enemyTimer = 0;
         this.enemyInterval = 3000;
         this.debug = false;
         this.fontColor = "black";
-        this.maxTime = Infinity;
-        this.time = 0;
         this.gameOver = false;
         this.boostLength = 200;
         this.boostHeight = 25;
@@ -36,6 +35,8 @@ export default class Game {
         this.highScore = 0;
         this.boostDecreaser = 0.2;
         this.distanceTraveled = 0;
+        this.checkPointForHeart = 7;
+        this.checkPointForBooster = 10;
         this.groundMarin = 80;
         this.width = width;
         this.height = height;
@@ -58,9 +59,6 @@ export default class Game {
             localStorage.setItem("highScore", "0");
             this.highScore = this.distanceTraveled;
         }
-        this.time += deltaTime;
-        if (this.time > this.maxTime)
-            this.gameOver = true;
         this.background.update();
         this.player.update(this.input.keys, deltaTime);
         if (this.enemyTimer > this.enemyInterval) {
@@ -70,14 +68,15 @@ export default class Game {
         else {
             this.enemyTimer += deltaTime;
         }
-        this.addItems();
         (_a = this.enemies) === null || _a === void 0 ? void 0 : _a.forEach((enemy) => {
             enemy.update(deltaTime);
         });
         this.enemies = this.enemies.filter((enemy) => !enemy.markedFordDeletion);
-        if (this.items) {
-            this.items.update();
-        }
+        this.addItems();
+        this.items.forEach((item) => {
+            item.update();
+        });
+        this.items = this.items.filter((item) => !item.markedForDeletion);
         this.particles.forEach((particle, index) => {
             particle.update();
             if (particle.markedForDeletion)
@@ -124,9 +123,9 @@ export default class Game {
         this.floatingMessage.forEach((message) => {
             message.draw(ctx);
         });
-        if (this.items) {
-            this.items.draw(ctx);
-        }
+        this.items.forEach((item) => {
+            item.draw(ctx);
+        });
         this.UI.draw(ctx);
         this.UI.draw(ctx);
     }
@@ -142,8 +141,14 @@ export default class Game {
         this.enemies.push(new FlyEnemy(this));
     }
     addItems() {
-        if (this.distanceTraveled === 1) {
-            this.items = new Life(this);
+        const travel = Math.round(this.distanceTraveled);
+        if (travel > 0 && (travel % this.checkPointForBooster == 0) && (this.items.length == 0)) {
+            this.distanceTraveled += 1;
+            this.items.push(new Boost(this));
+        }
+        else if (travel > 0 && (travel % this.checkPointForHeart == 0) && (this.items.length == 0)) {
+            this.distanceTraveled += 1;
+            this.items.push(new Heart(this));
         }
     }
 }

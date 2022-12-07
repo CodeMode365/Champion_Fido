@@ -8,14 +8,14 @@ export class Items {
     protected speedX !: number
     protected speedY !: number
     protected image: HTMLImageElement = new Image()
-    public markedFordDeletion = false
+    public markedForDeletion = false
     public speciality !: string
 
     update() {
 
         //check if item is off screen
         if (this.x < 0 - this.width) {
-            this.markedFordDeletion = true
+            this.markedForDeletion = true
         }
     }
     draw(ctx: CanvasRenderingContext2D) {
@@ -48,7 +48,7 @@ export class Boost extends Items {
         this.y += Math.sin(this.speedY)
     }
 }
-export class Life extends Items {
+export class Heart extends Items {
     constructor(game: Game) {
         super()
         this.game = game

@@ -6,9 +6,8 @@ import { UI } from "./UI.js"
 import { Dust, Particle } from "./Particles.js"
 import { collisionAnimation } from "./collisionAnimation.js"
 import { FloatingMsg } from "./floatingMsg.js"
-import { Items, Boost, Life } from "./Items.js"
+import { Items, Boost, Heart } from "./Items.js"
 import { TeamDog } from "./HelperDog.js"
-
 export default class Game {
     public player: Player
     readonly width: number
@@ -29,7 +28,7 @@ export default class Game {
     public lives = 5
     public floatingMessage: FloatingMsg[] = []
     // public targetScore = 40
-    public items !: Items
+    public items: (Boost | Heart)[] = []
     //enemy control
     public enemies: Enemy[] = []
     private enemyTimer = 0
@@ -39,8 +38,8 @@ export default class Game {
     private UI: UI
 
     //gaming variables
-    public maxTime = Infinity
-    public time = 0
+    // public maxTime = Infinity
+    // public time = 0
     public gameOver = false
 
     //booster rectangle variable
@@ -53,6 +52,8 @@ export default class Game {
     public highScore = 0
     public boostDecreaser = 0.2
     public distanceTraveled = 0
+    private checkPointForHeart: number = 7
+    private checkPointForBooster: number = 10
 
 
     constructor(width: number, height: number) {
@@ -78,9 +79,9 @@ export default class Game {
             localStorage.setItem("highScore", "0")
             this.highScore = this.distanceTraveled
         }
-        this.time += deltaTime
+        // this.time += deltaTime
         //gameOVer count
-        if (this.time > this.maxTime) this.gameOver = true
+        // if (this.time > this.maxTime) this.gameOver = true
 
         this.background.update()
         this.player.update(this.input.keys, deltaTime)
@@ -91,17 +92,19 @@ export default class Game {
         } else {
             this.enemyTimer += deltaTime
         }
-        this.addItems()
 
         this.enemies?.forEach((enemy: Enemy) => {
             enemy.update(deltaTime)
         })
         this.enemies = this.enemies.filter((enemy: Enemy) => !enemy.markedFordDeletion)
 
-        if (this.items) {
-
-            this.items.update()
-        }
+        //handling the items
+        this.addItems()
+        this.items.forEach((item: Items) => {
+            item.update()
+        })
+        this.items = this.items.filter((item: Items) =>
+            !item.markedForDeletion)
 
         //handle particles
         this.particles.forEach((particle: Particle, index: number) => {
@@ -131,7 +134,7 @@ export default class Game {
         }
 
         //increase the socre
-        this.distanceTraveled += this.speed/1000
+        this.distanceTraveled += this.speed / 1000
     }
     draw(ctx: CanvasRenderingContext2D) {
         //draw background
@@ -170,9 +173,9 @@ export default class Game {
             message.draw(ctx);
         })
 
-        if (this.items) {
-            this.items.draw(ctx)
-        }
+        this.items.forEach((item: Items) => {
+            item.draw(ctx)
+        })
 
         this.UI.draw(ctx)
         this.UI.draw(ctx)
@@ -194,11 +197,15 @@ export default class Game {
 
     }
     addItems() {
-        if (this.distanceTraveled === 1) {
-            this.items = new Life(this)
+        const travel = Math.round(this.distanceTraveled)
+        if (travel > 0 && (travel % this.checkPointForBooster == 0) && (this.items.length == 0)) {
+            this.distanceTraveled += 1
+            this.items.push(new Boost(this))
         }
-        // if (this.score == 2) {
-        //     this.Teams = new TeamDog(this)
-        // }
+        else if (travel > 0 && (travel % this.checkPointForHeart == 0) && (this.items.length == 0)) {
+            this.distanceTraveled += 1
+            this.items.push(new Heart(this))
+        }
+
     }
 }

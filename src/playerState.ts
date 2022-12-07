@@ -66,8 +66,6 @@ export class Running extends State {
             this.game.player.setState(states.ROLLING, 2)
         }
 
-
-
     }
 
 }
@@ -172,7 +170,6 @@ export class Diving extends State {
         this.game.player.maxFrame = 8
         this.game.player.frameY = 6
         this.game.player.vY = 15
-        this.music.play()
     }
     handleInput(input: string[]) {
 
@@ -180,7 +177,7 @@ export class Diving extends State {
         this.game.particles.unshift(new Fire(this.game, this.game.player.x + this.game.player.width * 0.5, this.game.player.y + this.game.player.height * 0.5))
         //handling user input
         if (this.game.player.onGround()) {
-
+            this.music.play()
             this.game.player.setState(states.RUNNING, 1)
             for (let i = 0; i < 40; i++) {
                 this.game.particles.unshift(new Splash(this.game, this.game.player.x + this.game.player.width / 2, this.game.player.y + this.game.player.height))

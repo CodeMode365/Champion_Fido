@@ -106,7 +106,7 @@ export default class Player {
                 this.game.collisions.push(new collisionAnimation(this.game, enemy.x + enemy.width / 2, enemy.y + enemy.height / 2)
                 )
                 if (this.currentState == this.states[4] || this.currentState === this.states[5]) {
-                    this.Music.src = "../assets/musics/attackFly.mp3"
+                     this.Music.src = "../assets/musics/platch.wav"
                     this.game.coins++
                     this.game.floatingMessage.push(new FloatingMsg('+1', enemy.x, enemy.y, 150, 50))
                     this.Music.play()
@@ -121,21 +121,26 @@ export default class Player {
         })
     }
     checkItemEquip() {
-        if (this.game.items?.x < this.x + this.width &&
-            this.game.items?.x + this.game.items?.width > this.x &&
-            this.game.items?.y < this.y + this.height &&
-            this.game.items?.y + this.game.items?.height > this.y) {
-            let currentLife = this.game.lives
-            switch (this.game.items.speciality) {
-                case "IncreaseBoost":
-                    this.game.boostLength = this.game.maxBooster
-                    break;
-                case "IncreaseLife":
-                    this.game.lives = currentLife + 1
-                    break;
-                default:
-                    break;
+        this.game.items.forEach((item: Items) => {
+            if (item.x < this.x + this.width &&
+                item.x + item.width > this.x &&
+                item.y < this.y + this.height &&
+                item.y + item.height > this.y) {
+                item.markedForDeletion = true
+                switch (item.speciality) {
+                    case "IncreaseBoost":
+                        this.game.boostLength = this.game.maxBooster
+                        break;
+                    case "IncreaseLife":
+                        this.game.lives += 1
+                        break;
+                    default:
+                        break;
+                }
             }
         }
+        )
+
+
     }
 }

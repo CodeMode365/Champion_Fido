@@ -15,7 +15,6 @@ export class UI {
         ctx.fillStyle = this.game.fontColor;
         ctx.save();
         ctx.font = this.fontSize * 0.8 + 'px ' + this.fontFamily1;
-        ctx.fillText("Time: " + ((this.game.maxTime - this.game.time) * 0.001).toFixed(1) + "s left", 20, 80);
         ctx.fillStyle = "rgb(180,180,50)";
         ctx.fillText("Coins: " + this.game.coins, 20, 50);
         ctx.fillStyle = "rgb(170,100,140)";
@@ -25,20 +24,19 @@ export class UI {
         ctx.fillText("High Score: " + this.game.highScore + " m", 20, 20);
         ctx.restore();
         for (let i = 0; i < this.game.lives; i++) {
-            ctx.drawImage(this.lives, 20 + i * 30, 95, 25, 25);
+            ctx.drawImage(this.lives, 20 + i * 30, 65, 25, 25);
         }
         if (this.game.gameOver) {
             ctx.save();
             ctx.textAlign = "center";
             if (this.game.distanceTraveled > this.game.highScore) {
                 localStorage.setItem("highScore", JSON.stringify(parseInt(this.game.distanceTraveled.toString())));
-            }
-            if (this.game.distanceTraveled > this.game.distanceTraveled) {
                 ctx.fillStyle = "Black";
                 ctx.font = this.fontSize * 2 + "px " + this.fontFamily1;
                 ctx.fillText('Boo-yah', this.game.width * 0.5 - this.fontSize / 2, this.game.height * 0.5 - this.fontSize / 2);
                 ctx.font = this.fontSize * .5 + "px " + this.fontFamily1;
                 ctx.fillText(`What are creatures of nigt afraid of? You!!!`, this.game.width * 0.5 - this.fontSize / 2, this.game.height * 0.5 - this.fontSize / 2 + 20);
+                ctx.fillText(`You got Hight Score`, this.game.width * 0.5 - this.fontSize / 2, this.game.height * 0.5 - this.fontSize / 2 + 20);
                 ctx.restore();
             }
             else {

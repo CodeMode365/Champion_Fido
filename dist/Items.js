@@ -2,11 +2,11 @@ import Game from "./game.js";
 export class Items {
     constructor() {
         this.image = new Image();
-        this.markedFordDeletion = false;
+        this.markedForDeletion = false;
     }
     update() {
         if (this.x < 0 - this.width) {
-            this.markedFordDeletion = true;
+            this.markedForDeletion = true;
         }
     }
     draw(ctx) {
@@ -38,7 +38,7 @@ export class Boost extends Items {
         this.y += Math.sin(this.speedY);
     }
 }
-export class Life extends Items {
+export class Heart extends Items {
     constructor(game) {
         super();
         this.game = game;
