@@ -93,6 +93,27 @@ export class GroundEnemy extends Enemy {
         this.speedX = this.game.speed ? this.game.speed : 0;
     }
 }
+export class Zombies extends Enemy {
+    constructor(game) {
+        super();
+        this.game = game;
+        this.width = 292;
+        this.height = 410;
+        this.x = this.game.width;
+        this.y = this.game.height - this.height / 2.5 - this.game.groundMarin;
+        this.image.src = "../assets/enemies/enemy_zombie.png";
+        this.speedX = 0;
+        this.speedY = 0;
+        this.maxFrame = 7;
+    }
+    update(deltaTime) {
+        super.update(deltaTime);
+        this.speedX = this.game.speed ? this.game.speed * 1.5 : .5;
+    }
+    draw(ctx) {
+        ctx.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width / 2.5, this.height / 2.5);
+    }
+}
 export class ClimbingEnemy extends Enemy {
     constructor(game) {
         super();

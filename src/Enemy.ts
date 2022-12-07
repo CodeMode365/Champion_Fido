@@ -1,7 +1,7 @@
 import Game from "./game.js"
 
 export class Enemy {
-    private frameX = 0
+    protected frameX = 0
     private frameY = 0
     private fps = 20
     private frameInterval = 1000 / this.fps
@@ -121,6 +121,33 @@ export class GroundEnemy extends Enemy {
 
     }
 }
+export class Zombies extends Enemy {
+    constructor(game: Game) {
+        super()
+        this.game = game
+        this.width = 292
+        this.height = 410
+
+        this.x = this.game.width
+        this.y = this.game.height - this.height / 2.5 - this.game.groundMarin
+        this.image.src = "../assets/enemies/enemy_zombie.png"
+        this.speedX = 0
+        this.speedY = 0
+        this.maxFrame = 7
+
+    }
+    update(deltaTime: number): void {
+        super.update(deltaTime);
+
+        //controlling speed of ground enemy with ground movement
+        this.speedX = this.game.speed ? this.game.speed * 1.5 : .5
+
+    }
+    draw(ctx: CanvasRenderingContext2D): void {
+        ctx.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width / 2.5, this.height / 2.5)
+
+    }
+}
 export class ClimbingEnemy extends Enemy {
     constructor(game: Game) {
         super()
@@ -151,5 +178,6 @@ export class ClimbingEnemy extends Enemy {
         super.draw(ctx)
     }
 }
+
 
 

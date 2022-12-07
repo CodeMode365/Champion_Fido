@@ -88,9 +88,9 @@ export default class Player {
                 this.game.collisions.push(new collisionAnimation(this.game, enemy.x + enemy.width / 2, enemy.y + enemy.height / 2));
                 if (this.currentState == this.states[4] || this.currentState === this.states[5]) {
                     this.Music.src = "../assets/musics/platch.wav";
+                    this.Music.play();
                     this.game.coins++;
                     this.game.floatingMessage.push(new FloatingMsg('+1', enemy.x, enemy.y, 150, 50));
-                    this.Music.play();
                 }
                 else {
                     this.Music.src = "../assets/musics/getHit.wav";
@@ -110,12 +110,16 @@ export default class Player {
                 item.y < this.y + this.height &&
                 item.y + item.height > this.y) {
                 item.markedForDeletion = true;
+                this.Music.src = "../assets/musics/coins.wav";
+                this.Music.play();
                 switch (item.speciality) {
                     case "IncreaseBoost":
                         this.game.boostLength = this.game.maxBooster;
                         break;
                     case "IncreaseLife":
-                        this.game.lives += 1;
+                        if (this.game.maxLives <= this.game.lives) {
+                            this.game.lives += 1;
+                        }
                         break;
                     default:
                         break;

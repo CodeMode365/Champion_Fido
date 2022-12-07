@@ -1,7 +1,7 @@
 import Player from "./player.js"
 import InputHandler from "./inputHandler.js"
 import { Background } from "./background.js"
-import { FlyEnemy, GroundEnemy, ClimbingEnemy, MonsterBat, Enemy } from "./Enemy.js"
+import { FlyEnemy, GroundEnemy, ClimbingEnemy, MonsterBat, Zombies, Enemy } from "./Enemy.js"
 import { UI } from "./UI.js"
 import { Dust, Particle } from "./Particles.js"
 import { collisionAnimation } from "./collisionAnimation.js"
@@ -194,7 +194,9 @@ export default class Game {
             this.speed > 0
         ) this.enemies.push(new ClimbingEnemy(this))
         this.enemies.push(new FlyEnemy(this))
-
+        if (this.distanceTraveled > 5 && (Math.random() * 2 < .5)) {
+            this.enemies.push(new Zombies(this))
+        }
     }
     addItems() {
         const travel = Math.round(this.distanceTraveled)
