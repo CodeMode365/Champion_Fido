@@ -11,7 +11,7 @@ export default class Player {
     readonly height = 91.3
     public x = 0
     public y: number
-    private speed = 0
+    public speed = 0
     private maxSpeed = 3
     private weight = 1
     public vY = 0
@@ -107,7 +107,7 @@ export default class Player {
                 )
                 if (this.currentState == this.states[4] || this.currentState === this.states[5]) {
                     this.Music.src = "../assets/musics/attackFly.mp3"
-                    this.game.score++
+                    this.game.coins++
                     this.game.floatingMessage.push(new FloatingMsg('+1', enemy.x, enemy.y, 150, 50))
                     this.Music.play()
                 } else {
@@ -131,7 +131,7 @@ export default class Player {
                     this.game.boostLength = this.game.maxBooster
                     break;
                 case "IncreaseLife":
-                    this.game.lives = currentLife + 1 
+                    this.game.lives = currentLife + 1
                     break;
                 default:
                     break;

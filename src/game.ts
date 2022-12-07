@@ -7,6 +7,7 @@ import { Dust, Particle } from "./Particles.js"
 import { collisionAnimation } from "./collisionAnimation.js"
 import { FloatingMsg } from "./floatingMsg.js"
 import { Items, Boost, Life } from "./Items.js"
+import { TeamDog } from "./HelperDog.js"
 
 export default class Game {
     public player: Player
@@ -17,16 +18,17 @@ export default class Game {
     public speed = 0
     private background: Background
     public maxSpeed = 6
-    public score = 0
+    public coins = 0
     public particles: Particle[] = []
     public collisions: collisionAnimation[] = []
     private maxParticles = 70
+    public Teams !: TeamDog | null
     //lives
     public playerLives = new Image()
     readonly maxLives = 10
     public lives = 5
     public floatingMessage: FloatingMsg[] = []
-    public targetScore = 40
+    // public targetScore = 40
     public items !: Items
     //enemy control
     public enemies: Enemy[] = []
@@ -48,6 +50,9 @@ export default class Game {
     private boostHeight: number = 25
     private boostImg = new Image()
     public maxBooster = 200
+    public highScore = 0
+    public boostDecreaser = 0.2
+    public distanceTraveled = 0
 
 
     constructor(width: number, height: number) {
@@ -63,8 +68,16 @@ export default class Game {
         this.boostX = this.width - this.boostLength * 1.4
         this.boostY = 30
         this.boostImg.src = "../assets/others/flame.png"
+        //setLocal storage value for hight score
     }
     update(deltaTime: number) {
+        if (localStorage.getItem("highScore")) {
+            this.highScore = parseInt(localStorage.getItem("highScore"))
+
+        } else {
+            localStorage.setItem("highScore", "0")
+            this.highScore = this.distanceTraveled
+        }
         this.time += deltaTime
         //gameOVer count
         if (this.time > this.maxTime) this.gameOver = true
@@ -111,6 +124,14 @@ export default class Game {
         })
         this.floatingMessage = this.floatingMessage.filter((message: FloatingMsg) =>
             !message.markedForDeletion)
+
+        this.Teams?.update(deltaTime)
+        if (this.Teams?.markedFordDeletion) {
+            this.Teams = null
+        }
+
+        //increase the socre
+        this.distanceTraveled += this.speed/1000
     }
     draw(ctx: CanvasRenderingContext2D) {
         //draw background
@@ -124,7 +145,7 @@ export default class Game {
         ctx.save()
         ctx.fillStyle = "rgba(255,50,50,0.9)"
         ctx.fillRect(this.boostX, this.boostY, this.boostLength, this.boostHeight)
-        ctx.strokeRect(this.boostX, this.boostY, this.boostLength, this.boostHeight)
+        ctx.strokeRect(this.boostX, this.boostY, this.maxBooster, this.boostHeight)
         ctx.restore()
 
 
@@ -135,6 +156,10 @@ export default class Game {
         this.enemies?.forEach((enemy: Enemy) => {
             enemy.draw(ctx)
         })
+
+        //draw the team dog
+        this.Teams?.draw(ctx)
+
         //draw the collision animation
         this.collisions.forEach((collision: collisionAnimation, index: number) => {
             collision.draw(ctx)
@@ -169,8 +194,11 @@ export default class Game {
 
     }
     addItems() {
-        if (this.score === 1) {
+        if (this.distanceTraveled === 1) {
             this.items = new Life(this)
         }
+        // if (this.score == 2) {
+        //     this.Teams = new TeamDog(this)
+        // }
     }
 }

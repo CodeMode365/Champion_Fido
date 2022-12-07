@@ -20,6 +20,9 @@ export default class InputHandler {
                 }
 
             }
+            // if(e.key =="H" || e.key="h"){
+            //     this.game.Teams.push(new(this.game.del))
+            // }
             if ((e.key ==
                 "ArrowDown" || e.key == "ArrowUp" || e.key == "ArrowLeft" || e.key == "ArrowRight" || e.key == " ") && this.keys.indexOf(e.key) === -1) {
                 this.keys.push(e.key)

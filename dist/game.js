@@ -7,12 +7,13 @@ import { Dust, Particle } from "./Particles.js";
 import { collisionAnimation } from "./collisionAnimation.js";
 import { FloatingMsg } from "./floatingMsg.js";
 import { Items, Boost, Life } from "./Items.js";
+import { TeamDog } from "./HelperDog.js";
 export default class Game {
     constructor(width, height) {
         var _a;
         this.speed = 0;
         this.maxSpeed = 6;
-        this.score = 0;
+        this.coins = 0;
         this.particles = [];
         this.collisions = [];
         this.maxParticles = 70;
@@ -20,7 +21,6 @@ export default class Game {
         this.maxLives = 10;
         this.lives = 5;
         this.floatingMessage = [];
-        this.targetScore = 40;
         this.enemies = [];
         this.enemyTimer = 0;
         this.enemyInterval = 3000;
@@ -33,6 +33,9 @@ export default class Game {
         this.boostHeight = 25;
         this.boostImg = new Image();
         this.maxBooster = 200;
+        this.highScore = 0;
+        this.boostDecreaser = 0.2;
+        this.distanceTraveled = 0;
         this.groundMarin = 80;
         this.width = width;
         this.height = height;
@@ -47,7 +50,14 @@ export default class Game {
         this.boostImg.src = "../assets/others/flame.png";
     }
     update(deltaTime) {
-        var _a;
+        var _a, _b, _c;
+        if (localStorage.getItem("highScore")) {
+            this.highScore = parseInt(localStorage.getItem("highScore"));
+        }
+        else {
+            localStorage.setItem("highScore", "0");
+            this.highScore = this.distanceTraveled;
+        }
         this.time += deltaTime;
         if (this.time > this.maxTime)
             this.gameOver = true;
@@ -85,9 +95,14 @@ export default class Game {
             message.update();
         });
         this.floatingMessage = this.floatingMessage.filter((message) => !message.markedForDeletion);
+        (_b = this.Teams) === null || _b === void 0 ? void 0 : _b.update(deltaTime);
+        if ((_c = this.Teams) === null || _c === void 0 ? void 0 : _c.markedFordDeletion) {
+            this.Teams = null;
+        }
+        this.distanceTraveled += this.speed / 1000;
     }
     draw(ctx) {
-        var _a;
+        var _a, _b;
         this.background.draw(ctx);
         this.particles.forEach((particle, index) => {
             particle.draw(ctx);
@@ -96,12 +111,13 @@ export default class Game {
         ctx.save();
         ctx.fillStyle = "rgba(255,50,50,0.9)";
         ctx.fillRect(this.boostX, this.boostY, this.boostLength, this.boostHeight);
-        ctx.strokeRect(this.boostX, this.boostY, this.boostLength, this.boostHeight);
+        ctx.strokeRect(this.boostX, this.boostY, this.maxBooster, this.boostHeight);
         ctx.restore();
         this.player.draw(ctx);
         (_a = this.enemies) === null || _a === void 0 ? void 0 : _a.forEach((enemy) => {
             enemy.draw(ctx);
         });
+        (_b = this.Teams) === null || _b === void 0 ? void 0 : _b.draw(ctx);
         this.collisions.forEach((collision, index) => {
             collision.draw(ctx);
         });
@@ -126,7 +142,7 @@ export default class Game {
         this.enemies.push(new FlyEnemy(this));
     }
     addItems() {
-        if (this.score === 1) {
+        if (this.distanceTraveled === 1) {
             this.items = new Life(this);
         }
     }

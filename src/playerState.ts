@@ -133,7 +133,7 @@ export class Rolling extends State {
 
         //decrease the booste
         if (this.game.boostLength > 0) {
-            this.game.boostLength -= 0.3
+            this.game.boostLength -= this.game.boostDecreaser
             if (this.game.boostLength < 0) {
                 this.game.boostLength = 0
             }
