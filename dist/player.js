@@ -117,7 +117,7 @@ export default class Player {
                         this.game.boostLength = this.game.maxBooster;
                         break;
                     case "IncreaseLife":
-                        if (this.game.maxLives <= this.game.lives) {
+                        if (this.game.lives <= this.game.maxLives) {
                             this.game.lives += 1;
                         }
                         break;
