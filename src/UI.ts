@@ -6,10 +6,15 @@ export class UI {
     private fontFamily1 = "Creepster"
     private fontFamily2 = "Bangers"
     private lives = new Image()
+    private darklives = new Image()
+    private darkBoost = new Image()
+    private boost = new Image()
 
     constructor(game: Game) {
         this.game = game
         this.lives.src = "../assets/others/heart1.png"
+        this.boost.src = "../assets/others/booster.png"
+
     }
     draw(ctx: CanvasRenderingContext2D) {
         ctx.save()
@@ -37,6 +42,25 @@ export class UI {
         ctx.fillText("High Score: " + this.game.highScore + " m", 20, 20)
         ctx.restore()
 
+        if (this.game.coins <= 15) {
+            this.darklives.src = "../assets/others/heart1Dark.png"
+            ctx.fillStyle = "rgba(80,80,80,0.2)"
+        } else {
+            ctx.fillStyle = "rgba(200,200,200,0.4)"
+            this.darklives.src = this.lives.src
+        }
+        ctx.fillRect(190, 25, 50, 50)
+        ctx.drawImage(this.darklives, 190 + 10, 25 + 10, 30, 30)
+        if (this.game.coins <= 20) {
+            ctx.fillStyle = "rgba(80,80,80,0.2)"
+            this.darkBoost.src = "../assets/others/boosterDark.png"
+        } else {
+            ctx.fillStyle = "rgba(200,200,200,0.4)"
+            this.darkBoost.src = this.boost.src
+        }
+
+        ctx.fillRect(250, 25, 50, 50)
+        ctx.drawImage(this.darkBoost, 250 + 10, 25 + 10, 30, 30)
         //lives
         for (let i = 0; i < this.game.lives; i++) {
             ctx.drawImage(this.lives, 20 + i * 30, 65, 25, 25)

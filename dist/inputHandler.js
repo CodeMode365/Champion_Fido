@@ -13,8 +13,21 @@ export default class InputHandler {
                     });
                 }
                 else {
+                    this.audio.src = "";
                     document.exitFullscreen();
                 }
+            }
+            if ((e.key == "A" || e.key == "a") && this.game.coins) {
+                this.game.lives++;
+                this.audio.src = "../assets/musics/getItem.wav";
+                this.audio.play();
+                this.game.coins -= 15;
+            }
+            if ((e.key == "S" || e.key == "s") && this.game.coins) {
+                this.game.boostLength = this.game.maxBooster;
+                this.audio.src = "../assets/musics/getItem.wav";
+                this.audio.play();
+                this.game.coins -= 20;
             }
             if ((e.key ==
                 "ArrowDown" || e.key == "ArrowUp" || e.key == "ArrowLeft" || e.key == "ArrowRight" || e.key == " ") && this.keys.indexOf(e.key) === -1) {
