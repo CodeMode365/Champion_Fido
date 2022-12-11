@@ -16,7 +16,7 @@ export default class InputHandler {
                         alert("Error")
                     })
                 } else {
-                    this.audio.src=""
+                    this.audio.src = ""
                     document.exitFullscreen()
                 }
 
@@ -24,17 +24,25 @@ export default class InputHandler {
             // if(e.key =="H" || e.key="h"){
             //     this.game.Teams.push(new(this.game.del))
             // }
-            if ((e.key == "A" || e.key == "a") && this.game.coins) {
+            if ((e.key == "A" || e.key == "a") && (this.game.coins >= 15) && (this.game.lives < this.game.maxLives)) {
                 this.game.lives++
                 this.audio.src = "../assets/musics/getItem.wav"
                 this.audio.play()
                 this.game.coins -= 15
+            } else if ((e.key == "A" || e.key == "a") && (this.game.coins >= 15 || this.game.lives < this.game.maxLives)) {
+                this.audio.src = "../assets/musics/error.wav"
+                this.audio.play()
+
             }
-            if ((e.key == "S" || e.key == "s") && this.game.coins) {
+            if ((e.key == "S" || e.key == "s") && (this.game.coins >= 20) && (this.game.boostLength < this.game.maxBooster)) {
                 this.game.boostLength = this.game.maxBooster
                 this.audio.src = "../assets/musics/getItem.wav"
                 this.audio.play()
                 this.game.coins -= 20
+            } else if ((e.key == "S" || e.key == "s") && (this.game.coins >= 20 || this.game.boostLength < this.game.maxBooster)) {
+                this.audio.src = "../assets/musics/error.wav"
+                this.audio.play()
+
             }
 
 
