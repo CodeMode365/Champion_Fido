@@ -200,7 +200,7 @@ export default class Game {
             this.speed > 0
         ) this.enemies.push(new ClimbingEnemy(this))
         this.enemies.push(new FlyEnemy(this))
-        if (this.distanceTraveled > 5 && (Math.random() * 2 < .5)) {
+        if (this.distanceTraveled > 5 && (Math.random() * 2 < .5) && (this.distanceTraveled > 25)) {
             this.enemies.push(new Zombies(this))
         }
     }
