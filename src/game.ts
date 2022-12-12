@@ -79,9 +79,6 @@ export default class Game {
         }
         this.boosterCurrentPoint = this.checkPointForHeart[0]
         this.heartCurrentPoint = this.checkPointForBooster[0]
-        console.log(this.boosterCurrentPoint)
-        console.log(this.checkPointForBooster)
-        console.log(this.checkPointForHeart)
 
     }
     update(deltaTime: number) {
@@ -214,12 +211,15 @@ export default class Game {
         if (travel > 0 && (travel % this.boosterCurrentPoint == 0) && (this.items.length == 0)) {
             // this.distanceTraveled += 1
             this.items.push(new Boost(this))
+
             this.boosterCurrentPoint = this.checkPointForBooster[this.checkPointForBooster.indexOf(this.boosterCurrentPoint) + 1]
+            this.boostDecreaser -= 0.015
+            this.maxBooster += 1
+
         }
         else if (travel > 0 && (travel % this.heartCurrentPoint == 0) && (this.items.length == 0)) {
             // this.distanceTraveled += +
             this.items.push(new Heart(this))
-
             this.heartCurrentPoint = this.checkPointForHeart[this.checkPointForHeart.indexOf(this.heartCurrentPoint) + 1]
 
         }
