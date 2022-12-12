@@ -12,7 +12,7 @@ export class Items {
     draw(ctx) {
         ctx.fillStyle = "red";
         if (this.game.debug)
-            ctx.strokeRect(this.x, this.y, this.width, this.height);
+            ctx.strokeRect(this.x, this.y, this.width * .5, this.height * .5);
         ctx.drawImage(this.image, 0, 0, this.width, this.height, this.x, this.y, this.width * 0.5, this.height * 0.5);
     }
 }

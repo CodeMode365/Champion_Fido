@@ -106,9 +106,9 @@ export default class Player {
     checkItemEquip() {
         this.game.items.forEach((item) => {
             if (item.x < this.x + this.width &&
-                item.x + item.width > this.x &&
+                item.x + item.width * .5 > this.x &&
                 item.y < this.y + this.height &&
-                item.y + item.height > this.y) {
+                item.y + item.height * .5 > this.y) {
                 item.markedForDeletion = true;
                 this.Music.src = "../assets/musics/coins.wav";
                 this.Music.play();
