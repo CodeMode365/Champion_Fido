@@ -19,11 +19,11 @@ export class UI {
         ctx.fillStyle = this.game.fontColor;
         ctx.save();
         ctx.font = this.fontSize * 0.8 + 'px ' + this.fontFamily1;
-        ctx.fillStyle = "rgb(180,180,50)";
+        ctx.fillStyle = "rgb(200,50,50)";
         ctx.fillText("Coins: " + this.game.coins, 20, 50);
         ctx.fillStyle = "rgb(170,100,140)";
         ctx.fillText("Distance Travelled: " + parseInt(this.game.distanceTraveled.toString()) + " m", this.game.width / 2 - 130, 50);
-        ctx.fillStyle = "rgb(140,160,40)";
+        ctx.fillStyle = "rgb(240,60,40)";
         ctx.font = this.fontSize * 0.6 + 'px ' + this.fontFamily2;
         ctx.fillText("High Score: " + this.game.highScore + " m", 20, 20);
         ctx.restore();
@@ -37,6 +37,11 @@ export class UI {
         }
         ctx.fillRect(190, 25, 50, 50);
         ctx.drawImage(this.darklives, 190 + 10, 25 + 10, 30, 30);
+        ctx.fillStyle = "red";
+        ctx.font = this.fontSize * .8 + "px " + this.fontFamily1;
+        ctx.fillText("A ", 190 + 20, 25 + 50 + this.fontSize * .4);
+        ctx.fillStyle = "gold";
+        ctx.fillText("$15 ", 190 + 10, 15 + this.fontSize * .4);
         if (this.game.coins <= 20) {
             ctx.fillStyle = "rgba(80,80,80,0.2)";
             this.darkBoost.src = "../assets/others/boosterDark.png";
@@ -47,6 +52,11 @@ export class UI {
         }
         ctx.fillRect(250, 25, 50, 50);
         ctx.drawImage(this.darkBoost, 250 + 10, 25 + 10, 30, 30);
+        ctx.fillStyle = "red";
+        ctx.font = this.fontSize * .8 + "px " + this.fontFamily1;
+        ctx.fillText("S", 250 + 20, 25 + 50 + this.fontSize * .4);
+        ctx.fillStyle = "gold";
+        ctx.fillText("$20", 250 + 10, 15 + this.fontSize * .4);
         for (let i = 0; i < this.game.lives; i++) {
             ctx.drawImage(this.lives, 20 + i * 30, 65, 25, 25);
         }
