@@ -74,8 +74,8 @@ export default class Game {
         //setLocal storage value for hight score
 
         for (let i = 1; i <= 30; i++) {
-            this.checkPointForBooster[i] = this.checkPointForBooster[i - 1] + i * 4
-            this.checkPointForHeart[i] = this.checkPointForHeart[i - 1] + i * 4
+            this.checkPointForBooster[i] = this.checkPointForBooster[i - 1] + i * 6
+            this.checkPointForHeart[i] = this.checkPointForHeart[i - 1] + i * 6
         }
         this.boosterCurrentPoint = this.checkPointForHeart[0]
         this.heartCurrentPoint = this.checkPointForBooster[0]

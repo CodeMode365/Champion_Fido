@@ -37,16 +37,6 @@ export default class InputHandler {
                 this.audio.src = "../assets/musics/error.wav";
                 this.audio.play();
             }
-            if (this.game.gameOver && (e.key == "R" || e.key == "r")) {
-                this.game.enemies = [];
-                this.game.collisions = [];
-                this.game.coins = 0;
-                this.game.player.x = 0 + this.game.player.width;
-                this.game.player.currentState = this.game.player.states[0];
-                this.game.particles = [];
-                this.game.gameOver = false;
-                console.log('restart');
-            }
             if ((e.key ==
                 "ArrowDown" || e.key == "ArrowUp" || e.key == "ArrowLeft" || e.key == "ArrowRight" || e.key == " ") && this.keys.indexOf(e.key) === -1) {
                 this.keys.push(e.key);

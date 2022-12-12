@@ -83,7 +83,7 @@ export default class Player {
     draw(ctx: CanvasRenderingContext2D) {
         // ctx.fillRect(this.x,this.y, this.width, this.height)
         ctx.fillStyle = "red"
-        if (this.game.debug) ctx.strokeRect(this.x, this.y, this.width, this.height)
+        if (this.game.debug) ctx.strokeRect(this.x + 18, this.y + 18, this.width * .65, this.height * .75)
         ctx.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height)
     }
     onGround() {
@@ -97,10 +97,10 @@ export default class Player {
     checkCollision() {
         this.game.enemies.forEach((enemy: Enemy) => {
 
-            if (enemy.x < this.x + this.width &&
-                enemy.x + enemy.width > this.x &&
-                enemy.y < this.y + this.height &&
-                enemy.y + enemy.height > this.y) {
+            if (enemy.x < this.x + 18 + this.width * .65 &&
+                enemy.x + enemy.width > this.x + 18 &&
+                enemy.y < this.y + 18 + this.height * .75 &&
+                enemy.y + enemy.height > this.y + 18) {
                 //colide
                 enemy.markedFordDeletion = true
                 this.game.collisions.push(new collisionAnimation(this.game, enemy.x + enemy.width / 2, enemy.y + enemy.height / 2)
