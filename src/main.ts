@@ -32,4 +32,5 @@ window.onload = (e: Event) => {
         game.draw(ctx)
     }
     animate(0)
+
 }

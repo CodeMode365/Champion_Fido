@@ -43,7 +43,7 @@ export default class Game {
     public gameOver = false
 
     //booster rectangle variable
-    private boostX: number
+    readonly boostX: number
     private boostY: number
     public boostLength: number = 200
     private boostHeight: number = 25
@@ -184,7 +184,6 @@ export default class Game {
             item.draw(ctx)
         })
 
-        this.UI.draw(ctx)
         this.UI.draw(ctx)
 
     }

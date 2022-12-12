@@ -44,6 +44,7 @@ export default class InputHandler {
                 this.audio.play()
 
             }
+          
 
 
             if ((e.key ==

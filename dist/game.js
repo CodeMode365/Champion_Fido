@@ -133,7 +133,6 @@ export default class Game {
             item.draw(ctx);
         });
         this.UI.draw(ctx);
-        this.UI.draw(ctx);
     }
     addEnemy() {
         if ((this.speed > 0) && (Math.random() > 0.5)) {
