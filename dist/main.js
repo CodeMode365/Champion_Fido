@@ -28,4 +28,11 @@ window.onload = (e) => {
         game.draw(ctx);
     }
     animate(0);
+    window.addEventListener('keypress', (e) => {
+        if ((e.key == "Enter" || e.key == "enter") && game.gameOver) {
+            audio.src = "../assets/musics/90sLove.mp3";
+            game.initGame();
+            animate(0);
+        }
+    });
 };

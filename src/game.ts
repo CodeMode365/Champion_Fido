@@ -14,71 +14,70 @@ export default class Game {
     readonly height: number
     private input: InputHandler
     public groundMarin: number
-    public speed = 0
+    public speed: number
     private background: Background
-    public maxSpeed = 6
-    public coins = 0
-    public particles: Particle[] = []
-    public collisions: collisionAnimation[] = []
-    private maxParticles = 70
-    public Teams !: TeamDog | null
+    public maxSpeed: number
+    public coins !: number
+    public particles !: Particle[]
+    public collisions !: collisionAnimation[]
+    private maxParticles: number
     //lives
     public playerLives = new Image()
-    readonly maxLives = 10
-    public lives = 5
-    public floatingMessage: FloatingMsg[] = []
+    readonly maxLives: number
+    public lives !: number
+    public floatingMessage !: FloatingMsg[]
     // public targetScore = 40
-    public items: (Boost | Heart)[] = []
+    public items !: (Boost | Heart)[]
     //enemy control
-    public enemies: Enemy[] = []
-    private enemyTimer = 0
-    private enemyInterval = 3000
+    public enemies !: Enemy[]
+    private enemyTimer !: number
+    private enemyInterval !: number
     public debug = false
     public fontColor = "black"
     private UI: UI
 
-    //gaming variables
-    // public maxTime = Infinity
-    // public time = 0
     public gameOver = false
 
     //booster rectangle variable
-    readonly boostX: number
+    public boostX !: number
     private boostY: number
-    public boostLength: number = 200
-    private boostHeight: number = 25
+    public boostLength !: number
+    private boostHeight !: number
     private boostImg = new Image()
-    public maxBooster = 200
+    public maxBooster !: number
     public highScore = 0
-    public boostDecreaser = 0.2
-    public distanceTraveled = 0
-    private checkPointForHeart: number[] = [7]
+    public boostDecreaser !: number
+    public distanceTraveled !: number
+    private checkPointForHeart !: number[]
     private boosterCurrentPoint !: number
-    private checkPointForBooster: number[] = [10]
+    private checkPointForBooster !: number[]
     private heartCurrentPoint !: number
+
 
 
     constructor(width: number, height: number) {
         this.groundMarin = 80
         this.width = width
         this.height = height
+        this.maxSpeed = 6
+        this.speed = 0
+        this.maxParticles = 70
+        this.maxLives = 10
+        this.boostHeight = 25
         this.input = new InputHandler(this)
         this.player = new Player(this)
         this.background = new Background(this)
         this.UI = new UI(this)
-        this.player.currentState = this.player.states[0]
-        this.player.currentState?.enter()
-        this.boostX = this.width - this.boostLength * 1.4
         this.boostY = 30
         this.boostImg.src = "../assets/others/flame.png"
-        //setLocal storage value for hight score
+        this.checkPointForHeart = [7]
+        this.checkPointForBooster = [10]
 
-        for (let i = 1; i <= 30; i++) {
-            this.checkPointForBooster[i] = this.checkPointForBooster[i - 1] + i * 6
-            this.checkPointForHeart[i] = this.checkPointForHeart[i - 1] + i * 6
-        }
-        this.boosterCurrentPoint = this.checkPointForHeart[0]
-        this.heartCurrentPoint = this.checkPointForBooster[0]
+        this.initGame()
+
+
+
+
 
     }
     update(deltaTime: number) {
@@ -135,10 +134,6 @@ export default class Game {
         this.floatingMessage = this.floatingMessage.filter((message: FloatingMsg) =>
             !message.markedForDeletion)
 
-        this.Teams?.update(deltaTime)
-        if (this.Teams?.markedFordDeletion) {
-            this.Teams = null
-        }
 
         //increase the socre
         this.distanceTraveled += this.speed / 1000
@@ -167,8 +162,6 @@ export default class Game {
             enemy.draw(ctx)
         })
 
-        //draw the team dog
-        this.Teams?.draw(ctx)
 
         //draw the collision animation
         this.collisions.forEach((collision: collisionAnimation, index: number) => {
@@ -212,7 +205,7 @@ export default class Game {
             this.items.push(new Boost(this))
 
             this.boosterCurrentPoint = this.checkPointForBooster[this.checkPointForBooster.indexOf(this.boosterCurrentPoint) + 1]
-            this.boostDecreaser -= 0.015
+            this.boostDecreaser -= 0.010
             this.maxBooster += 1
 
         }
@@ -223,6 +216,35 @@ export default class Game {
 
         }
 
+    }
+    initGame() {
+        this.particles = []
+        this.collisions = []
+        this.floatingMessage = []
+        this.items = []
+        this.enemies = []
+        this.player.currentState = this.player.states[0]
+        this.player.currentState?.enter()
+        this.coins = 0
+        this.lives = 5
+        this.enemyTimer = 0
+        this.enemyInterval = 3000
+        this.distanceTraveled = 0
+        this.boostLength = 200
+        this.boostX = this.width - this.boostLength * 1.4
+        this.maxBooster = 200
+        this.boostDecreaser = .2
+        this.boosterCurrentPoint = this.checkPointForHeart[0]
+        this.heartCurrentPoint = this.checkPointForBooster[0]
+        this.gameOver = false
+        this.player.x = 0
+        this.player.y = this.height - this.player.height - this.groundMarin
+
+
+        for (let i = 1; i <= 30; i++) {
+            this.checkPointForBooster[i] = this.checkPointForBooster[i - 1] + i * 6
+            this.checkPointForHeart[i] = this.checkPointForHeart[i - 1] + i * 6
+        }
     }
 
 }

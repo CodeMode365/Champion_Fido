@@ -10,54 +10,32 @@ import { Items, Boost, Heart } from "./Items.js";
 import { TeamDog } from "./HelperDog.js";
 export default class Game {
     constructor(width, height) {
-        var _a;
-        this.speed = 0;
-        this.maxSpeed = 6;
-        this.coins = 0;
-        this.particles = [];
-        this.collisions = [];
-        this.maxParticles = 70;
         this.playerLives = new Image();
-        this.maxLives = 10;
-        this.lives = 5;
-        this.floatingMessage = [];
-        this.items = [];
-        this.enemies = [];
-        this.enemyTimer = 0;
-        this.enemyInterval = 3000;
         this.debug = false;
         this.fontColor = "black";
         this.gameOver = false;
-        this.boostLength = 200;
-        this.boostHeight = 25;
         this.boostImg = new Image();
-        this.maxBooster = 200;
         this.highScore = 0;
-        this.boostDecreaser = 0.2;
-        this.distanceTraveled = 0;
-        this.checkPointForHeart = [7];
-        this.checkPointForBooster = [10];
         this.groundMarin = 80;
         this.width = width;
         this.height = height;
+        this.maxSpeed = 6;
+        this.speed = 0;
+        this.maxParticles = 70;
+        this.maxLives = 10;
+        this.boostHeight = 25;
         this.input = new InputHandler(this);
         this.player = new Player(this);
         this.background = new Background(this);
         this.UI = new UI(this);
-        this.player.currentState = this.player.states[0];
-        (_a = this.player.currentState) === null || _a === void 0 ? void 0 : _a.enter();
-        this.boostX = this.width - this.boostLength * 1.4;
         this.boostY = 30;
         this.boostImg.src = "../assets/others/flame.png";
-        for (let i = 1; i <= 30; i++) {
-            this.checkPointForBooster[i] = this.checkPointForBooster[i - 1] + i * 6;
-            this.checkPointForHeart[i] = this.checkPointForHeart[i - 1] + i * 6;
-        }
-        this.boosterCurrentPoint = this.checkPointForHeart[0];
-        this.heartCurrentPoint = this.checkPointForBooster[0];
+        this.checkPointForHeart = [7];
+        this.checkPointForBooster = [10];
+        this.initGame();
     }
     update(deltaTime) {
-        var _a, _b, _c;
+        var _a;
         if (localStorage.getItem("highScore")) {
             this.highScore = parseInt(localStorage.getItem("highScore"));
         }
@@ -100,14 +78,10 @@ export default class Game {
             message.update();
         });
         this.floatingMessage = this.floatingMessage.filter((message) => !message.markedForDeletion);
-        (_b = this.Teams) === null || _b === void 0 ? void 0 : _b.update(deltaTime);
-        if ((_c = this.Teams) === null || _c === void 0 ? void 0 : _c.markedFordDeletion) {
-            this.Teams = null;
-        }
         this.distanceTraveled += this.speed / 1000;
     }
     draw(ctx) {
-        var _a, _b;
+        var _a;
         this.background.draw(ctx);
         this.particles.forEach((particle, index) => {
             particle.draw(ctx);
@@ -122,7 +96,6 @@ export default class Game {
         (_a = this.enemies) === null || _a === void 0 ? void 0 : _a.forEach((enemy) => {
             enemy.draw(ctx);
         });
-        (_b = this.Teams) === null || _b === void 0 ? void 0 : _b.draw(ctx);
         this.collisions.forEach((collision, index) => {
             collision.draw(ctx);
         });
@@ -153,12 +126,40 @@ export default class Game {
         if (travel > 0 && (travel % this.boosterCurrentPoint == 0) && (this.items.length == 0)) {
             this.items.push(new Boost(this));
             this.boosterCurrentPoint = this.checkPointForBooster[this.checkPointForBooster.indexOf(this.boosterCurrentPoint) + 1];
-            this.boostDecreaser -= 0.015;
+            this.boostDecreaser -= 0.010;
             this.maxBooster += 1;
         }
         else if (travel > 0 && (travel % this.heartCurrentPoint == 0) && (this.items.length == 0)) {
             this.items.push(new Heart(this));
             this.heartCurrentPoint = this.checkPointForHeart[this.checkPointForHeart.indexOf(this.heartCurrentPoint) + 1];
+        }
+    }
+    initGame() {
+        var _a;
+        this.particles = [];
+        this.collisions = [];
+        this.floatingMessage = [];
+        this.items = [];
+        this.enemies = [];
+        this.player.currentState = this.player.states[0];
+        (_a = this.player.currentState) === null || _a === void 0 ? void 0 : _a.enter();
+        this.coins = 0;
+        this.lives = 5;
+        this.enemyTimer = 0;
+        this.enemyInterval = 3000;
+        this.distanceTraveled = 0;
+        this.boostLength = 200;
+        this.boostX = this.width - this.boostLength * 1.4;
+        this.maxBooster = 200;
+        this.boostDecreaser = .2;
+        this.boosterCurrentPoint = this.checkPointForHeart[0];
+        this.heartCurrentPoint = this.checkPointForBooster[0];
+        this.gameOver = false;
+        this.player.x = 0;
+        this.player.y = this.height - this.player.height - this.groundMarin;
+        for (let i = 1; i <= 30; i++) {
+            this.checkPointForBooster[i] = this.checkPointForBooster[i - 1] + i * 6;
+            this.checkPointForHeart[i] = this.checkPointForHeart[i - 1] + i * 6;
         }
     }
 }

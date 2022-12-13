@@ -15,6 +15,7 @@ window.onload = (e: Event) => {
         audio.muted = false
     }
 
+
     //animatig function
     function animate(timeStamp: number) {
         const deltaTime = timeStamp - lastTime
@@ -32,5 +33,15 @@ window.onload = (e: Event) => {
         game.draw(ctx)
     }
     animate(0)
+
+    //to restart game
+    window.addEventListener('keypress', (e: KeyboardEvent) => {
+        if ((e.key == "Enter" || e.key == "enter") && game.gameOver) {
+            audio.src = "../assets/musics/90sLove.mp3"
+            game.initGame()
+            animate(0)
+        }
+
+    })
 
 }
