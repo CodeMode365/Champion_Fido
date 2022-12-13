@@ -118,3 +118,26 @@ h1 {
     -0.06em 0.06em 0 #999, -0.07em 0.07em 0 #999, -0.08em 0.08em 0 #999,
     -0.09em 0.09em 0 #999, -0.1em 0.1em 0 #999, -0.11em 0.11em 0 #999;
 }
+
+.game-movement {
+  position: absolute;
+  left: 0%;
+  top: 50%;
+}
+.btn-upper {
+  position: absolute;
+  left: calc(0% + 7rem);
+  transform: translateY(-180%);
+}
+.btn-lower {
+  position: absolute;
+  left: calc(0% + 7rem);
+  transform: translate(-30%, 100%);
+  width: 14rem;
+  text-align: center;
+}
+.game-features-btn{
+  position: absolute;
+  right: 0%;
+  top: 50%;
+}
