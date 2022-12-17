@@ -14,9 +14,9 @@
 </ul>
 
 # How to play
-## movement buttons
+ --> ## movement buttons
 ### ⬅ ⬆ ⬇ ➡  
 ## special Move(attacking move when palyer have enough boost)
-### Space
+--> ### Space
 ## Jump and hit
-### ⬆ ⬇
+--> ### ⬆ ⬇
