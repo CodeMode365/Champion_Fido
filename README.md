@@ -14,9 +14,11 @@
 </ul>
 
 # How to play
+<div>
 ## movement buttons
 ### ⬅ ⬆ ⬇ ➡  
 ## special Move
 ### Space button
 ## Jump and hit
 ### ⬆ ⬇
+  </div>
