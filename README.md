@@ -21,7 +21,7 @@
 ## Jump and hit
 ### --> ⬆ ⬇
 
-## Snapshot of Gameplay
+# Snapshot of Gameplay
 <p align="center">
   <img src="" alt="Gameplay image" width="80%"/>
   </p>
