@@ -23,5 +23,5 @@
 
 # Snapshot of Gameplay
 <p align="center">
-  <img src="" alt="Gameplay image" width="80%"/>
+  <img src="https://i.postimg.cc/52NgNbv4/Screenshot-38.png" alt="Gameplay image" width="80%"/>
   </p>
