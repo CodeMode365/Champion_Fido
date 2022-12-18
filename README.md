@@ -35,7 +35,7 @@
 <li>Clone the repor</li>
 <li>Extract and Navigate into the project folder</li>
 <li>Run <code>tsc -w</code> Note:typescript must be installed in your system</li>
-<li>To install typescript: <code>npm i -g typescript</li>
+  <li>To install typescript: <code>npm i -g typescript</code></li>
 <li>Then Edit the typescript file in /src folder</li>
 <li>To view the changes run the code in live-server</li>
 </ul>
