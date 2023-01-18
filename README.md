@@ -2,7 +2,7 @@
 
 ## About the Game
 <p>This is the simple and easy to play game in which a player has to hunt down the flying enemies and ground emimies on the way and travel the distance as far as you can.The enemies can only be hunt down when you are rolling. When the player is rolling if the player touches the enemy the enemies die when not rolling the life of a player is decreased by one. In order to increase the life or the boost the player must get an item on the way or buy the item using the available coins. The game can be played using the arrows in keyboard and button space. The game is coded in the Typescript and compiled to Javascript so that all browser can support 
-  the game. In order to run the game, the game must be run properly in live-server. Mobile responsiveness is still not possible.</p>
+  the game. In order to run the game, the game must be run properly in live-server. Mobile responsiveness is still not possible. Needs keyboard to play</p>
 
 # Steps for installation 
 <ul>
