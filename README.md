@@ -15,13 +15,13 @@
 
 # How to play
  ## Movement buttons
-### --> ⬅ ⬆ ⬇ ➡  
+### ` ⬅ ⬆ ⬇ ➡   `
 ## Special Move(attacking move when palyer have enough boost)
-### --> Space
+### `Space`
 ## Jump and hit
-### --> ⬆ ⬇
+### ` ⬆ ⬇`
 ## Buy Items
-### --> a = Buy potion , s= Buy booster
+### ` a = Buy potion , s= Buy booster `
 
 # Snapshot of Gameplay
 <p align="center">
