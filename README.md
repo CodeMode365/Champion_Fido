@@ -4,7 +4,9 @@
 Champion Fido is a simple and easy-to-play game. The objective of the game is to hunt down flying and ground enemies while traveling as far as possible. The player can only hunt the enemies when they are rolling. If the player touches an enemy while rolling, the enemy dies. However, if the player is not rolling, the player's life decreases by one. To increase life or boost the player, the player must get an item on the way or buy the item using the available coins.
 
 ## Snapshot
+<p align="center">
 ![Image](https://i.postimg.cc/52NgNbv4/Screenshot-38.png)
+</P>
 
 ## Requirements
 * Keyboard for playing the game
