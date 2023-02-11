@@ -32,7 +32,7 @@ Champion Fido is a simple and easy-to-play game. The objective of the game is to
 ## How to play
 
 * Movement buttons: ⬅ ⬆ ⬇ ➡
-* Special move (attacking move when the player has enough boost): ***Space***
+* Special move (attacking move when the player has enough boost): ***Space*** 🌌
 * Jump and hit: ⬆ ⬇
 * Buy items: **a** = Buy potion, **s** = Buy booster
 
