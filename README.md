@@ -1,41 +1,46 @@
 # Champion Fido
 
-## About the Game
-<p>This is the simple and easy to play game in which a player has to hunt down the flying enemies and ground emimies on the way and travel the distance as far as you can.The enemies can only be hunt down when you are rolling. When the player is rolling if the player touches the enemy the enemies die when not rolling the life of a player is decreased by one. In order to increase the life or the boost the player must get an item on the way or buy the item using the available coins. The game can be played using the arrows in keyboard and button space. The game is coded in the Typescript and compiled to Javascript so that all browser can support 
-  the game. In order to run the game, the game must be run properly in live-server. Mobile responsiveness is still not possible. Needs keyboard to play</p>
+## Overview
+Champion Fido is a simple and easy-to-play game. The objective of the game is to hunt down flying and ground enemies while traveling as far as possible. The player can only hunt the enemies when they are rolling. If the player touches an enemy while rolling, the enemy dies. However, if the player is not rolling, the player's life decreases by one. To increase life or boost the player, the player must get an item on the way or buy the item using the available coins.
 
-# Steps for installation 
-<ul>
-<li>Download the zip file or clone the repo</li>
-<li>To clone repo use: <code>git clone https://github.com/CodeMode365/Champion_Fido.git</code></li>
-<li>Navigate into the folder</li>
-  <li>install live-server using: <code>npm i -g live-server</code></li>
-<li> run <code>live-server</code> in promt</li>
-</ul>
+## Requirements
+* Keyboard for playing the game
+* Live-server (install using npm i -g live-server)
+* Typescript (install using npm i -g typescript)
 
-# How to play
- ## Movement buttons
-### ` ⬅ ⬆ ⬇ ➡   `
-## Special Move(attacking move when palyer have enough boost)
-### `Space`
-## Jump and hit
-### ` ⬆ ⬇`
-## Buy Items
-### ` a = Buy potion , s= Buy booster `
+## Installation
+1. Download the zip file or clone the repo using 
+    ```
+    git clone https://github.com/CodeMode365/Champion_Fido.git
+    ```
+1. Navigate into the folder
+    ```
+    cd Champion_Fido
+    ```
+1. Install live-server using
+    ```
+    npm i -g live-server
+    ```
+1. Run live-server in the prompt using following command:
+    ```
+    live-server
+    ```
 
-# Snapshot of Gameplay
-<p align="center">
-  <img src="https://i.postimg.cc/52NgNbv4/Screenshot-38.png" alt="Gameplay image" width="80%"/>
-  </p>
-  
+## How to play
 
-## Collaborators are welcomed
-### How to start updating codes?
-<ul>
-<li>Clone the repo</li>
-<li>Extract and Navigate into the project folder</li>
-<li>Run <code>tsc -w</code> Note:typescript must be installed in your system</li>
-  <li>To install typescript: <code>npm i -g typescript</code></li>
-<li>Then Edit the typescript file in /src folder</li>
-<li>To view the changes run the code in live-server</li>
-</ul>
+* Movement buttons: ⬅ ⬆ ⬇ ➡
+* Special move (attacking move when the player has enough boost): ***Space***
+* Jump and hit: ⬆ ⬇
+* Buy items: **a** = Buy potion, **s** = Buy booster
+
+## Contributing
+If you want to contribute to the development of Champion Fido, follow these steps:
+
+1. Clone the repo
+1. Extract and navigate into the project folder
+1. Run tsc -w (Note: typescript must be installed in your system)
+1. Edit the typescript file in the /src folder
+1. To view the changes, run the code in live-server
+
+## Note
+#### *Mobile responsiveness is currently not possible.*
